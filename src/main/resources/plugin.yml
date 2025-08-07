@@ -1,0 +1,83 @@
+name: HBZCleaner
+version: "${version}"
+main: com.seristic.hbzcleaner.main.LaggRemover
+api-version: 1.20
+folia-supported: true
+author: HBZ (forked from LaggRemover)
+description: An enhanced lag prevention and cleanup plugin optimized for Folia servers
+softdepend: [Towny]
+
+commands:
+  hbzlag:
+    description: HBZCleaner command with entity limiting and villager optimization.
+    usage: /<command> [help|tps|ram|gc|info|status|master|entities|villagers]
+    aliases: [hlag]
+
+permissions:
+  hbzlag.help:
+    description: Gives access to the help command.
+    default: op
+  hbzlag.status:
+    description: Gives access to the quick status overview command.
+    default: op
+  hbzlag.master:
+    description: Gives access to the master listing of all performance data from the server.
+    default: op
+  hbzlag.tps:
+    description: Gives access to view the Ticks Per Second(TPS) of the server.
+    default: op
+  hbzlag.world:
+    description: View data about a certain world.
+    default: op
+  hbzlag.clear:
+    description: Allows you to clear all items on the ground or entities in a world.
+    default: op
+  hbzlag.unload:
+    description: Allows players to unload all chunks in a world.
+    default: op
+  hbzlag.gc:
+    description: Allows players to run HBZCleaner's garbage collector to free RAM.
+    default: op
+  hbzlag.update:
+    description: Allows HBZCleaner to notify a player when an update is downloaded.
+    default: op
+  hbzlag.nochatdelay:
+    description: Makes a player immune to the chat delay.
+    default: op
+  hbzlag.modules:
+    description: Allows you to list loaded modules.
+    default: op
+  hbzlag.ram:
+    description: Allows players to list the RAM available on the server.
+    default: op
+  hbzlag.protocol:
+    description: Allows players to view/manipulate protocols.
+    default: op
+  hbzlag.ping:
+    description: Allows a player to view the ping of another player (or themself)
+    default: op
+  hbzlag.entities:
+    description: Allows access to entity limiter commands
+    default: op
+  hbzlag.villagers:
+    description: Allows access to villager optimization commands
+    default: op
+  hbzlag.towny:
+    description: Allows access to Towny integration commands
+    default: op
+  hbzlag.reload:
+    description: Allows reloading the plugin configuration without server restart
+    default: op
+  # HBZCleaner Enhanced Features
+  hbz.status:
+    description: Allows access to HBZ status command
+    default: true
+  hbz.monitor:
+    description: Allows access to HBZ monitor command
+    default: op
+  hbz.worlds:
+    description: Allows access to HBZ worlds overview command
+    default: op
+  hbz.performance:
+    description: Allows access to HBZ performance report command
+    default: op

@@ -1,0 +1,59 @@
+name: HBZCleaner
+version: "0.2-hbz-folia"
+main: com.seristic.hbzcleaner.main.LaggRemover
+api-version: 1.20
+folia-supported: true
+author: HBZ (forked from LaggRemover)
+description: An intelligent lag prevention and cleanup plugin with AI-powered TPS prediction for Folia servers
+
+commands:
+  lr:
+    description: Generic LaggRemover command.
+    usage: <command>
+  hbz:
+    description: HBZCleaner AI commands.
+    usage: /<command> [predict|analyze|train|status]
+    aliases: [hbzcleaner, ai]
+
+permissions:
+  lr.help:
+    description: Gives access to the help command.
+    default: true
+  lr.master:
+    description: Gives access to the master listing of all performance data from the server.
+  lr.lagg:
+    description: Gives access to view the Ticks Per a Second(TPS) of the server.
+  lr.world:
+    description: View data about a certain world.
+  lr.clear:
+    description: Allows you to clear all items on the ground or entities in a world.
+  lr.unload:
+    description: Allows players to unload all chunks in a world.
+  lr.gc:
+    description: Allows players to run LaggRemovers garbage collector to free RAM.
+  lr.update:
+    description: Allows LaggRemover to notify a player when an update is downloaded.
+  lr.nochatdelay:
+    description: Makes a player imune to the chat delay.
+  lr.modules:
+    description: Allows you to list loaded modules.
+    default: true
+  lr.ram:
+    description: Allows players to list the ram avaliable on the server.
+  lr.protocol:
+    description: Allows players to view/manipulate protocols.
+  lr.ping:
+    description: Allows a player to view the ping of another player (or themself)
+  # HBZCleaner AI Features
+  hbz.predict:
+    description: Allows access to TPS prediction commands
+    default: op
+  hbz.analyze:
+    description: Allows access to server analysis commands
+    default: op
+  hbz.train:
+    description: Allows access to AI training commands
+    default: op
+  hbz.admin:
+    description: Full access to all HBZCleaner AI features
+    default: op

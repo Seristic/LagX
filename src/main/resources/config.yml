@@ -1,0 +1,215 @@
+# The number at the end of the of each line is how much enabling this is going to improve server performance compared to other features
+# The numbers are on a scale of 1-10
+# All features are enabled by default
+version: 0.2.0
+
+# HBZCleaner AI Configuration
+ai:
+  # Enable the advanced AI prediction system
+  enabled: true
+
+  # How often to collect server metrics (in seconds)
+  collection_interval: 30
+
+  # Maximum number of data points to store in memory
+  max_history_size: 1000
+
+  # TPS thresholds for predictions
+  tps_warning_threshold: 15.0
+  tps_critical_threshold: 10.0
+
+  # Enable automatic actions based on predictions
+  auto_actions: true
+
+  # Confidence threshold for taking automatic actions (0.0-1.0)
+  action_confidence_threshold: 0.7
+
+  # Prediction window in minutes
+  prediction_window: 5
+
+# Automatically removes loaded chunks in worlds that have no players every 10 seconds. (9)
+autoChunk: true
+
+# Removes spawn chunks for all worlds in your server. (10)
+noSpawnChunks: true
+
+# This determines if the Smart Lag Detection AI is working to keep your server lag free. (10)
+smartlagai: true
+
+# This prevents the LaggRemover AI from repeatedly attempting to reduce lag if the server grows beyond repair. This
+# should rarely happen, but if it does, this will prevent LaggRemover from adding to the problem. Time in minutes.
+smartaicooldown: 3
+
+# Smart lag detection. If a player types "lag" or "lagg" in the chat and your server TPS is less than this number, the servers lag removal AI will become active. (10)
+TPS: 16.00
+
+# Smart lag detection. If a player types "lag" or "lagg" in the chat and your server has less than this amount of ram left, the servers lag removal AI will become active. UNIT IN MEGABYTES (10)
+RAM: 100
+
+# These are the protocols are run by the LaggRemover AI when your server is detected as lagging for one or both of the following reasons. You can list all protocols by typing /lr protocol list
+lag_protocols:
+  low_ram:
+    cc_items: '{"Delay":"true", "Count": "false"}'
+  low_tps:
+    cc_entities: '{"Delay":"true", "Count": "false", "ToClear":"null", "World":"%all%"}'
+  periodically:
+    cc_items: '{"Delay":"true", "Count": "false"}'
+
+# This is a list of worlds that will not be automatically saved by the server. This reduces disk usage but can only be used for worlds in which the terrain is not being edited. Add DISABLED to the list to allow all worlds to automatically save. (6)
+nosaveworlds:
+  - DISABLED
+
+# This automatically removes lag after a certain period of time. The time is in minutes.
+auto-lag-removal:
+  run: false
+  every: 10
+
+# This prevents mobs from spawning in a chunk that contains more than the amount of entities specified in the "thinAt" value. (10 because it can prevent players from creating lag machines)
+thinMobs: true
+
+# The max number of entities that can spawn in a single chunk.
+thinAt: 300
+
+# Entity Limiter Configuration
+entity_limiter:
+  # Enable the entity limiter system
+  enabled: true
+
+  # Preset configuration mode
+  # Options: "basic", "advanced", "custom"
+  # basic: Hard limits for ALL mobs (passive and hostile combined)
+  # advanced: Separate limits for different entity types (current config)
+  # custom: Use your own configuration below
+  preset_mode: "basic"
+
+  # Basic preset configuration (used when preset_mode is "basic")
+  basic_preset:
+    # Hard limit for ALL entities per chunk (passive + hostile + items + everything)
+    total_entities_per_chunk: 30
+    # Hard limit for ALL entities per world
+    total_entities_per_world: 1500
+    # Action when limit exceeded: "prevent_spawn", "remove_oldest", "remove_random"
+    overflow_action: "remove_oldest"
+
+  # Advanced preset configuration (used when preset_mode is "advanced")
+  advanced_preset:
+    # Per-world entity limits (set to -1 for no limit)
+    world_limits:
+      # Global limit for all worlds (if no specific world limit is set)
+      default: 2000
+      # Example: world_nether: 1000
+      # Example: world_the_end: 500
+
+    # Per-chunk entity limits
+    chunk_limits:
+      # Maximum entities per chunk (any type)
+      total_per_chunk: 50
+      # Maximum of specific entity types per chunk
+      hostile_per_chunk: 15
+      passive_per_chunk: 20
+      item_per_chunk: 30
+
+    # Action to take when limit is exceeded
+    # Options: "prevent_spawn", "remove_oldest", "remove_random"
+    overflow_action: "prevent_spawn"
+
+  # Custom configuration (used when preset_mode is "custom")
+  # You can define your own limits here when using custom mode
+  custom_config:
+    world_limits:
+      default: 3000
+    chunk_limits:
+      total_per_chunk: 75
+      hostile_per_chunk: 25
+      passive_per_chunk: 30
+      item_per_chunk: 40
+    overflow_action: "remove_random"
+
+  # How often to check and enforce limits (in ticks, 20 = 1 second)
+  check_interval: 100
+
+  # Buffer settings - how many entities below the limit to target when cleaning
+  # This prevents constant triggering when at the exact limit
+  chunk_buffer: 5 # Remove entities down to (limit - 5) in chunks
+  world_buffer: 50 # Remove entities down to (limit - 50) in worlds
+
+# Villager AI Optimization
+villager_optimization:
+  # Enable villager AI optimizations
+  enabled: true
+
+  # Reduce villager AI tick rate (higher = less frequent AI updates)
+  # 1 = normal speed, 2 = half speed, 4 = quarter speed
+  ai_tick_reduction: 2
+
+  # Maximum villagers per chunk before AI optimizations kick in
+  villagers_per_chunk_threshold: 8
+
+  # Disable pathfinding for villagers that haven't moved in X ticks
+  disable_pathfinding_after_ticks: 1200 # 1 minute
+
+  # Reduce villager profession changes frequency
+  reduce_profession_changes: true
+
+  # Limit villager breeding
+  limit_breeding:
+    enabled: true
+    max_villagers_per_chunk: 10
+    breeding_cooldown_ticks: 6000 # 5 minutes
+
+  # Optimize villager inventory checks
+  optimize_inventory_checks: true
+
+  # Villager sleep optimization (disable unnecessary sleep AI)
+  optimize_sleep_behavior: true
+
+# Allows the LaggRemover AI (Artificial Inteligence) to perform action to lower the amount of packets being sent to just the player that typed lag. (10)
+doRelativeAction: true
+
+# When enabled, only allows the removal of items for relative lag removal for players.
+doOnlyItemsForRelative: false
+
+# This prevents non-hostile mobs from being removed by the relative lag removal system. THIS HAS TO BE DISABLED TO USE doOnlyItemsForRelative
+dontDoFriendlyMobsForRelative: true
+
+# When the LaggRemover AI detects a player is lagging. It will attempt to remove lag relative to player before looking at the whole server.
+# This defines the max radius in blocks the LaggRemover AI can remove entities specified above. Radius in blocks.
+localLagRadius: 10
+
+# Defines what percent of the entities in the "localLagRadius" are removed.
+localThinPercent: 80
+
+# How often the LaggRemover AI can remove lag for a person (in seconds). This is to prevent players from tricking the AI into repeatedly clearing mobs or purging memory.
+localLagRemovalCooldown: 60
+
+# Makes local lag removal only be triggered if the amount of entities in the 'localLagRadius' is greater than this
+localLagTriggered: 100
+
+# Time between messages a player can type in chat. If a player spams chat this can create lag. (in ticks 20 ticks = 1 second) If a player has the permission lr.nochatdelay, they will not have their chat limited.
+chatDelay: 0
+
+# Change this to modify the HBZCleaner prefix. NOTE: The showing of the prefix shows professionalism for the technology being used by your server, if you modify it from its default value, it does not.
+prefix: "&6&lHBZCleaner &7&l>>&r "
+
+# This is whether you would like this plugin to automatically check and install new updates. This is highly recommended.
+auto-update: true
+
+# The warning messages and how long you would like a warning to be for a certain protocol.
+protocol_warnings:
+  cc_items:
+    time: 60
+    stages:
+      - "60:%PREFIX%&eClearing ground items in &b60 &eseconds"
+      - "30:%PREFIX%&eClearing ground items in &b30 &eseconds"
+      - "5:%PREFIX%&eClearing ground items in &b5 &eseconds"
+      - "f:%PREFIX%&eAll items on the ground have been cleared."
+  cc_entities:
+    time: 60
+    stages:
+      - "60:%PREFIX%&eClearing hostile entities in &b60 &eseconds"
+      - "30:%PREFIX%&eClearing hostile entities in &b30 &eseconds"
+      - "5:%PREFIX%&eClearing hostile entities in &b5 &eseconds"
+      - "f:%PREFIX%&eAll hostile entities have been cleared."
+
+# Enables/Disables the "LaggRemover V2" splash screen when the plugin starts
+splashScreen: true
