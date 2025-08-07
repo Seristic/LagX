@@ -114,8 +114,8 @@ Shows:
 ### Integration Points
 
 - `LRCommand.handleAreaClear()` - Area clearing protection
-- `EntityLimiter.canRemoveEntity()` - Automated cleanup protection
-- `LaggRemover.onEnable()` - TownyIntegration initialization
+- `EntityLimiter.canRemoveEntity()` - Automated cleanup protection  
+- `HBZCleaner.onEnable()` - TownyIntegration initialization
 
 ## Benefits
 
