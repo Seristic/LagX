@@ -1,17 +1,10 @@
 package com.seristic.hbzcleaner.main;
 
-import com.seristic.hbzcleaner.api.proto.DelayedLRProtocolResult;
-import com.seristic.hbzcleaner.api.proto.LRProtocol;
-import com.seristic.hbzcleaner.api.proto.LRProtocolResult;
-import com.seristic.hbzcleaner.api.proto.Protocol;
-import com.seristic.hbzcleaner.inf.Help;
-import com.seristic.hbzcleaner.proto.bin.CCEntities;
-import com.seristic.hbzcleaner.util.DoubleVar;
-import com.seristic.hbzcleaner.util.LRConfig;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -22,6 +15,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.world.WorldInitEvent;
+
+import com.seristic.hbzcleaner.api.proto.DelayedLRProtocolResult;
+import com.seristic.hbzcleaner.api.proto.LRProtocol;
+import com.seristic.hbzcleaner.api.proto.LRProtocolResult;
+import com.seristic.hbzcleaner.api.proto.Protocol;
+import com.seristic.hbzcleaner.inf.Help;
+import com.seristic.hbzcleaner.proto.bin.CCEntities;
+import com.seristic.hbzcleaner.util.DoubleVar;
+import com.seristic.hbzcleaner.util.LRConfig;
 
 /* loaded from: LaggRemover-2.0.6.jar:drew6017/lr/main/Events.class */
 public class Events implements Listener {
@@ -42,7 +44,7 @@ public class Events implements Listener {
     public void onChat(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
-        if (!p.hasPermission("hbzlag.nochatdelay") && LRConfig.chatDelay > 0) {
+        if (!LaggRemover.hasPermission(p, "hbzlag.nochatdelay") && LRConfig.chatDelay > 0) {
             if (chatDelay.contains(uuid)) {
                 e.setCancelled(true);
                 Help.sendMsg(p, "§cPlease slow down your chat.", true);

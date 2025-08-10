@@ -114,6 +114,20 @@ public class CCItems implements LRProtocol {
             }
             return i;
         } else {
+            // Track how many items we'll clear
+            int totalItems = 0;
+            
+            // First count the items
+            for (World w : Bukkit.getWorlds()) {
+                for (Chunk chunk : w.getLoadedChunks()) {
+                    for (Entity e : chunk.getEntities()) {
+                        if (e.getType().equals(EntityType.ITEM)) {
+                            totalItems++;
+                        }
+                    }
+                }
+            }
+            
             // For clearing, schedule per-chunk operations on region scheduler
             for (World world : Bukkit.getWorlds()) {
                 for (Chunk chunk : world.getLoadedChunks()) {
@@ -139,8 +153,9 @@ public class CCItems implements LRProtocol {
                     );
                 }
             }
-            // Return 0 since we can't count asynchronously cleared items
-            return 0;
+            
+            // Return the pre-counted items
+            return totalItems;
         }
     }
     
@@ -157,6 +172,16 @@ public class CCItems implements LRProtocol {
             }
             return i;
         } else {
+            // First count the items to be cleared
+            int totalItems = 0;
+            for (Chunk chunk : world.getLoadedChunks()) {
+                for (Entity e : chunk.getEntities()) {
+                    if (e.getType().equals(EntityType.ITEM)) {
+                        totalItems++;
+                    }
+                }
+            }
+            
             // For clearing, schedule per-chunk operations on region scheduler
             for (Chunk chunk : world.getLoadedChunks()) {
                 final Chunk finalChunk = chunk;
@@ -180,8 +205,9 @@ public class CCItems implements LRProtocol {
                     }
                 );
             }
-            // Return 0 since we can't count asynchronously cleared items
-            return 0;
+            
+            // Return the pre-counted items
+            return totalItems;
         }
     }
 }

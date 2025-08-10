@@ -1,5 +1,6 @@
 package com.seristic.hbzcleaner.util;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,18 +11,31 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
-import com.palmergames.bukkit.towny.TownyAPI;
-import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
-import com.palmergames.bukkit.towny.object.Resident;
-import com.palmergames.bukkit.towny.object.Town;
-import com.palmergames.bukkit.towny.object.TownBlock;
 import com.seristic.hbzcleaner.main.LaggRemover;
 
+/**
+ * Integration with Towny plugin using reflection to avoid hard dependencies
+ */
 public class TownyIntegration {
     
     private final LaggRemover plugin;
     private boolean townyEnabled = false;
+    
+    // Reflection cached objects
+    private Class<?> townyAPIClass;
+    private Object townyAPIInstance;
+    private Method isWildernessMethod;
+    private Method getTownMethod;
+    private Method getResidentMethod;
+    private Method hasTownMethod;
+    private Method getTownByResidentMethod;
+    private Method isMayorMethod;
+    private Method getNameMethod;
+    private Method getTownBlockMethod;
+    private Method hasResidentMethod;
+    private Method getResidentFromTownBlockMethod;
     
     // Materials that are allowed to be cleared in towns (junk blocks/items)
     private static final Set<Material> ALLOWED_JUNK_MATERIALS = new HashSet<>(Arrays.asList(
@@ -75,23 +89,85 @@ public class TownyIntegration {
     
     public TownyIntegration(LaggRemover plugin) {
         this.plugin = plugin;
-        checkTownyIntegration();
-    }
-    
-    private void checkTownyIntegration() {
         try {
-            Class.forName("com.palmergames.bukkit.towny.TownyAPI");
-            if (plugin.getServer().getPluginManager().getPlugin("Towny") != null) {
-                townyEnabled = true;
-                plugin.getLogger().info("Towny integration enabled - entities in towns will be protected");
-            }
-        } catch (ClassNotFoundException e) {
-            plugin.getLogger().info("Towny not found - running without town protection");
+            initTownyReflection();
+        } catch (Throwable t) {
+            // Catch any error including NoClassDefFoundError
+            townyEnabled = false;
+            plugin.getLogger().warning("Failed to initialize Towny integration: " + t.getMessage());
         }
     }
     
+    /**
+     * Initialize reflection for Towny classes
+     */
+    private void initTownyReflection() {
+        // First check if Towny plugin exists
+        Plugin townyPlugin = plugin.getServer().getPluginManager().getPlugin("Towny");
+        if (townyPlugin == null || !townyPlugin.isEnabled()) {
+            townyEnabled = false;
+            plugin.getLogger().info("Towny not found - town protection features disabled");
+            return;
+        }
+        
+        try {
+            // Get TownyAPI class and instance
+            townyAPIClass = Class.forName("com.palmergames.bukkit.towny.TownyAPI");
+            Method getInstance = townyAPIClass.getMethod("getInstance");
+            townyAPIInstance = getInstance.invoke(null);
+            
+            // Get isWilderness method
+            isWildernessMethod = townyAPIClass.getMethod("isWilderness", Location.class);
+            
+            // Get getTown method
+            getTownMethod = townyAPIClass.getMethod("getTown", Location.class);
+            
+            // Get getResident method
+            getResidentMethod = townyAPIClass.getMethod("getResident", Player.class);
+            
+            // Get other necessary methods
+            Class<?> residentClass = Class.forName("com.palmergames.bukkit.towny.object.Resident");
+            hasTownMethod = residentClass.getMethod("hasTown");
+            getTownByResidentMethod = residentClass.getMethod("getTown");
+            
+            Class<?> townClass = Class.forName("com.palmergames.bukkit.towny.object.Town");
+            isMayorMethod = townClass.getMethod("isMayor", residentClass);
+            getNameMethod = townClass.getMethod("getName");
+            
+            // TownBlock methods
+            getTownBlockMethod = townyAPIClass.getMethod("getTownBlock", Location.class);
+            Class<?> townBlockClass = Class.forName("com.palmergames.bukkit.towny.object.TownBlock");
+            hasResidentMethod = townBlockClass.getMethod("hasResident");
+            getResidentFromTownBlockMethod = townBlockClass.getMethod("getResident");
+            
+            townyEnabled = true;
+            plugin.getLogger().info("Towny integration enabled - using reflection for compatibility");
+            
+        } catch (Exception e) {
+            townyEnabled = false;
+            plugin.getLogger().warning("Failed to initialize Towny integration: " + e.getMessage());
+            plugin.getLogger().warning("Town protection features will be disabled");
+        }
+    }
+    
+    /**
+     * Checks if Towny integration is enabled
+     */
     public boolean isTownyEnabled() {
         return townyEnabled;
+    }
+    
+    /**
+     * Check if a location is in wilderness (not in any town)
+     */
+    private boolean isWilderness(Location location) {
+        if (!townyEnabled) return true;
+        
+        try {
+            return (boolean) isWildernessMethod.invoke(townyAPIInstance, location);
+        } catch (Exception e) {
+            return true; // Default to wilderness on error
+        }
     }
     
     /**
@@ -107,10 +183,8 @@ public class TownyIntegration {
         Location loc = entity.getLocation();
         
         try {
-            TownyAPI api = TownyAPI.getInstance();
-            
             // Check if location is in wilderness (not in any town)
-            if (api.isWilderness(loc)) {
+            if (isWilderness(loc)) {
                 return false; // Not in a town, no protection - allow all clearing
             }
             
@@ -143,30 +217,22 @@ public class TownyIntegration {
      * Check if a location is within a town
      */
     public boolean isInTown(Location location) {
-        if (!townyEnabled) {
-            return false;
-        }
-        
-        try {
-            return !TownyAPI.getInstance().isWilderness(location);
-        } catch (Exception e) {
-            return false;
-        }
+        if (!townyEnabled) return false;
+        return !isWilderness(location);
     }
     
     /**
      * Get town name at location (null if not in town)
      */
     public String getTownName(Location location) {
-        if (!townyEnabled) {
-            return null;
-        }
+        if (!townyEnabled) return null;
         
         try {
-            TownyAPI api = TownyAPI.getInstance();
-            if (!api.isWilderness(location)) {
-                Town town = api.getTown(location);
-                return town != null ? town.getName() : null;
+            if (!isWilderness(location)) {
+                Object town = getTownMethod.invoke(townyAPIInstance, location);
+                if (town != null) {
+                    return (String) getNameMethod.invoke(town);
+                }
             }
         } catch (Exception e) {
             // Ignore errors
@@ -179,41 +245,41 @@ public class TownyIntegration {
      * Check if player has permission to clear entities in a town
      */
     public boolean canPlayerClearInTown(Player player, Location location) {
-        if (!townyEnabled) {
-            return true;
-        }
+        if (!townyEnabled) return true;
         
         try {
-            TownyAPI api = TownyAPI.getInstance();
-            
-            if (api.isWilderness(location)) {
-                return true; // Always allow in wilderness
-            }
-            
-            // Server operators can always clear
-            if (player.isOp()) {
+            // Always allow in wilderness
+            if (isWilderness(location)) {
                 return true;
             }
             
-            Town town = api.getTown(location);
+            // Server operators and players with bypass permission can always clear
+            if (com.seristic.hbzcleaner.main.LaggRemover.hasPermission(player, "hbzlag.towny.bypass")) {
+                return true;
+            }
+            
+            // Get town at location
+            Object town = getTownMethod.invoke(townyAPIInstance, location);
             if (town == null) {
                 return true;
             }
             
             // Check if player is a resident of the town
-            Resident resident = api.getResident(player);
-            if (resident != null && resident.hasTown()) {
+            Object resident = getResidentMethod.invoke(townyAPIInstance, player);
+            if (resident != null && (boolean)hasTownMethod.invoke(resident)) {
                 try {
-                    if (resident.getTown().equals(town)) {
+                    // Check if resident is in this town
+                    Object residentTown = getTownByResidentMethod.invoke(resident);
+                    if (residentTown.equals(town)) {
                         return true; // Resident of the town
                     }
                     
                     // Check if player is mayor
-                    if (town.isMayor(resident)) {
+                    if ((boolean)isMayorMethod.invoke(town, resident)) {
                         return true;
                     }
-                } catch (NotRegisteredException e) {
-                    // Player not in a town
+                } catch (Exception e) {
+                    // Exception checking resident status
                 }
             }
             
@@ -234,25 +300,24 @@ public class TownyIntegration {
         }
         
         try {
-            TownyAPI api = TownyAPI.getInstance();
-            
-            if (api.isWilderness(location)) {
+            if (isWilderness(location)) {
                 return "§7Wilderness - no protection";
             }
             
-            Town town = api.getTown(location);
+            Object town = getTownMethod.invoke(townyAPIInstance, location);
             if (town == null) {
                 return "§7Unknown area";
             }
             
             StringBuilder info = new StringBuilder();
-            info.append("§6Town: §e").append(town.getName());
+            info.append("§6Town: §e").append(getNameMethod.invoke(town));
             
-            TownBlock townBlock = api.getTownBlock(location);
-            if (townBlock != null && townBlock.hasResident()) {
+            Object townBlock = getTownBlockMethod.invoke(townyAPIInstance, location);
+            if (townBlock != null && (boolean)hasResidentMethod.invoke(townBlock)) {
                 try {
-                    info.append(" §7(Plot: §e").append(townBlock.getResident().getName()).append("§7)");
-                } catch (NotRegisteredException e) {
+                    Object blockResident = getResidentFromTownBlockMethod.invoke(townBlock);
+                    info.append(" §7(Plot: §e").append(getNameMethod.invoke(blockResident)).append("§7)");
+                } catch (Exception e) {
                     info.append(" §7(Claimed plot)");
                 }
             }
@@ -260,7 +325,7 @@ public class TownyIntegration {
             return info.toString();
             
         } catch (Exception e) {
-            return "§cError checking town info";
+            return "§cError checking town info: " + e.getMessage();
         }
     }
 }

@@ -1,16 +1,16 @@
 package com.seristic.hbzcleaner.util;
 
-import com.seristic.hbzcleaner.api.aparser.AnfoParser;
-import com.seristic.hbzcleaner.api.proto.LRProtocol;
-import com.seristic.hbzcleaner.api.proto.Protocol;
-import com.seristic.hbzcleaner.main.LaggRemover;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -18,6 +18,11 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.json.simple.parser.ParseException;
+
+import com.seristic.hbzcleaner.api.aparser.AnfoParser;
+import com.seristic.hbzcleaner.api.proto.LRProtocol;
+import com.seristic.hbzcleaner.api.proto.Protocol;
+import com.seristic.hbzcleaner.main.LaggRemover;
 
 public class LRConfig {
     public static double lagConstant;
@@ -60,9 +65,13 @@ public class LRConfig {
         autoChunk = configuration.getBoolean("autoChunk");
         thinMobs = configuration.getBoolean("thinMobs");
         thinAt = configuration.getInt("thinAt");
-        autoLagRemovalTime = configuration.getInt("auto-lag-removal.every");
+        
+        // Load auto-lag-removal settings
+        autoLagRemovalTime = configuration.getInt("auto-lag-removal.every", 10);
+        autoLagRemoval = configuration.getBoolean("auto-lag-removal.run", true);
+        LaggRemover.getInstance().getLogger().info("Automatic cleanup: " + (autoLagRemoval ? "enabled (every " + autoLagRemovalTime + " minutes)" : "disabled"));
+        
         noSpawnChunks = configuration.getBoolean("noSpawnChunks");
-        autoLagRemoval = configuration.getBoolean("auto-lag-removal.run");
         isAIActive = configuration.getBoolean("smartlagai");
         List<String> noSaveWorlds = configuration.getStringList("nosaveworlds");
         counters = new HashMap<>();
@@ -182,6 +191,8 @@ public class LRConfig {
     }
 
     private static String stringFromInputStream(InputStream in) {
-        return new Scanner(in).useDelimiter("\\A").next();
+        try (Scanner scanner = new Scanner(in)) {
+            return scanner.useDelimiter("\\A").next();
+        }
     }
 }

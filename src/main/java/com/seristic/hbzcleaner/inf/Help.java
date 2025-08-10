@@ -72,6 +72,7 @@ public class Help {
         commandsHelp.add(new HoverCommand("/hbzlag entities [status|reload|stats]", "Manage entity limiting system.", "hbzlag.entities", true));
         commandsHelp.add(new HoverCommand("/hbzlag villagers [status|reload|optimize|stats]", "Optimize villager AI performance.", "hbzlag.villagers", true));
         commandsHelp.add(new HoverCommand("/hbzlag towny(town)", "Check Towny protection info (only junk items cleared in towns).", "hbzlag.towny", true));
+        commandsHelp.add(new HoverCommand("/hbzlag stacker(stack) [info|reload|stack <radius>]", "Manage entity stacking system to reduce entity count.", "hbzlag.stacker", true));
         commandsHelp.add(new HoverCommand("/hbzlag reload(rl)", "Reload plugin configuration without restarting the server.", "hbzlag.reload", true));
     }
 

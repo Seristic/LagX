@@ -1,8 +1,12 @@
 package com.seristic.hbzcleaner.util;
 
-import com.seristic.hbzcleaner.main.LaggRemover;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
@@ -12,9 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.VillagerCareerChangeEvent;
 import org.bukkit.event.entity.VillagerReplenishTradeEvent;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import com.seristic.hbzcleaner.main.LaggRemover;
 
 public class VillagerOptimizer implements Listener {
     
@@ -117,7 +119,14 @@ public class VillagerOptimizer implements Listener {
             try {
                 // Use reflection to disable AI temporarily (Folia-safe approach)
                 villager.setAI(false);
-                Bukkit.getScheduler().runTaskLater(plugin, () -> villager.setAI(true), 1);
+                
+                // Use Folia's region-based scheduler
+                Location location = villager.getLocation();
+                Bukkit.getRegionScheduler().runDelayed(plugin, location.getWorld(), location.getBlockX() >> 4, location.getBlockZ() >> 4, task -> {
+                    if (villager.isValid()) {
+                        villager.setAI(true);
+                    }
+                }, 1);
             } catch (Exception e) {
                 // Fallback if reflection fails
             }
@@ -157,7 +166,14 @@ public class VillagerOptimizer implements Listener {
             try {
                 villager.setAI(false);
                 // Re-enable after a delay to prevent permanent disabling
-                Bukkit.getScheduler().runTaskLater(plugin, () -> villager.setAI(true), 200); // 10 seconds
+                
+                // Use Folia's region-based scheduler
+                Location location = villager.getLocation();
+                Bukkit.getRegionScheduler().runDelayed(plugin, location.getWorld(), location.getBlockX() >> 4, location.getBlockZ() >> 4, task -> {
+                    if (villager.isValid()) {
+                        villager.setAI(true);
+                    }
+                }, 200); // 10 seconds
             } catch (Exception e) {
                 // Handle any reflection errors gracefully
             }
@@ -219,10 +235,19 @@ public class VillagerOptimizer implements Listener {
         if (Math.random() > 0.7) { // 30% chance to delay trade replenishment
             event.setCancelled(true);
             
-            // Schedule delayed replenishment
-            Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                // Trigger natural replenishment later
-                event.getEntity().getRecipes(); // This will refresh trades
+            // Schedule delayed replenishment using Folia's region-based scheduler
+            // Cast to appropriate type
+            Entity entity = event.getEntity();
+            if (!(entity instanceof Villager)) return;
+            
+            Villager villager = (Villager) entity;
+            Location location = villager.getLocation();
+            
+            Bukkit.getRegionScheduler().runDelayed(plugin, location.getWorld(), location.getBlockX() >> 4, location.getBlockZ() >> 4, task -> {
+                if (villager.isValid()) {
+                    // Trigger natural replenishment later
+                    villager.getRecipes(); // This will refresh trades
+                }
             }, 100); // 5 second delay
         }
     }

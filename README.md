@@ -1,78 +1,254 @@
 # HBZCleaner
 
-HBZCleaner is a comprehensive server optimization plugin designed for modern Minecraft servers running Paper and Folia. It provides advanced lag prevention, entity management, and performance monitoring with an intuitive admin interface.
+[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://www.oracle.com/java/)
+[![Minecraft](https://img.shields.io/badge/Minecraft-1.20.6+-green.svg)](https://papermc.io/)
+[![Paper](https://img.shields.io/badge/Paper-Supported-blue.svg)](https://papermc.io/)
+[![Folia](https://img.shields.io/badge/Folia-Compatible-purple.svg)](https://papermc.io/software/folia)
 
-## Features
+HBZCleaner is a comprehensive server optimization plugin designed for modern Minecraft servers running Paper and Folia. It provides advanced lag prevention, entity management, performance monitoring, and server optimization tools with an intuitive admin interface.
 
-### 🚀 Performance Optimization
-HBZCleaner reduces server lag through intelligent resource management, entity limiting, and automated cleanup systems. Monitor your server's health with real-time TPS tracking and memory usage statistics.
+## 🚀 Features
+
+### Core Performance Optimization
+
+- **Smart Entity Management** - Configurable limits with buffer systems to prevent lag spikes
+- **Memory Optimization** - Intelligent garbage collection and memory monitoring
+- **Real-time TPS Monitoring** - Health indicators with trend analysis
+- **Automated Cleanup Systems** - Scheduled maintenance with customizable protocols
+- **Advanced Chunk Management** - Optimal memory usage and unloading strategies
+
+### 🧠 Intelligent Systems
+
+- **Entity Stacker** - Stack identical entities to reduce server load while maintaining functionality
+- **Villager Optimizer** - AI optimizations for villager-heavy servers
+- **Entity Limiter** - Preset-based entity limiting with overflow management
+- **Smart Lag Detection** - Proactive identification of performance bottlenecks
+- **Predictive Analysis** - AI-powered performance prediction and automated responses
 
 ### 🏠 Towny Integration
-Smart protection system that respects Towny claims while allowing selective cleanup of junk materials. Protects valuable player items in towns while removing common waste materials.
 
-### 🎨 Modern User Interface
-Interactive help system with hover tooltips, clickable pagination, and rich Adventure API components. Clean, professional interface that makes server administration intuitive.
+- **Smart Protection** - Respects Towny claims while allowing selective cleanup
+- **Configurable Filtering** - Protect valuable items while removing junk materials
+- **Reflection-based** - Soft dependency that works with or without Towny installed
+- **Safe Operations** - No hard dependencies, graceful fallback when Towny unavailable
 
-### ⚡ Folia Compatibility
-Built with modern threading in mind, HBZCleaner works seamlessly on both Paper and Folia servers with region-aware scheduling and thread-safe operations.
+### ⚡ Modern Architecture
 
-### 🛡️ Admin Security
-Comprehensive permission system with admin-only access controls. Prevents accidental usage by non-operators while maintaining full functionality for server management.
+- **Folia Compatibility** - Region-aware scheduling and thread-safe operations
+- **Paper Optimized** - Takes advantage of Paper-specific APIs and features
+- **Adventure API** - Modern text components with hover tooltips and click events
+- **Permission System** - Comprehensive wildcard support with centralized checks
 
-### 🔄 Live Configuration
-Reload plugin settings without server restart using the built-in config reload system. Make changes on-the-fly without disrupting player experience.
+## 📦 Installation
 
-## Commands
+### Requirements
 
-All commands use the `/hbzlag` prefix and support shortened aliases shown in parentheses:
+- **Java 21** or higher
+- **Paper** or **Folia** 1.20.6+ server
+- **Optional**: Towny (for enhanced protection features)
 
-**Core Commands:**
-- `/hbzlag help(h) [page]` - Interactive help system with hover tooltips
-- `/hbzlag status(st)` - Quick server health overview
-- `/hbzlag tps` - Current server TPS with health indicators
-- `/hbzlag ram` - Detailed memory usage statistics
-- `/hbzlag gc` - Run garbage collection to free memory
+### Setup
 
-**Management Commands:**
-- `/hbzlag clear(c) [type]` - Clear entities/items with Towny protection
-- `/hbzlag count(ct) [type]` - Count entities/items in worlds
-- `/hbzlag entities [options]` - Entity limiter management with presets
-- `/hbzlag villagers [options]` - Villager AI optimization controls
-- `/hbzlag preset [basic|advanced|custom]` - Switch entity limiter presets
+1. Download the latest `HBZCleaner-X.X-folia.jar` from releases
+2. Place in your server's `plugins/` directory
+3. Start/restart your server
+4. Configure `plugins/HBZCleaner/config.yml` as needed
+5. Use `/hbzlag reload` to apply configuration changes
 
-**Admin Tools:**
-- `/hbzlag master(m)` - Comprehensive server performance overview
-- `/hbzlag world(w) <world>` - Detailed world statistics
-- `/hbzlag unload(u) <world>` - Unload chunks in specified world
-- `/hbzlag protocol(pr) <options>` - Advanced protocol management
-- `/hbzlag towny(town)` - Towny integration status and protection info
-- `/hbzlag reload(rl)` - Reload configuration without restart
+## 🎮 Commands & Permissions
 
-## Permissions
+### Core Commands
 
-All permissions require operator status (`default: op`):
+All commands use the `/hbzlag` prefix with the following permissions:
 
-- `hbzlag.help` - Access to help commands
-- `hbzlag.status` - Server status and performance commands  
-- `hbzlag.master` - Comprehensive performance overview
-- `hbzlag.tps` - TPS monitoring and health checks
-- `hbzlag.clear` - Entity and item clearing operations
-- `hbzlag.entities` - Entity limiter management
-- `hbzlag.villagers` - Villager optimization controls
-- `hbzlag.towny` - Towny integration features
-- `hbzlag.reload` - Configuration reload capability
+| Command               | Permission      | Description                             |
+| --------------------- | --------------- | --------------------------------------- |
+| `/hbzlag help [page]` | `hbzlag.help`   | Interactive help system with pagination |
+| `/hbzlag status`      | `hbzlag.status` | Quick server health overview            |
+| `/hbzlag tps`         | `hbzlag.tps`    | Current TPS with health indicators      |
+| `/hbzlag ram`         | `hbzlag.ram`    | Detailed memory usage statistics        |
+| `/hbzlag gc`          | `hbzlag.gc`     | Manual garbage collection               |
+| `/hbzlag reload`      | `hbzlag.reload` | Reload plugin configuration             |
 
-## Installation
+### Entity Management
 
-1. Download HBZCleaner.jar
-2. Place in your server's `plugins/` folder
-3. Restart your server
-4. Configure settings in `plugins/HBZCleaner/config.yml`
-5. Use `/hbzlag help` to get started
+| Command                      | Permission         | Description                                |
+| ---------------------------- | ------------------ | ------------------------------------------ |
+| `/hbzlag clear [type]`       | `hbzlag.clear`     | Clear entities/items with Towny protection |
+| `/hbzlag count [type]`       | `hbzlag.count`     | Count entities/items in worlds             |
+| `/hbzlag entities [preset]`  | `hbzlag.entities`  | Entity limiter management                  |
+| `/hbzlag villagers [action]` | `hbzlag.villagers` | Villager optimizer controls                |
 
-## Configuration
+### Entity Stacker
 
-HBZCleaner creates a comprehensive configuration file with settings for:
+| Command                          | Permission       | Description                         |
+| -------------------------------- | ---------------- | ----------------------------------- |
+| `/hbzlag stacker info`           | `hbzlag.stacker` | Stacker statistics and status       |
+| `/hbzlag stacker debug`          | `hbzlag.stacker` | Debug information for current chunk |
+| `/hbzlag stacker reload`         | `hbzlag.stacker` | Reload stacker configuration        |
+| `/hbzlag stacker stack [radius]` | `hbzlag.stacker` | Manual stacking in radius           |
+
+### Permission Wildcards
+
+- `hbzlag.*` - All permissions
+- `hbzlag.admin` - All admin permissions (legacy)
+
+## ⚙️ Configuration
+
+### Entity Stacker Setup
+
+Enable entity stacking to reduce server load:
+
+```yaml
+stacker:
+  enabled: true # Enable the stacker system
+  debug: false # Enable debug logging
+  max_stack_size:
+    items: 64 # Maximum items per stack
+    mobs: 8 # Maximum mobs per stack
+    spawners: 5 # Maximum spawner stack size
+  max_stacks_per_chunk: 4 # Maximum stacks of same type per chunk
+  stacking_range: 5.0 # Distance for stacking (blocks)
+
+  # Only listed entities will stack
+  stackable_entities:
+    - BLAZE # Add entity types to enable stacking
+    # - ZOMBIE
+    # - SKELETON
+```
+
+### Entity Limiter Presets
+
+Choose from three preset modes:
+
+**Basic Mode** - Simple hard limits for all entities:
+
+```yaml
+entity_limiter:
+  preset_mode: basic
+  basic_preset:
+    total_entities_per_chunk: 30
+    total_entities_per_world: 1500
+    overflow_action: remove_oldest
+```
+
+**Advanced Mode** - Separate limits by entity type:
+
+```yaml
+entity_limiter:
+  preset_mode: advanced
+  advanced_preset:
+    chunk_limits:
+      total_per_chunk: 50
+      hostile_per_chunk: 15
+      passive_per_chunk: 20
+      item_per_chunk: 30
+```
+
+**Custom Mode** - Full customization available.
+
+### Towny Integration
+
+```yaml
+# Automatically detected if Towny is installed
+# Protects items in claims while allowing cleanup of junk materials
+# No configuration required - works out of the box
+```
+
+## 🔧 Entity Stacker Guide
+
+The Entity Stacker reduces server load by combining identical entities:
+
+### How It Works
+
+1. **Automatic Stacking** - Entities of same type within range combine
+2. **Smart Limits** - Multiple smaller stacks instead of oversized ones
+3. **Chunk Limits** - Maximum stacks per chunk prevents concentration
+4. **Visual Feedback** - Stacked entities show "[x8] Blaze" format
+
+### Example with Blazes
+
+With `max_stack_size.mobs: 8` and `max_stacks_per_chunk: 4`:
+
+- **Individual blazes** automatically combine into stacks of 8
+- **Multiple stacks** created when more blazes spawn (up to 4 stacks)
+- **Maximum per chunk**: 32 blazes (4 stacks × 8 entities)
+- **Overflow handling**: New blazes won't stack if chunk is at limit
+
+### Testing Commands
+
+```bash
+# Check stacker status
+/hbzlag stacker info
+
+# Debug current chunk
+/hbzlag stacker debug
+
+# Reload configuration
+/hbzlag stacker reload
+
+# Manual stacking
+/hbzlag stacker stack 50
+```
+
+## 🐛 Troubleshooting
+
+### Entity Stacker Not Working
+
+1. **Check enabled status**: `/hbzlag stacker info`
+2. **Verify entity whitelist**: Ensure entity type is in `stackable_entities`
+3. **Check range**: Entities must be within `stacking_range` (default 5 blocks)
+4. **Debug output**: Enable `debug: true` and check console logs
+5. **Test reload**: `/hbzlag stacker reload` after config changes
+
+### Performance Issues
+
+1. **Check TPS**: `/hbzlag tps` for current performance
+2. **Memory usage**: `/hbzlag ram` for memory statistics
+3. **Entity counts**: `/hbzlag count` to identify problem areas
+4. **Adjust limits**: Lower entity limits if needed
+5. **Enable cleanups**: Ensure auto-lag-removal is enabled
+
+### Configuration Problems
+
+1. **Syntax errors**: Check YAML indentation and formatting
+2. **Reload failed**: Use `/hbzlag reload` and check console for errors
+3. **Permissions**: Ensure `hbzlag.*` or specific permissions are granted
+4. **Plugin conflicts**: Check for conflicts with other entity plugins
+
+## 📊 Performance Impact
+
+HBZCleaner is designed for minimal performance overhead:
+
+- **Efficient Algorithms** - O(1) entity lookups and smart caching
+- **Async Processing** - Heavy operations run on async threads
+- **Region Scheduling** - Folia-compatible region-aware operations
+- **Memory Conscious** - Minimal memory footprint with automatic cleanup
+- **Configurable Impact** - Adjust check intervals and limits as needed
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🔗 Links
+
+- **Issues**: [GitHub Issues](https://github.com/Seristic/HBZCleaner/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Seristic/HBZCleaner/discussions)
+- **Paper**: [PaperMC](https://papermc.io/)
+- **Folia**: [Folia Documentation](https://papermc.io/software/folia)
+
+---
+
+**Built with ❤️ for the Minecraft server community**
+
 - Entity limiting and buffer systems
 - Towny integration and junk material whitelist
 - Performance monitoring thresholds

@@ -34,6 +34,7 @@ import com.seristic.hbzcleaner.api.proto.Protocol;
 import com.seristic.hbzcleaner.inf.Help;
 import com.seristic.hbzcleaner.util.DoubleVar;
 import com.seristic.hbzcleaner.util.EntityLimiter;
+import com.seristic.hbzcleaner.util.EntityStacker;
 import com.seristic.hbzcleaner.util.LRConfig;
 import com.seristic.hbzcleaner.util.LRTabCompleter;
 import com.seristic.hbzcleaner.util.TownyIntegration;
@@ -49,6 +50,7 @@ public class LaggRemover extends JavaPlugin implements Listener {
     private long startTime;
     private EntityLimiter entityLimiter;
     private VillagerOptimizer villagerOptimizer;
+    private EntityStacker entityStacker;
     private static TownyIntegration townyIntegration;
     
     public static LaggRemover getInstance() {
@@ -66,7 +68,12 @@ public class LaggRemover extends JavaPlugin implements Listener {
     public VillagerOptimizer getVillagerOptimizer() {
         return villagerOptimizer;
     }
+    
+    public EntityStacker getEntityStacker() {
+        return entityStacker;
+    }
 
+    @Override
     public void onEnable() {
         startTime = System.currentTimeMillis();
         instance = this;
@@ -139,9 +146,21 @@ public class LaggRemover extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(villagerOptimizer, this);
         getLogger().info("Villager Optimizer " + (villagerOptimizer.isEnabled() ? "enabled" : "disabled"));
         
-        // Initialize Towny Integration
-        townyIntegration = new TownyIntegration(this);
-        getLogger().info("Towny Integration " + (townyIntegration.isTownyEnabled() ? "enabled" : "disabled"));
+        // Initialize Towny Integration with proper error handling
+        try {
+            townyIntegration = new TownyIntegration(this);
+            getLogger().info("Towny Integration " + (townyIntegration.isTownyEnabled() ? "enabled" : "disabled"));
+        } catch (Throwable e) {
+            getLogger().warning("Failed to initialize Towny integration: " + e.getMessage());
+            getLogger().warning("Plugin will continue without Towny support");
+            // Create a dummy integration instance that always returns false for isTownyEnabled
+            townyIntegration = new TownyIntegration(this);
+        }
+        
+        // Initialize Entity Stacker
+        entityStacker = new EntityStacker(this);
+        Bukkit.getServer().getPluginManager().registerEvents(entityStacker, this);
+        getLogger().info("Entity Stacker " + (entityStacker.isEnabled() ? "enabled" : "disabled"));
         
         // Register tab completer
         Objects.requireNonNull(getCommand("hbzlag")).setTabCompleter(new LRTabCompleter());
@@ -149,6 +168,7 @@ public class LaggRemover extends JavaPlugin implements Listener {
         getLogger().info("§6HBZCleaner has been enabled! §7(Enhanced LaggRemover for Folia servers)");
     }
 
+    @Override
     public void onDisable() {
         // Folia compatible - cancel tasks for this plugin
         Bukkit.getAsyncScheduler().cancelTasks(this);
@@ -196,23 +216,149 @@ public class LaggRemover extends JavaPlugin implements Listener {
         }
     }
 
+    @Override
     public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
         Player player = sender instanceof Player ? (Player) sender : null;
         if (cmd.getName().equalsIgnoreCase("hbzlag")) {
+            // Handle direct command
             if (args.length == 0) {
-                Help.send(player, 1);
-                return true;
-            } else if (!LRCommand.onCommand(player, args)) {
-                for (Module m : loaded.keySet()) {
-                    if (m.onCommand(sender, label, args)) {
+                if (hasPermission(player, "hbzlag.help")) {
+                    Help.send(player, 1);
+                    return true;
+                } else {
+                    Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
+                    return true;
+                }
+            }
+            
+            // Help subcommand
+            if (args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("h")) {
+                if (hasPermission(player, "hbzlag.help")) {
+                    if (args.length == 2) {
+                        try {
+                            int page = Integer.parseInt(args[1]);
+                            if (Help.isValidPage(page)) {
+                                Help.send(player, page);
+                            } else {
+                                Help.sendMsg(player, "§cPage #" + page + " does not exist. Valid pages: 1-" + Help.getTotalPages(), true);
+                            }
+                        } catch (NumberFormatException ex) {
+                            Help.sendMsg(player, "§cPlease enter a valid page number.", true);
+                        }
                         return true;
                     }
+                    Help.send(player, 1);
+                    return true;
+                } else {
+                    Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
+                    return true;
                 }
-                Help.sendMsg(player, "§cCommand not found! Use /hbzlag help for a list of commands.", true);
-                return true;
-            } else {
-                return true;
             }
+            
+            // Handle stacker command
+            if (args[0].equalsIgnoreCase("stacker") || args[0].equalsIgnoreCase("stack")) {
+                if (hasPermission(player, "hbzlag.stacker")) {
+                    if (args.length < 2) {
+                        Help.sendMsg(player, "§cUsage: /hbzlag stacker [info|debug|reload|stack]", true);
+                        return true;
+                    }
+                    
+                    String subCommand = args[1].toLowerCase();
+                    
+                    if (entityStacker == null) {
+                        Help.sendMsg(player, "§cEntity Stacker is not enabled on this server.", true);
+                        return true;
+                    }
+                    
+                    switch (subCommand) {
+                        case "info":
+                            Help.sendMsg(player, "§6Entity Stacker Statistics:", true);
+                            Help.sendMsg(player, "§eEnabled: §a" + entityStacker.isEnabled(), false);
+                            Help.sendMsg(player, "§eStacked Items: §a" + entityStacker.getStackedItemsCount(), false);
+                            Help.sendMsg(player, "§eStacked Entities: §a" + entityStacker.getStackedEntitiesCount(), false);
+                            return true;
+                            
+                        case "debug":
+                            Help.sendMsg(player, entityStacker.getDebugInfo(), true);
+                            return true;
+                            
+                        case "reload":
+                            entityStacker.reloadConfig();
+                            Help.sendMsg(player, "§aEntity Stacker configuration reloaded!", true);
+                            return true;
+                            
+                        case "stack":
+                            if (player == null) {
+                                Help.sendMsg(player, "§cThis command can only be used by players.", true);
+                                return true;
+                            }
+                            
+                            int radius = 50; // Default radius
+                            if (args.length >= 3) {
+                                try {
+                                    radius = Integer.parseInt(args[2]);
+                                    if (radius <= 0 || radius > 200) {
+                                        Help.sendMsg(player, "§cRadius must be between 1 and 200.", true);
+                                        return true;
+                                    }
+                                } catch (NumberFormatException e) {
+                                    Help.sendMsg(player, "§cInvalid radius value. Please enter a number.", true);
+                                    return true;
+                                }
+                            }
+                            
+                            int stacksCreated = entityStacker.stackEntitiesInRadius(player.getLocation(), radius);
+                            Help.sendMsg(player, "§aSuccessfully stacked entities in a " + radius + " block radius. Created " + stacksCreated + " stacks.", true);
+                            return true;
+                            
+                        default:
+                            Help.sendMsg(player, "§cUnknown subcommand. Available options: info, debug, reload, stack", true);
+                            return true;
+                    }
+                } else {
+                    Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
+                    return true;
+                }
+            }
+            
+            // Handle reload command
+            else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
+                if (hasPermission(player, "hbzlag.reload")) {
+                    try {
+                        LRConfig.reload();
+                        Help.sendMsg(player, "§7[§6HBZCleaner§7] §a✓ Configuration reloaded successfully!", true);
+                        return true;
+                    } catch (Exception e) {
+                        Help.sendMsg(player, "§7[§6HBZCleaner§7] §c✗ Failed to reload configuration!", true);
+                        Help.sendMsg(player, "§7[§6HBZCleaner§7] §c" + e.getMessage(), false);
+                        getLogger().warning(() -> "Config reload failed: " + e.getMessage());
+                        return true;
+                    }
+                } else {
+                    Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
+                    return true;
+                }
+            }
+            
+            // Delegate remaining subcommands to LRCommand for backward-compatible functionality
+            try {
+                if (LRCommand.onCommand(player, args)) {
+                    return true;
+                }
+            } catch (Throwable t) {
+                getLogger().warning(() -> "Error executing command: " + t.getMessage());
+            }
+            
+            // If not handled, try modules
+            for (Module m : loaded.keySet()) {
+                if (m.onCommand(sender, label, args)) {
+                    return true;
+                }
+            }
+            
+            // Command not found
+            Help.sendMsg(player, "§cCommand not found! Use /hbzlag help for a list of commands.", true);
+            return true;
         }
         return true;
     }
@@ -230,23 +376,71 @@ public class LaggRemover extends JavaPlugin implements Listener {
     public void autoLagRemovalLoop() {
         // Use async scheduler for auto lag removal (Folia compatible)
         Bukkit.getAsyncScheduler().runDelayed(this, task -> {
+            // Log when automatic cleaning is being prepared
+            getLogger().info("Preparing for scheduled cleanup...");
+            
+            // To avoid duplicate messages, track which protocols have been reported
+            final java.util.Set<String> reportedProtocols = new java.util.HashSet<>();
+            
             for (LRProtocol p : LRConfig.periodic_protocols.keySet()) {
                 DoubleVar<Object[], Boolean> dat = LRConfig.periodic_protocols.get(p);
+                final String protocolId = p.id();
+                
                 if (dat.getVar2()) {
-                    Protocol.rund(p, dat.getVar1(), new DelayedLRProtocolResult() { // from class: drew6017.lr.main.LaggRemover.3.1
+                    Protocol.rund(p, dat.getVar1(), new DelayedLRProtocolResult() {
                         @Override
                         public void receive(LRProtocolResult result) {
+                            if (result != null && result.getData() != null && result.getData().length > 0) {
+                                // Only report each protocol once
+                                if (!reportedProtocols.contains(protocolId)) {
+                                    getLogger().info(String.format("Scheduled cleanup '%s' completed: %s entities affected", 
+                                        protocolId, result.getData()[0]));
+                                    reportedProtocols.add(protocolId);
+                                }
+                            }
                         }
                     });
                 } else {
-                    p.run(dat.getVar1());
+                    LRProtocolResult result = p.run(dat.getVar1());
+                    if (result != null && result.getData() != null && result.getData().length > 0) {
+                        // Only report each protocol once
+                        if (!reportedProtocols.contains(protocolId)) {
+                            getLogger().info(String.format("Scheduled cleanup '%s' completed: %s entities affected", 
+                                protocolId, result.getData()[0]));
+                            reportedProtocols.add(protocolId);
+                        }
+                    }
                 }
             }
+            
+            // Schedule the next run
             LaggRemover.this.autoLagRemovalLoop();
-        }, 1200L * LRConfig.autoLagRemovalTime * 50L, TimeUnit.MILLISECONDS); // Convert ticks to milliseconds
+        }, 1200L * LRConfig.autoLagRemovalTime * 50L, TimeUnit.MILLISECONDS); // Convert minutes to milliseconds
     }
     
     public static TownyIntegration getTownyIntegration() {
         return townyIntegration;
+    }
+    
+    /**
+     * Check if a player has a specific permission or the wildcard permission
+     * @param player The player to check
+     * @param permission The permission to check for
+     * @return true if the player has the permission or is an operator
+     */
+    public static boolean hasPermission(Player player, String permission) {
+        if (player == null) return true; // Console always has permission
+        
+        // Check for OP status (always has permission)
+        if (player.isOp()) return true;
+        
+        // Check for specific permission
+        if (player.hasPermission(permission)) return true;
+        
+        // Check for wildcard permission (hbzlag.*)
+        if (player.hasPermission("hbzlag.*")) return true;
+        
+        // Check for admin permission (redundant if we have hbzlag.* but kept for backward compatibility)
+        return player.hasPermission("hbzlag.admin");
     }
 }

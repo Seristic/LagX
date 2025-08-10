@@ -41,7 +41,9 @@ public class LRTabCompleter implements TabCompleter {
                 "preset", "presets",
                 "entities", "limiter",
                 "villagers", "optimize",
-                "towny", "town"
+                "towny", "town",
+                "stacker", "stack",
+                "reload", "rl"
             );
             
             return filterCompletions(commands, args[0]);
@@ -90,6 +92,10 @@ public class LRTabCompleter implements TabCompleter {
                 case "villagers":
                 case "optimize":
                     return handleVillagerCompletion(args);
+                    
+                case "stacker":
+                case "stack":
+                    return filterCompletions(Arrays.asList("info", "debug", "reload", "stack"), args[1]);
             }
         }
         

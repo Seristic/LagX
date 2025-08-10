@@ -3,7 +3,7 @@ version: "${version}"
 main: com.seristic.hbzcleaner.main.LaggRemover
 api-version: 1.20
 folia-supported: true
-author: HBZ (forked from LaggRemover)
+author: Seristic
 description: An enhanced lag prevention and cleanup plugin optimized for Folia servers
 softdepend: [Towny]
 
@@ -14,6 +14,32 @@ commands:
     aliases: [hlag]
 
 permissions:
+  hbzlag.*:
+    description: Grants all HBZCleaner permissions
+    default: op
+    children:
+      hbzlag.help: true
+      hbzlag.status: true
+      hbzlag.master: true
+      hbzlag.tps: true
+      hbzlag.world: true
+      hbzlag.clear: true
+      hbzlag.unload: true
+      hbzlag.gc: true
+      hbzlag.update: true
+      hbzlag.nochatdelay: true
+      hbzlag.modules: true
+      hbzlag.ram: true
+      hbzlag.protocol: true
+      hbzlag.ping: true
+      hbzlag.entities: true
+      hbzlag.villagers: true
+      hbzlag.towny: true
+      hbzlag.towny.bypass: true
+      hbzlag.reload: true
+      hbzlag.stacker: true
+      hbzlag.admin: true
+
   hbzlag.help:
     description: Gives access to the help command.
     default: op
@@ -65,13 +91,23 @@ permissions:
   hbzlag.towny:
     description: Allows access to Towny integration commands
     default: op
+  hbzlag.towny.bypass:
+    description: Allows bypassing Towny protection checks for entity cleanup
+    default: op
   hbzlag.reload:
     description: Allows reloading the plugin configuration without server restart
     default: op
+  hbzlag.stacker:
+    description: Allows access to entity stacker commands
+    default: op
+  hbzlag.admin:
+    description: Designates a user as an admin for HBZCleaner
+    default: op
+
   # HBZCleaner Enhanced Features
   hbz.status:
     description: Allows access to HBZ status command
-    default: true
+    default: op
   hbz.monitor:
     description: Allows access to HBZ monitor command
     default: op
