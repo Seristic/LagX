@@ -1,0 +1,35 @@
+# LagX Configuration Backup
+# This file contains removed configuration options that may be re-implemented in future versions
+# Saved during v0.6.1 config cleanup on 2025-09-20
+
+# ======================================
+# UNCLEAR/LIMITED IMPLEMENTATION (BACKUP)
+# ======================================
+# These were removed from main config due to unclear or limited implementation
+
+# This determines if the Smart Lag Detection AI is working to keep your server lag free. (10)
+# STATUS: Loaded in config but usage unclear - needs investigation
+smartlagai: true
+
+# This prevents the LagX AI from repeatedly attempting to reduce lag if the server grows beyond repair. This
+# should rarely happen, but if it does, this will prevent LagX from adding to the problem. Time in minutes.
+# STATUS: Used once in Events.java for cooldown timing - limited implementation
+smartaicooldown: 3
+
+# ======================================
+# IMPLEMENTATION STATUS NOTES
+# ======================================
+
+# FULLY IMPLEMENTED (kept in main config):
+# - TPS: 16.00 - Used for automatic TPS-based protocol triggers ✅
+# - RAM: 100 - Used for automatic RAM-based protocol triggers ✅
+# - All player-triggered lag management settings ✅
+
+# UNCLEAR IMPLEMENTATION (backed up here):
+# - smartlagai: Loaded but unclear how it's used
+# - smartaicooldown: Only used once for timing
+
+# The TPS and RAM thresholds work with the lag_protocols section:
+# - When available RAM < RAM threshold → triggers low_ram protocols
+# - When TPS < TPS threshold → triggers low_tps protocols
+# - This is a working feature and should stay in main config

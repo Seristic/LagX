@@ -170,17 +170,11 @@ nosaveworlds:
 # SMART LAG DETECTION
 # ======================================
 
-# This determines if the Smart Lag Detection AI is working to keep your server lag free. (10)
-smartlagai: true
-
-# This prevents the LagX AI from repeatedly attempting to reduce lag if the server grows beyond repair. This
-# should rarely happen, but if it does, this will prevent LagX from adding to the problem. Time in minutes.
-smartaicooldown: 3
-
-# Smart lag detection. If a player types "lag" or "lagg" in the chat and your server TPS is less than this number, the servers lag removal AI will become active. (10)
+# Smart lag detection thresholds for automatic protocol execution
+# If a player types "lag" or "lagg" in chat and server TPS is below this value, lag removal protocols will activate
 TPS: 16.00
 
-# Smart lag detection. If a player types "lag" or "lagg" in the chat and your server has less than this amount of ram left, the servers lag removal AI will become active. UNIT IN MEGABYTES (10)
+# If server available RAM drops below this amount (in MB), RAM-based cleanup protocols will activate
 RAM: 100
 
 # ======================================
