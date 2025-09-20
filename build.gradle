@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 java {
@@ -9,7 +10,7 @@ java {
 }
 
 group = 'com.seristic'
-version = '0.6.2'
+version = '0.7.0'
 archivesBaseName = 'LagX'
 
 repositories {
@@ -31,6 +32,14 @@ repositories {
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT"
     compileOnly "com.palmergames.bukkit.towny:towny:0.100.0.0"
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'org.mockito:mockito-core:5.8.0'
+    testImplementation "io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT"
+    testImplementation "com.palmergames.bukkit.towny:towny:0.100.0.0"
+}
+
+test {
+    useJUnitPlatform()
 }
 
 def targetJavaVersion = 21
@@ -49,3 +58,10 @@ processResources {
         expand props
     }
 }
+
+tasks.register('relocatedJar', com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    // No relocation needed after full in-source migration
+    enabled = false
+}
+
+// Build default jar; relocation task disabled
