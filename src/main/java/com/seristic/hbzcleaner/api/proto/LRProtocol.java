@@ -3,15 +3,15 @@ package com.seristic.hbzcleaner.api.proto;
 import com.seristic.hbzcleaner.api.aparser.ProtoParse;
 
 public interface LRProtocol {
-    void init();
+   void init();
 
-    String id();
+   String id();
 
-    String help();
+   String help();
 
-    ProtocolCategory[] category();
+   ProtocolCategory[] category();
 
-    LRProtocolResult run(Object[] objects);
+   LRProtocolResult run(Object[] var1);
 
-    ProtoParse getProtocolParser();
+   ProtoParse getProtocolParser();
 }

@@ -1,81 +1,80 @@
 package com.seristic.hbzcleaner.util;
 
-import com.seristic.hbzcleaner.main.LaggRemover;
+import com.seristic.hbzcleaner.main.HBZCleaner;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import org.bukkit.Bukkit;
 
-/* loaded from: LaggRemover-2.0.6.jar:drew6017/lr/util/Counter.class */
 public abstract class Counter {
-    private long on;
-    private final long secondsDelay;
-    private HashMap<Long, CountAction> actions = new HashMap<>();
-    private boolean started = false;
+   private long on;
+   private final long secondsDelay;
+   private HashMap<Long, Counter.CountAction> actions = new HashMap<>();
+   private boolean started = false;
 
-    public abstract void onFinish();
+   public abstract void onFinish();
 
-    public Counter(long secondsDelay) {
-        this.secondsDelay = secondsDelay;
-        this.on = secondsDelay;
-    }
+   public Counter(long secondsDelay) {
+      this.secondsDelay = secondsDelay;
+      this.on = secondsDelay;
+   }
 
-    public boolean start() {
-        if (!this.started) {
-            this.started = true;
-            one();
-        }
-        return this.started;
-    }
+   public boolean start() {
+      if (!this.started) {
+         this.started = true;
+         this.one();
+      }
 
-    public void reset() {
-        this.on = this.secondsDelay;
-        this.started = false;
-    }
+      return this.started;
+   }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public void one() {
-        if (this.actions.containsKey(this.on)) {
-            this.actions.get(this.on).onTrigger();
-        }
-        // Use async scheduler for counter (Folia compatible)
-        Bukkit.getAsyncScheduler().runDelayed(LaggRemover.getInstance(), task -> {
-            if (Counter.this.started) {
-                Counter.this.on -= 1;
-                if (Counter.this.on > 0) {
-                    Counter.this.one();
-                    return;
-                }
-                Counter.this.reset();
-                Counter.this.onFinish();
+   public void reset() {
+      this.on = this.secondsDelay;
+      this.started = false;
+   }
+
+   public void one() {
+      if (this.actions.containsKey(this.on)) {
+         this.actions.get(this.on).onTrigger();
+      }
+
+      Bukkit.getAsyncScheduler().runDelayed(HBZCleaner.getInstance(), task -> {
+         if (this.started) {
+            this.on--;
+            if (this.on > 0L) {
+               this.one();
+               return;
             }
-        }, this.secondsDelay * 50L, TimeUnit.MILLISECONDS); // Convert ticks to milliseconds
-    }
 
-    public Counter addAction(CountAction a) {
-        this.actions.put(a.getTrigger(), a);
-        return this;
-    }
+            this.reset();
+            this.onFinish();
+         }
+      }, this.secondsDelay * 50L, TimeUnit.MILLISECONDS);
+   }
 
-    public void setActions(HashMap<Long, CountAction> actions) {
-        this.actions = actions;
-    }
+   public Counter addAction(Counter.CountAction a) {
+      this.actions.put(a.getTrigger(), a);
+      return this;
+   }
 
-    public boolean isActive() {
-        return this.started;
-    }
+   public void setActions(HashMap<Long, Counter.CountAction> actions) {
+      this.actions = actions;
+   }
 
-    /* loaded from: LaggRemover-2.0.6.jar:drew6017/lr/util/Counter$CountAction.class */
-    public static abstract class CountAction {
-        private final long trigger;
+   public boolean isActive() {
+      return this.started;
+   }
 
-        public abstract void onTrigger();
+   public abstract static class CountAction {
+      private final long trigger;
 
-        public CountAction(long trigger) {
-            this.trigger = trigger;
-        }
+      public abstract void onTrigger();
 
-        public long getTrigger() {
-            return this.trigger;
-        }
-    }
+      public CountAction(long trigger) {
+         this.trigger = trigger;
+      }
+
+      public long getTrigger() {
+         return this.trigger;
+      }
+   }
 }

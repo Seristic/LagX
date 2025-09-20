@@ -1,10 +1,10 @@
 package com.seristic.hbzcleaner.util;
 
+import com.seristic.hbzcleaner.main.HBZCleaner;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -13,319 +13,281 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import com.seristic.hbzcleaner.main.LaggRemover;
-
-/**
- * Integration with Towny plugin using reflection to avoid hard dependencies
- */
 public class TownyIntegration {
-    
-    private final LaggRemover plugin;
-    private boolean townyEnabled = false;
-    
-    // Reflection cached objects
-    private Class<?> townyAPIClass;
-    private Object townyAPIInstance;
-    private Method isWildernessMethod;
-    private Method getTownMethod;
-    private Method getResidentMethod;
-    private Method hasTownMethod;
-    private Method getTownByResidentMethod;
-    private Method isMayorMethod;
-    private Method getNameMethod;
-    private Method getTownBlockMethod;
-    private Method hasResidentMethod;
-    private Method getResidentFromTownBlockMethod;
-    
-    // Materials that are allowed to be cleared in towns (junk blocks/items)
-    private static final Set<Material> ALLOWED_JUNK_MATERIALS = new HashSet<>(Arrays.asList(
-        // Common junk blocks
-        Material.COBBLESTONE,
-        Material.DEEPSLATE,
-        Material.DIORITE,
-        Material.ANDESITE,
-        Material.GRANITE,
-        Material.STONE,
-        Material.DIRT,
-        Material.GRAVEL,
-        Material.SAND,
-        Material.RED_SAND,
-        Material.NETHERRACK,
-        Material.BLACKSTONE,
-        Material.BASALT,
-        Material.TUFF,
-        Material.CALCITE,
-        // Common junk items people drop
-        Material.COBBLED_DEEPSLATE,
-        Material.POLISHED_BLACKSTONE,
-        Material.SMOOTH_BASALT,
-        Material.ROTTEN_FLESH,
-        Material.BONE,
-        Material.STRING,
-        Material.SPIDER_EYE,
-        Material.GUNPOWDER,
-        Material.POISONOUS_POTATO,
-        Material.KELP,
-        Material.SEAGRASS,
-        Material.BAMBOO,
-        Material.WHEAT_SEEDS,
-        Material.BEETROOT_SEEDS,
-        Material.MELON_SEEDS,
-        Material.PUMPKIN_SEEDS,
-        // Mob drops that accumulate
-        Material.LEATHER,
-        Material.FEATHER,
-        Material.EGG,
-        Material.MUTTON,
-        Material.BEEF,
-        Material.PORKCHOP,
-        Material.CHICKEN,
-        Material.RABBIT,
-        Material.COD,
-        Material.SALMON,
-        Material.TROPICAL_FISH,
-        Material.PUFFERFISH
-    ));
-    
-    public TownyIntegration(LaggRemover plugin) {
-        this.plugin = plugin;
-        try {
-            initTownyReflection();
-        } catch (Throwable t) {
-            // Catch any error including NoClassDefFoundError
-            townyEnabled = false;
-            plugin.getLogger().warning("Failed to initialize Towny integration: " + t.getMessage());
-        }
-    }
-    
-    /**
-     * Initialize reflection for Towny classes
-     */
-    private void initTownyReflection() {
-        // First check if Towny plugin exists
-        Plugin townyPlugin = plugin.getServer().getPluginManager().getPlugin("Towny");
-        if (townyPlugin == null || !townyPlugin.isEnabled()) {
-            townyEnabled = false;
-            plugin.getLogger().info("Towny not found - town protection features disabled");
-            return;
-        }
-        
-        try {
-            // Get TownyAPI class and instance
-            townyAPIClass = Class.forName("com.palmergames.bukkit.towny.TownyAPI");
-            Method getInstance = townyAPIClass.getMethod("getInstance");
-            townyAPIInstance = getInstance.invoke(null);
-            
-            // Get isWilderness method
-            isWildernessMethod = townyAPIClass.getMethod("isWilderness", Location.class);
-            
-            // Get getTown method
-            getTownMethod = townyAPIClass.getMethod("getTown", Location.class);
-            
-            // Get getResident method
-            getResidentMethod = townyAPIClass.getMethod("getResident", Player.class);
-            
-            // Get other necessary methods
+   private final HBZCleaner plugin;
+   private boolean townyEnabled = false;
+   private Class<?> townyAPIClass;
+   private Object townyAPIInstance;
+   private Method isWildernessMethod;
+   private Method getTownMethod;
+   private Method getResidentMethod;
+   private Method hasTownMethod;
+   private Method getTownByResidentMethod;
+   private Method isMayorMethod;
+   private Method getNameMethod;
+   private Method getTownBlockMethod;
+   private Method hasResidentMethod;
+   private Method getResidentFromTownBlockMethod;
+   private static final Set<Material> ALLOWED_JUNK_MATERIALS = new HashSet<>(
+      Arrays.asList(
+         Material.COBBLESTONE,
+         Material.DEEPSLATE,
+         Material.DIORITE,
+         Material.ANDESITE,
+         Material.GRANITE,
+         Material.STONE,
+         Material.DIRT,
+         Material.GRAVEL,
+         Material.SAND,
+         Material.RED_SAND,
+         Material.NETHERRACK,
+         Material.BLACKSTONE,
+         Material.BASALT,
+         Material.TUFF,
+         Material.CALCITE,
+         Material.COBBLED_DEEPSLATE,
+         Material.POLISHED_BLACKSTONE,
+         Material.SMOOTH_BASALT,
+         Material.ROTTEN_FLESH,
+         Material.BONE,
+         Material.STRING,
+         Material.SPIDER_EYE,
+         Material.GUNPOWDER,
+         Material.POISONOUS_POTATO,
+         Material.KELP,
+         Material.SEAGRASS,
+         Material.BAMBOO,
+         Material.WHEAT_SEEDS,
+         Material.BEETROOT_SEEDS,
+         Material.MELON_SEEDS,
+         Material.PUMPKIN_SEEDS,
+         Material.LEATHER,
+         Material.FEATHER,
+         Material.EGG,
+         Material.MUTTON,
+         Material.BEEF,
+         Material.PORKCHOP,
+         Material.CHICKEN,
+         Material.RABBIT,
+         Material.COD,
+         Material.SALMON,
+         Material.TROPICAL_FISH,
+         Material.PUFFERFISH
+      )
+   );
+
+   public TownyIntegration(HBZCleaner plugin) {
+      this.plugin = plugin;
+
+      try {
+         this.initTownyReflection();
+      } catch (Throwable var3) {
+         this.townyEnabled = false;
+         plugin.getLogger().warning("Failed to initialize Towny integration: " + var3.getMessage());
+      }
+   }
+
+   private void initTownyReflection() {
+      Plugin townyPlugin = this.plugin.getServer().getPluginManager().getPlugin("Towny");
+      if (townyPlugin != null && townyPlugin.isEnabled()) {
+         try {
+            this.townyAPIClass = Class.forName("com.palmergames.bukkit.towny.TownyAPI");
+            Method getInstance = this.townyAPIClass.getMethod("getInstance");
+            this.townyAPIInstance = getInstance.invoke(null);
+            this.isWildernessMethod = this.townyAPIClass.getMethod("isWilderness", Location.class);
+            this.getTownMethod = this.townyAPIClass.getMethod("getTown", Location.class);
+            this.getResidentMethod = this.townyAPIClass.getMethod("getResident", Player.class);
             Class<?> residentClass = Class.forName("com.palmergames.bukkit.towny.object.Resident");
-            hasTownMethod = residentClass.getMethod("hasTown");
-            getTownByResidentMethod = residentClass.getMethod("getTown");
-            
+            this.hasTownMethod = residentClass.getMethod("hasTown");
+            this.getTownByResidentMethod = residentClass.getMethod("getTown");
             Class<?> townClass = Class.forName("com.palmergames.bukkit.towny.object.Town");
-            isMayorMethod = townClass.getMethod("isMayor", residentClass);
-            getNameMethod = townClass.getMethod("getName");
-            
-            // TownBlock methods
-            getTownBlockMethod = townyAPIClass.getMethod("getTownBlock", Location.class);
+            this.isMayorMethod = townClass.getMethod("isMayor", residentClass);
+            this.getNameMethod = townClass.getMethod("getName");
+            this.getTownBlockMethod = this.townyAPIClass.getMethod("getTownBlock", Location.class);
             Class<?> townBlockClass = Class.forName("com.palmergames.bukkit.towny.object.TownBlock");
-            hasResidentMethod = townBlockClass.getMethod("hasResident");
-            getResidentFromTownBlockMethod = townBlockClass.getMethod("getResident");
-            
-            townyEnabled = true;
-            plugin.getLogger().info("Towny integration enabled - using reflection for compatibility");
-            
-        } catch (Exception e) {
-            townyEnabled = false;
-            plugin.getLogger().warning("Failed to initialize Towny integration: " + e.getMessage());
-            plugin.getLogger().warning("Town protection features will be disabled");
-        }
-    }
-    
-    /**
-     * Checks if Towny integration is enabled
-     */
-    public boolean isTownyEnabled() {
-        return townyEnabled;
-    }
-    
-    /**
-     * Check if a location is in wilderness (not in any town)
-     */
-    private boolean isWilderness(Location location) {
-        if (!townyEnabled) return true;
-        
-        try {
-            return (boolean) isWildernessMethod.invoke(townyAPIInstance, location);
-        } catch (Exception e) {
-            return true; // Default to wilderness on error
-        }
-    }
-    
-    /**
-     * Check if an entity should be protected from clearing based on Towny rules
-     * In towns: Only allow clearing of whitelisted junk items/materials
-     * In wilderness: Allow clearing of everything (except players)
-     */
-    public boolean isEntityProtected(Entity entity) {
-        if (!townyEnabled || entity instanceof Player) {
+            this.hasResidentMethod = townBlockClass.getMethod("hasResident");
+            this.getResidentFromTownBlockMethod = townBlockClass.getMethod("getResident");
+            this.townyEnabled = true;
+            this.plugin.getLogger().info("Towny integration enabled - using reflection for compatibility");
+         } catch (Exception var6) {
+            this.townyEnabled = false;
+            this.plugin.getLogger().warning("Failed to initialize Towny integration: " + var6.getMessage());
+            this.plugin.getLogger().warning("Town protection features will be disabled");
+         }
+      } else {
+         this.townyEnabled = false;
+         this.plugin.getLogger().info("Towny not found - town protection features disabled");
+      }
+   }
+
+   public boolean isTownyEnabled() {
+      return this.townyEnabled;
+   }
+
+   private boolean isWilderness(Location location) {
+      if (!this.townyEnabled) {
+         return true;
+      } else {
+         try {
+            return (Boolean)this.isWildernessMethod.invoke(this.townyAPIInstance, location);
+         } catch (Exception var3) {
+            return true;
+         }
+      }
+   }
+
+   public boolean isEntityProtected(Entity entity) {
+      if (this.townyEnabled && !(entity instanceof Player)) {
+         Location loc = entity.getLocation();
+
+         try {
+            if (this.isWilderness(loc)) {
+               return false;
+            } else if (entity instanceof Item item) {
+               Material itemMaterial = item.getItemStack().getType();
+               return !ALLOWED_JUNK_MATERIALS.contains(itemMaterial);
+            } else {
+               return !(entity instanceof Monster);
+            }
+         } catch (Exception var5) {
+            this.plugin.getLogger().warning("Error checking Towny protection for entity: " + var5.getMessage());
+            return true;
+         }
+      } else {
+         return false;
+      }
+   }
+
+   public boolean isInTown(Location location) {
+      return !this.townyEnabled ? false : !this.isWilderness(location);
+   }
+
+   public String getTownName(Location location) {
+      if (!this.townyEnabled) {
+         return null;
+      } else {
+         try {
+            if (!this.isWilderness(location)) {
+               Object town = this.getTownMethod.invoke(this.townyAPIInstance, location);
+               if (town != null) {
+                  return (String)this.getNameMethod.invoke(town);
+               }
+            }
+         } catch (Exception var3) {
+         }
+
+         return null;
+      }
+   }
+
+   public boolean canPlayerClearInTown(Player player, Location location) {
+      if (!this.townyEnabled) {
+         return true;
+      } else {
+         try {
+            if (this.isWilderness(location)) {
+               return true;
+            } else if (HBZCleaner.hasPermission(player, "hbzcleaner.towny.bypass")) {
+               return true;
+            } else {
+               Object town = this.getTownMethod.invoke(this.townyAPIInstance, location);
+               if (town == null) {
+                  return true;
+               } else {
+                  Object resident = this.getResidentMethod.invoke(this.townyAPIInstance, player);
+                  if (resident != null && (Boolean)this.hasTownMethod.invoke(resident)) {
+                     try {
+                        Object residentTown = this.getTownByResidentMethod.invoke(resident);
+                        if (residentTown.equals(town)) {
+                           return true;
+                        }
+
+                        if ((Boolean)this.isMayorMethod.invoke(town, resident)) {
+                           return true;
+                        }
+                     } catch (Exception var6) {
+                     }
+                  }
+
+                  return false;
+               }
+            }
+         } catch (Exception var7) {
+            this.plugin.getLogger().warning("Error checking Towny permissions: " + var7.getMessage());
             return false;
-        }
-        
-        Location loc = entity.getLocation();
-        
-        try {
-            // Check if location is in wilderness (not in any town)
-            if (isWilderness(loc)) {
-                return false; // Not in a town, no protection - allow all clearing
+         }
+      }
+   }
+
+   public String getProtectionInfo(Location location) {
+      if (!this.townyEnabled) {
+         return "§7No town protection (Towny not enabled)";
+      } else {
+         try {
+            if (this.isWilderness(location)) {
+               return "§7Wilderness - no protection";
+            } else {
+               Object town = this.getTownMethod.invoke(this.townyAPIInstance, location);
+               if (town == null) {
+                  return "§7Unknown area";
+               } else {
+                  StringBuilder info = new StringBuilder();
+                  info.append("§6Town: §e").append(this.getNameMethod.invoke(town));
+                  Object townBlock = this.getTownBlockMethod.invoke(this.townyAPIInstance, location);
+                  if (townBlock != null && (Boolean)this.hasResidentMethod.invoke(townBlock)) {
+                     try {
+                        Object blockResident = this.getResidentFromTownBlockMethod.invoke(townBlock);
+                        info.append(" §7(Plot: §e").append(this.getNameMethod.invoke(blockResident)).append("§7)");
+                     } catch (Exception var6) {
+                        info.append(" §7(Claimed plot)");
+                     }
+                  }
+
+                  return info.toString();
+               }
             }
-            
-            // We're in a town - only allow clearing of junk materials
-            if (entity instanceof Item) {
-                Item item = (Item) entity;
-                Material itemMaterial = item.getItemStack().getType();
-                
-                // Allow clearing only if it's a junk material
-                return !ALLOWED_JUNK_MATERIALS.contains(itemMaterial);
-            }
-            
-            // For non-item entities in towns, protect everything except junk mobs
-            if (entity instanceof Monster) {
-                // Allow clearing hostile mobs (zombies, skeletons, etc.) in towns
-                return false;
-            }
-            
-            // Protect all other living entities in towns (villagers, animals, pets, etc.)
-            return true;
-            
-        } catch (Exception e) {
-            // If there's any error with Towny API, err on the side of caution
-            plugin.getLogger().warning("Error checking Towny protection for entity: " + e.getMessage());
-            return true;
-        }
-    }
-    
-    /**
-     * Check if a location is within a town
-     */
-    public boolean isInTown(Location location) {
-        if (!townyEnabled) return false;
-        return !isWilderness(location);
-    }
-    
-    /**
-     * Get town name at location (null if not in town)
-     */
-    public String getTownName(Location location) {
-        if (!townyEnabled) return null;
-        
-        try {
-            if (!isWilderness(location)) {
-                Object town = getTownMethod.invoke(townyAPIInstance, location);
-                if (town != null) {
-                    return (String) getNameMethod.invoke(town);
-                }
-            }
-        } catch (Exception e) {
-            // Ignore errors
-        }
-        
-        return null;
-    }
-    
-    /**
-     * Check if player has permission to clear entities in a town
-     */
-    public boolean canPlayerClearInTown(Player player, Location location) {
-        if (!townyEnabled) return true;
-        
-        try {
-            // Always allow in wilderness
-            if (isWilderness(location)) {
-                return true;
-            }
-            
-            // Server operators and players with bypass permission can always clear
-            if (com.seristic.hbzcleaner.main.LaggRemover.hasPermission(player, "hbzlag.towny.bypass")) {
-                return true;
-            }
-            
-            // Get town at location
-            Object town = getTownMethod.invoke(townyAPIInstance, location);
-            if (town == null) {
-                return true;
-            }
-            
-            // Check if player is a resident of the town
-            Object resident = getResidentMethod.invoke(townyAPIInstance, player);
-            if (resident != null && (boolean)hasTownMethod.invoke(resident)) {
-                try {
-                    // Check if resident is in this town
-                    Object residentTown = getTownByResidentMethod.invoke(resident);
-                    if (residentTown.equals(town)) {
-                        return true; // Resident of the town
-                    }
-                    
-                    // Check if player is mayor
-                    if ((boolean)isMayorMethod.invoke(town, resident)) {
-                        return true;
-                    }
-                } catch (Exception e) {
-                    // Exception checking resident status
-                }
-            }
-            
-            return false; // Not authorized to clear in this town
-            
-        } catch (Exception e) {
-            plugin.getLogger().warning("Error checking Towny permissions: " + e.getMessage());
-            return false; // Err on the side of caution
-        }
-    }
-    
-    /**
-     * Get protection summary for a location
-     */
-    public String getProtectionInfo(Location location) {
-        if (!townyEnabled) {
-            return "§7No town protection (Towny not enabled)";
-        }
-        
-        try {
-            if (isWilderness(location)) {
-                return "§7Wilderness - no protection";
-            }
-            
-            Object town = getTownMethod.invoke(townyAPIInstance, location);
-            if (town == null) {
-                return "§7Unknown area";
-            }
-            
-            StringBuilder info = new StringBuilder();
-            info.append("§6Town: §e").append(getNameMethod.invoke(town));
-            
-            Object townBlock = getTownBlockMethod.invoke(townyAPIInstance, location);
-            if (townBlock != null && (boolean)hasResidentMethod.invoke(townBlock)) {
-                try {
-                    Object blockResident = getResidentFromTownBlockMethod.invoke(townBlock);
-                    info.append(" §7(Plot: §e").append(getNameMethod.invoke(blockResident)).append("§7)");
-                } catch (Exception e) {
-                    info.append(" §7(Claimed plot)");
-                }
-            }
-            
-            return info.toString();
-            
-        } catch (Exception e) {
-            return "§cError checking town info: " + e.getMessage();
-        }
-    }
+         } catch (Exception var7) {
+            return "§cError checking town info: " + var7.getMessage();
+         }
+      }
+   }
+
+   public boolean isEnabled() {
+      return this.townyEnabled;
+   }
+
+   public String getVersion() {
+      if (!this.townyEnabled) {
+         return "Not installed";
+      } else {
+         Plugin townyPlugin = this.plugin.getServer().getPluginManager().getPlugin("Towny");
+         return townyPlugin == null ? "Not installed" : townyPlugin.getDescription().getVersion();
+      }
+   }
+
+   public String getTownAtLocation(Location location) {
+      if (!this.townyEnabled) {
+         return null;
+      } else {
+         try {
+            Object townObj = this.getTownMethod.invoke(this.townyAPIInstance, location);
+            return townObj == null ? null : (String)this.getNameMethod.invoke(townObj);
+         } catch (Exception var3) {
+            return null;
+         }
+      }
+   }
+
+   public boolean isLocationProtected(Location location) {
+      if (!this.townyEnabled) {
+         return false;
+      } else {
+         try {
+            Boolean isWild = (Boolean)this.isWildernessMethod.invoke(this.townyAPIInstance, location);
+            return !isWild;
+         } catch (Exception var3) {
+            return false;
+         }
+      }
+   }
 }
