@@ -15,7 +15,6 @@ smartlagai: true
 # should rarely happen, but if it does, this will prevent LagX from adding to the problem. Time in minutes.
 # STATUS: Used once in Events.java for cooldown timing - limited implementation
 smartaicooldown: 3
-
 # ======================================
 # IMPLEMENTATION STATUS NOTES
 # ======================================

@@ -288,7 +288,7 @@ villager_optimization:
 # PLAYER-TRIGGERED LAG MANAGEMENT
 # ======================================
 
-# Allows the LagX AI (Artificial Intelligence) to perform action to lower the amount of packets being sent to just the player that typed lag. (10)
+# Enable player-triggered lag relief system - when a player types "lag" in chat, removes entities around them to improve performance (10)
 doRelativeAction: true
 
 # When enabled, only allows the removal of items for relative lag removal for players.
@@ -297,14 +297,14 @@ doOnlyItemsForRelative: false
 # This prevents non-hostile mobs from being removed by the relative lag removal system. THIS HAS TO BE DISABLED TO USE doOnlyItemsForRelative
 dontDoFriendlyMobsForRelative: true
 
-# When the LagX AI detects a player is lagging. It will attempt to remove lag relative to player before looking at the whole server.
-# This defines the max radius in blocks the LagX AI can remove entities specified above. Radius in blocks.
+# When a player types "lag" in chat, the system will remove entities around them before looking at the whole server.
+# This defines the max radius in blocks where entities can be removed. Radius in blocks.
 localLagRadius: 10
 
 # Defines what percent of the entities in the "localLagRadius" are removed.
 localThinPercent: 80
 
-# How often the LagX AI can remove lag for a person (in seconds). This is to prevent players from tricking the AI into repeatedly clearing mobs or purging memory.
+# How often the lag relief system can activate for a person (in seconds). This prevents players from spamming the system.
 localLagRemovalCooldown: 60
 
 # Makes local lag removal only be triggered if the amount of entities in the 'localLagRadius' is greater than this

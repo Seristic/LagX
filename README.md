@@ -1,11 +1,11 @@
-# HBZCleaner (LagX)
+# LagX
 
 [![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://www.oracle.com/java/)
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.20.6+-green.svg)](https://papermc.io/)
 [![Paper](https://img.shields.io/badge/Paper-Supported-blue.svg)](https://papermc.io/)
 [![Folia](https://img.shields.io/badge/Folia-Compatible-purple.svg)](https://papermc.io/software/folia)
 
-LagX is a comprehensive server optimization plugin designed for modern Minecraft servers running Paper and Folia. It provides advanced lag prevention, entity management, performance monitoring, and server optimization tools with an intuitive admin interface. Use `/lagx` as the primary command (legacy aliases like `/hbzcleaner` remain available).
+LagX is a comprehensive server optimization plugin designed for modern Minecraft servers running Paper and Folia. It provides advanced lag prevention, entity management, performance monitoring, and server optimization tools with an intuitive admin interface. Use `/lagx` as the primary command.
 
 ## 🚀 Features
 
@@ -59,7 +59,7 @@ LagX is a comprehensive server optimization plugin designed for modern Minecraft
 
 ### Core Commands
 
-All commands use the `/lagx` prefix with the following permissions (legacy `/hbzcleaner` also works):
+All commands use the `/lagx` prefix with the following permissions:
 
 | Command             | Permission          | Description                             |
 | ------------------- | ------------------- | --------------------------------------- |
@@ -91,7 +91,7 @@ All commands use the `/lagx` prefix with the following permissions (legacy `/hbz
 ### Permission Wildcards
 
 - `lagx.*` - All permissions
-- `lagx.admin` - All admin permissions (legacy)
+- `lagx.admin` - All admin permissions
 
 ## ⚙️ Configuration
 
@@ -232,8 +232,8 @@ If you prefer GitHub Wiki, copy these files into the repo's Wiki or set up a syn
 ### Configuration Problems
 
 1. **Syntax errors**: Check YAML indentation and formatting
-2. **Reload failed**: Use `/hbzlag reload` and check console for errors
-3. **Permissions**: Ensure `hbzlag.*` or specific permissions are granted
+2. **Reload failed**: Use `/lagx reload` and check console for errors
+3. **Permissions**: Ensure `lagx.*` or specific permissions are granted
 4. **Plugin conflicts**: Check for conflicts with other entity plugins
 
 ## 📊 Performance Impact

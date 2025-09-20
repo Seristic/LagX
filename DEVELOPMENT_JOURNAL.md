@@ -81,20 +81,25 @@ ai:
 ---
 
 ## Config Cleanup Status (v0.6.1)
+
 **Date**: 2025-09-20  
-**Status**: Complete  
+**Status**: Complete
 
 ### What Was Removed:
+
 - `smartlagai` - Config loaded but usage unclear → Backed up to CONFIG_BACKUP.yml
 - `smartaicooldown` - Limited implementation → Backed up to CONFIG_BACKUP.yml
 
 ### What Was Kept (Fully Working):
+
 - ✅ **TPS/RAM Thresholds** (`TPS: 16.00`, `RAM: 100`) - Used for automatic protocol triggers
 - ✅ **All Player-Triggered Lag Management** - Complete implementation in Events.java
 - ✅ **Chat delay system** - Works with `lagx.nochatdelay` permission
 
 ### Implementation Verification:
+
 All player-triggered lag management features are **fully implemented**:
+
 - `doRelativeAction`, `localLagRadius`, `localThinPercent`, `localLagRemovalCooldown`
 - `localLagTriggered`, `doOnlyItemsForRelative`, `dontDoFriendlyMobsForRelative`
 - `chatDelay` with permission-based exemptions
