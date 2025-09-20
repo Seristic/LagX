@@ -5,11 +5,13 @@ File: `plugins/HBZCleaner/config.yml`
 Key sections:
 
 ## Plugin prefix and general
+
 - `prefix`: Chat prefix for plugin messages (default `&6&lLagX &7&l>>&r `)
 - `splashScreen`: Show startup splash
 - `auto-update`: Auto-check and install updates
 
 ## Stacker
+
 - `stacker.enabled`: Toggle entity/item stacking
 - `stacker.debug`: Stack debug logs
 - `stacker.max_stack_size.items|mobs|spawners`: Caps per stack type
@@ -23,14 +25,17 @@ Key sections:
 - `stacker.stackable_items`: Whitelist of stackable item materials
 
 ## Item frame optimization
+
 - `item_frame_optimization.enabled|debug`: Exclude frames from limits
 
 ## Player death protection
+
 - `player_death_protection.enabled` — Protect items after death
 - `player_death_protection.radius` — Radius to protect
 - `player_death_protection.duration_seconds` — Time protected
 
 ## Automatic cleanup
+
 - `auto-lag-removal.run` — Enable periodic cleanup
 - `auto-lag-removal.every` — Minutes between runs
 - `lag_protocols.low_ram` — Protocols to run on low RAM
@@ -38,16 +43,19 @@ Key sections:
 - `lag_protocols.periodically` — Protocols to run on schedule
 
 ## Protocol warnings
+
 - `protocol_warnings.enabled` — Master toggle
 - `protocol_warnings.cc_items.time|stages` — Warning timing/messages
 - `protocol_warnings.cc_entities.time|stages` — Warning timing/messages
 
 ## Chunk management
+
 - `autoChunk` — Unload chunks in empty worlds
 - `noSpawnChunks` — Remove spawn chunks
 - `nosaveworlds` — Worlds to skip auto-save
 
 ## Lag detection & AI
+
 - `ai.*` — Advanced AI prediction system (experimental)
 - `smartlagai` — Smart lag detection toggle
 - `smartaicooldown` — Cooldown between AI actions (minutes)
@@ -55,6 +63,7 @@ Key sections:
 - `RAM` — Trigger RAM remaining for chat-triggered AI (MB)
 
 ## Entity limiter
+
 - `thinMobs` — Cancel spawns when a chunk exceeds `thinAt`
 - `thinAt` — Max entities per chunk before canceling spawns
 - `entity_limiter.enabled` — Toggle limiter
@@ -66,6 +75,7 @@ Key sections:
 - `entity_limiter.chunk_buffer|world_buffer` — Target below-limit buffers
 
 ## Villager optimization
+
 - `villager_optimization.enabled` — Toggle
 - `villager_optimization.ai_tick_reduction` — Lower AI tick frequency
 - `villager_optimization.villagers_per_chunk_threshold` — Threshold for optimizations
@@ -76,6 +86,7 @@ Key sections:
 - `villager_optimization.optimize_sleep_behavior` — Sleep AI tweaks
 
 ## Player-triggered lag management
+
 - `doRelativeAction` — Localized cleanup for a complaining player
 - `doOnlyItemsForRelative` — Items-only localized cleanup
 - `dontDoFriendlyMobsForRelative` — Skip peaceful mobs in local cleanup
@@ -86,5 +97,6 @@ Key sections:
 - `chatDelay` — Anti-spam chat delay (ticks)
 
 Examples:
+
 - To run periodic item cleanup: set `auto-lag-removal.run: true`, `auto-lag-removal.every: 10`, and keep `lag_protocols.periodically.cc_items` entry.
 - To switch to advanced limiter: set `entity_limiter.preset_mode: "advanced"` and tune caps.
