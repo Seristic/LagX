@@ -3,12 +3,14 @@
 LagX provides a protocol system to execute cleanup and maintenance tasks. Protocols can be triggered via commands, low-TPS/low-RAM events, or scheduled runs.
 
 Usage:
+
 - List: `/lagx protocol list`
 - Run: `/lagx protocol run <id> [count:true|false]`
 
 Built-in protocols:
 
 ## cc_items
+
 - ID: `cc_items`
 - Category: CPU, RAM, NETWORK
 - Purpose: Remove (or count) ground items across all worlds, a single world, or a chunk.
@@ -20,6 +22,7 @@ Built-in protocols:
 - Death protection: Honors recent-death protected items via `PlayerDeathTracker`.
 
 ## cc_entities
+
 - ID: `cc_entities`
 - Category: CPU, RAM, NETWORK
 - Purpose: Remove (or count) entities, optionally filtered by type set; across all worlds, a world, or a chunk.
@@ -33,6 +36,7 @@ Built-in protocols:
   - `peaceful`: predefined peaceful EntityType[]
 
 ## lr_gc
+
 - ID: `lr_gc`
 - Category: RAM
 - Purpose: Force a garbage collection to free memory.
@@ -40,6 +44,7 @@ Built-in protocols:
 - Returns: `{0: <long freedMB>}`
 
 ## run_c
+
 - ID: `run_c`
 - Category: UNKNOWN
 - Purpose: Run a console command.
@@ -48,5 +53,6 @@ Built-in protocols:
 - Returns: `{}`
 
 Scheduling with config:
+
 - See `lag_protocols.low_ram|low_tps|periodically` in [[Configuration]] to tie protocols to triggers.
 - Warning broadcasts are controlled via `protocol_warnings.*`.

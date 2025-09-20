@@ -72,8 +72,8 @@ All commands use the `/lagx` prefix with the following permissions (legacy `/hbz
 
 ### Entity Management
 
-| Command                      | Permission         | Description                                |
-| ---------------------------- | ------------------ | ------------------------------------------ |
+| Command                    | Permission             | Description                                |
+| -------------------------- | ---------------------- | ------------------------------------------ |
 | `/lagx clear [type]`       | `hbzcleaner.clear`     | Clear entities/items with Towny protection |
 | `/lagx count [type]`       | `hbzcleaner.clear`     | Count entities/items in worlds             |
 | `/lagx entities [preset]`  | `hbzcleaner.entities`  | Entity limiter management                  |
@@ -81,8 +81,8 @@ All commands use the `/lagx` prefix with the following permissions (legacy `/hbz
 
 ### Entity Stacker
 
-| Command                          | Permission       | Description                         |
-| -------------------------------- | ---------------- | ----------------------------------- |
+| Command                        | Permission           | Description                         |
+| ------------------------------ | -------------------- | ----------------------------------- |
 | `/lagx stacker info`           | `hbzcleaner.stacker` | Stacker statistics and status       |
 | `/lagx stacker debug`          | `hbzcleaner.stacker` | Debug information for current chunk |
 | `/lagx stacker reload`         | `hbzcleaner.stacker` | Reload stacker configuration        |
