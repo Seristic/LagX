@@ -9,7 +9,7 @@ java {
 }
 
 group = 'com.seristic'
-version = '0.6-folia'
+version = '0.6.2'
 archivesBaseName = 'LagX'
 
 repositories {

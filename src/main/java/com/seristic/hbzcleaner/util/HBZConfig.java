@@ -1,9 +1,9 @@
-package com.seristic.lagx.util;
+package com.seristic.hbzcleaner.util;
 
-import com.seristic.lagx.api.aparser.AnfoParser;
-import com.seristic.lagx.api.proto.LRProtocol;
-import com.seristic.lagx.api.proto.Protocol;
-import com.seristic.lagx.main.HBZCleaner;
+import com.seristic.hbzcleaner.api.aparser.AnfoParser;
+import com.seristic.hbzcleaner.api.proto.LRProtocol;
+import com.seristic.hbzcleaner.api.proto.Protocol;
+import com.seristic.hbzcleaner.main.HBZCleaner;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

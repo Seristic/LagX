@@ -1,7 +1,7 @@
-package com.seristic.lagx.commands;
+package com.seristic.hbzcleaner.commands;
 
-import com.seristic.lagx.main.HBZCleaner;
-import com.seristic.lagx.util.ColorUtil;
+import com.seristic.hbzcleaner.main.HBZCleaner;
+import com.seristic.hbzcleaner.util.ColorUtil;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;

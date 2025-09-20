@@ -1,7 +1,7 @@
-package com.seristic.lagx.api;
+package com.seristic.hbzcleaner.api;
 
-import com.seristic.lagx.inf.Help;
-import com.seristic.lagx.main.HBZCleaner;
+import com.seristic.hbzcleaner.inf.Help;
+import com.seristic.hbzcleaner.main.HBZCleaner;
 import java.io.File;
 import java.util.logging.Logger;
 import org.bukkit.command.CommandSender;

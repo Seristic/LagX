@@ -1,7 +1,7 @@
-package com.seristic.lagx.main;
+package com.seristic.hbzcleaner.main;
 
-import com.seristic.lagx.util.BitString;
-import com.seristic.lagx.util.DrewMath;
+import com.seristic.hbzcleaner.util.BitString;
+import com.seristic.hbzcleaner.util.DrewMath;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class TickPerSecond extends BukkitRunnable {

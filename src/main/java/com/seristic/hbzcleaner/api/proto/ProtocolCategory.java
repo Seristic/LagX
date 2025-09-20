@@ -1,4 +1,4 @@
-package com.seristic.lagx.api.proto;
+package com.seristic.hbzcleaner.api.proto;
 
 public enum ProtocolCategory {
    CPU,

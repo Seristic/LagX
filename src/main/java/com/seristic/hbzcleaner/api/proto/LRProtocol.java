@@ -1,6 +1,6 @@
-package com.seristic.lagx.api.proto;
+package com.seristic.hbzcleaner.api.proto;
 
-import com.seristic.lagx.api.aparser.ProtoParse;
+import com.seristic.hbzcleaner.api.aparser.ProtoParse;
 
 public interface LRProtocol {
    void init();

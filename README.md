@@ -61,8 +61,8 @@ LagX is a comprehensive server optimization plugin designed for modern Minecraft
 
 All commands use the `/lagx` prefix with the following permissions:
 
-| Command             | Permission          | Description                             |
-| ------------------- | ------------------- | --------------------------------------- |
+| Command             | Permission    | Description                             |
+| ------------------- | ------------- | --------------------------------------- |
 | `/lagx help [page]` | `lagx.help`   | Interactive help system with pagination |
 | `/lagx status`      | `lagx.status` | Quick server health overview            |
 | `/lagx tps`         | `lagx.tps`    | Current TPS with health indicators      |
@@ -72,8 +72,8 @@ All commands use the `/lagx` prefix with the following permissions:
 
 ### Entity Management
 
-| Command                    | Permission             | Description                                |
-| -------------------------- | ---------------------- | ------------------------------------------ |
+| Command                    | Permission       | Description                                |
+| -------------------------- | ---------------- | ------------------------------------------ |
 | `/lagx clear [type]`       | `lagx.clear`     | Clear entities/items with Towny protection |
 | `/lagx count [type]`       | `lagx.clear`     | Count entities/items in worlds             |
 | `/lagx entities [preset]`  | `lagx.entities`  | Entity limiter management                  |
@@ -81,8 +81,8 @@ All commands use the `/lagx` prefix with the following permissions:
 
 ### Entity Stacker
 
-| Command                        | Permission           | Description                         |
-| ------------------------------ | -------------------- | ----------------------------------- |
+| Command                        | Permission     | Description                         |
+| ------------------------------ | -------------- | ----------------------------------- |
 | `/lagx stacker info`           | `lagx.stacker` | Stacker statistics and status       |
 | `/lagx stacker debug`          | `lagx.stacker` | Debug information for current chunk |
 | `/lagx stacker reload`         | `lagx.stacker` | Reload stacker configuration        |

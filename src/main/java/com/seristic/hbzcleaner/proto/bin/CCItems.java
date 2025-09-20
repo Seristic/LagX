@@ -1,14 +1,14 @@
-package com.seristic.lagx.proto.bin;
+package com.seristic.hbzcleaner.proto.bin;
 
-import com.seristic.lagx.api.aparser.ProtoParse;
-import com.seristic.lagx.api.proto.LRProtocol;
-import com.seristic.lagx.api.proto.LRProtocolResult;
-import com.seristic.lagx.api.proto.Protocol;
-import com.seristic.lagx.api.proto.ProtocolCategory;
-import com.seristic.lagx.api.proto.help.HelpFormatter;
-import com.seristic.lagx.main.HBZCleaner;
-import com.seristic.lagx.util.Counter;
-import com.seristic.lagx.util.PlayerDeathTracker;
+import com.seristic.hbzcleaner.api.aparser.ProtoParse;
+import com.seristic.hbzcleaner.api.proto.LRProtocol;
+import com.seristic.hbzcleaner.api.proto.LRProtocolResult;
+import com.seristic.hbzcleaner.api.proto.Protocol;
+import com.seristic.hbzcleaner.api.proto.ProtocolCategory;
+import com.seristic.hbzcleaner.api.proto.help.HelpFormatter;
+import com.seristic.hbzcleaner.main.HBZCleaner;
+import com.seristic.hbzcleaner.util.Counter;
+import com.seristic.hbzcleaner.util.PlayerDeathTracker;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

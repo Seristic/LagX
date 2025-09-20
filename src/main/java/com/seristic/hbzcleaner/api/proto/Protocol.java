@@ -1,12 +1,12 @@
-package com.seristic.lagx.api.proto;
+package com.seristic.hbzcleaner.api.proto;
 
-import com.seristic.lagx.main.HBZCleaner;
-import com.seristic.lagx.proto.bin.CCEntities;
-import com.seristic.lagx.proto.bin.CCItems;
-import com.seristic.lagx.proto.bin.LRGC;
-import com.seristic.lagx.proto.bin.RunCommand;
-import com.seristic.lagx.util.Counter;
-import com.seristic.lagx.util.HBZConfig;
+import com.seristic.hbzcleaner.main.HBZCleaner;
+import com.seristic.hbzcleaner.proto.bin.CCEntities;
+import com.seristic.hbzcleaner.proto.bin.CCItems;
+import com.seristic.hbzcleaner.proto.bin.LRGC;
+import com.seristic.hbzcleaner.proto.bin.RunCommand;
+import com.seristic.hbzcleaner.util.Counter;
+import com.seristic.hbzcleaner.util.HBZConfig;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;

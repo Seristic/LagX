@@ -1,7 +1,7 @@
-package com.seristic.lagx.inf;
+package com.seristic.hbzcleaner.inf;
 
-import com.seristic.lagx.api.proto.LRProtocolResult;
-import com.seristic.lagx.main.HBZCleaner;
+import com.seristic.hbzcleaner.api.proto.LRProtocolResult;
+import com.seristic.hbzcleaner.main.HBZCleaner;
 import java.util.ArrayList;
 import java.util.List;
 import net.kyori.adventure.text.Component;

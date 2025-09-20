@@ -1,4 +1,4 @@
-package com.seristic.lagx.main;
+package com.seristic.hbzcleaner.main;
 
 @Deprecated
 public final class LaggRemover {

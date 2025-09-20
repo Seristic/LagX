@@ -126,7 +126,7 @@ lag_protocols:
 
   # Protocols to run when server TPS is low
   low_tps:
-    cc_entities: '{"Delay":"true", "Count": "false", "ToClear":"null", "World":"%all%"}'
+    cc_entities: '{"Delay":"true", "Count": "false", "ToClear":null, "World":"%all%"}'
 
   # Protocols to run on a schedule (based on auto-lag-removal settings)
   periodically:

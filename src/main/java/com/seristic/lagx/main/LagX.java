@@ -1,6 +1,6 @@
 package com.seristic.lagx.main;
 
-import com.seristic.lagx.main.HBZCleaner;
+import com.seristic.hbzcleaner.main.HBZCleaner;
 
 /**
  * Transitional entrypoint for full rebrand to LagX.

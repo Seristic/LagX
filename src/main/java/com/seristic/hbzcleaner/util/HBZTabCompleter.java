@@ -1,6 +1,6 @@
-package com.seristic.lagx.util;
+package com.seristic.hbzcleaner.util;
 
-import com.seristic.lagx.api.proto.Protocol;
+import com.seristic.hbzcleaner.api.proto.Protocol;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

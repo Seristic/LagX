@@ -1,4 +1,4 @@
-package com.seristic.lagx.api.aparser;
+package com.seristic.hbzcleaner.api.aparser;
 
 import java.util.HashMap;
 import org.bukkit.Bukkit;
