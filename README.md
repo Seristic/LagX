@@ -267,7 +267,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-### Built with ❤️ for the Minecraft server community
+### ❤️ 
 
 - Entity limiting and buffer systems
 - Towny integration and junk material whitelist
