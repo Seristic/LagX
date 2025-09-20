@@ -1,4 +1,42 @@
-# User-specific stuff
+# Build output
+/build/
+/out/
+
+# IDE
+/.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# Gradle
+/.gradle/
+gradle-app.setting
+
+# Logs
+*.log
+logs/
+
+# Run server cache
+/run/cache/
+/run/logs/
+/run/crash-reports/
+/run/world/
+/run/usercache.json
+/run/whitelist.json
+/run/ops.json
+/run/banned-ips.json
+/run/banned-players.json
+
+# Temp/decompile artifacts
+temp-jar-extract/
+tmp-decompile-*/
+
+# Misc
+*.tmp
+*.swp
+*.swo
+~$*# User-specific stuff
 .idea/
 
 *.iml

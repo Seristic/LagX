@@ -1,6 +1,6 @@
 name: LagX
 version: "${version}"
-main: com.seristic.hbzcleaner.main.HBZCleaner
+main: com.seristic.lagx.main.LagX
 api-version: 1.21
 folia-supported: true
 author: Seristic
@@ -8,152 +8,150 @@ description: An enhanced lag prevention and cleanup plugin optimized for Folia s
 softdepend: [Towny]
 
 commands:
-  hbzcleaner:
+  lagx:
     description: LagX command with entity limiting and villager optimization.
     usage: /<command> [help|tps|ram|gc|info|status|master|entities|villagers|warnings]
-    aliases: [hbz, hcleaner, lagx]
-  hbzperf:
+  lagxperf:
     description: Comprehensive performance analysis command for detailed server metrics.
     usage: /<command> [regions|memory|threads|world|history|full|help]
-    aliases: [hbzperformance, hbztps, lagxperf]
 
 permissions:
-  hbzcleaner.*:
+  lagx.*:
     description: Grants all LagX permissions
     default: op
     children:
-      hbzcleaner.help: true
-      hbzcleaner.status: true
-      hbzcleaner.master: true
-      hbzcleaner.tps: true
-      hbzcleaner.world: true
-      hbzcleaner.clear: true
-      hbzcleaner.unload: true
-      hbzcleaner.gc: true
-      hbzcleaner.update: true
-      hbzcleaner.nochatdelay: true
-      hbzcleaner.modules: true
-      hbzcleaner.ram: true
-      hbzcleaner.protocol: true
-      hbzcleaner.ping: true
-      hbzcleaner.entities: true
-      hbzcleaner.villagers: true
-      hbzcleaner.towny: true
-      hbzcleaner.test: true
-      hbzcleaner.towny.bypass: true
-      hbzcleaner.reload: true
-      hbzcleaner.stacker: true
-      hbzcleaner.warn: true
-      hbzcleaner.warn.toggle: true
-      hbzcleaner.admin: true
-      hbzcleaner.performance: true
+      lagx.help: true
+      lagx.status: true
+      lagx.master: true
+      lagx.tps: true
+      lagx.world: true
+      lagx.clear: true
+      lagx.unload: true
+      lagx.gc: true
+      lagx.update: true
+      lagx.nochatdelay: true
+      lagx.modules: true
+      lagx.ram: true
+      lagx.protocol: true
+      lagx.ping: true
+      lagx.entities: true
+      lagx.villagers: true
+      lagx.towny: true
+      lagx.test: true
+      lagx.towny.bypass: true
+      lagx.reload: true
+      lagx.stacker: true
+      lagx.warn: true
+      lagx.warn.toggle: true
+      lagx.admin: true
+      lagx.performance: true
 
-  hbzcleaner.help:
+  lagx.help:
     description: Gives access to the help command.
     default: op
-  hbzcleaner.status:
+  lagx.status:
     description: Gives access to the quick status overview command.
     default: op
-  hbzcleaner.master:
+  lagx.master:
     description: Gives access to the master listing of all performance data from the server.
     default: op
-  hbzcleaner.tps:
+  lagx.tps:
     description: Gives access to view the Ticks Per Second(TPS) of the server.
     default: op
-  hbzcleaner.world:
+  lagx.world:
     description: View data about a certain world.
     default: op
-  hbzcleaner.clear:
+  lagx.clear:
     description: Allows you to clear all items on the ground or entities in a world.
     default: op
-  hbzcleaner.unload:
+  lagx.unload:
     description: Allows players to unload all chunks in a world.
     default: op
-  hbzcleaner.gc:
+  lagx.gc:
     description: Allows players to run LagX's garbage collector to free RAM.
     default: op
-  hbzcleaner.update:
+  lagx.update:
     description: Allows LagX to notify a player when an update is downloaded.
     default: op
-  hbzcleaner.nochatdelay:
+  lagx.nochatdelay:
     description: Makes a player immune to the chat delay.
     default: op
-  hbzcleaner.modules:
+  lagx.modules:
     description: Allows you to list loaded modules.
     default: op
-  hbzcleaner.ram:
+  lagx.ram:
     description: Allows players to list the RAM available on the server.
     default: op
-  hbzcleaner.protocol:
+  lagx.protocol:
     description: Allows players to view/manipulate protocols.
     default: op
-  hbzcleaner.ping:
+  lagx.ping:
     description: Allows a player to view the ping of another player (or themself)
     default: op
-  hbzcleaner.entities:
+  lagx.entities:
     description: Allows access to entity limiter commands
     default: op
-  hbzcleaner.villagers:
+  lagx.villagers:
     description: Allows access to villager optimization commands
     default: op
-  hbzcleaner.towny:
+  lagx.towny:
     description: Allows access to Towny integration commands
     default: op
-  hbzcleaner.test:
+  lagx.test:
     description: Allows access to test commands for debugging features
     default: op
-  hbzcleaner.towny.bypass:
+  lagx.towny.bypass:
     description: Allows bypassing Towny protection checks for entity cleanup
     default: op
-  hbzcleaner.reload:
+  lagx.reload:
     description: Allows reloading the plugin configuration without server restart
     default: op
-  hbzcleaner.stacker:
+  lagx.stacker:
     description: Allows access to entity stacker commands
     default: op
-  hbzcleaner.warn:
+  lagx.warn:
     description: Allows receiving protocol warning messages
     default: op
-  hbzcleaner.warn.toggle:
+  lagx.warn.toggle:
     description: Allows toggling protocol warnings on/off
     default: op
-  hbzcleaner.admin:
+  lagx.admin:
     description: Designates a user as an admin for LagX
     default: op
 
   # LagX Enhanced Features
-  hbz.status:
-    description: Allows access to HBZ status command
+  lagx.status.command:
+    description: Allows access to LagX status command
     default: op
-  hbz.monitor:
-    description: Allows access to HBZ monitor command
+  lagx.monitor:
+    description: Allows access to LagX monitor command
     default: op
-  hbz.worlds:
-    description: Allows access to HBZ worlds overview command
+  lagx.worlds:
+    description: Allows access to LagX worlds overview command
     default: op
-  hbz.performance:
-    description: Allows access to HBZ performance report command
+  lagx.performance:
+    description: Allows access to LagX performance report command
     default: op
 
   # New Performance Command Permissions
-  hbzperf.use:
+  lagxperf.use:
     description: Allows basic usage of the performance command
     default: op
-  hbzperf.regions:
+  lagxperf.regions:
     description: Allows viewing region-specific performance data
     default: op
-  hbzperf.memory:
+  lagxperf.memory:
     description: Allows viewing detailed memory statistics
     default: op
-  hbzperf.threads:
+  lagxperf.threads:
     description: Allows viewing thread usage information
     default: op
-  hbzperf.world:
+  lagxperf.world:
     description: Allows viewing world-specific performance data
     default: op
-  hbzperf.history:
+  lagxperf.history:
     description: Allows viewing TPS history and trends
     default: op
-  hbzperf.full:
+  lagxperf.full:
     description: Allows viewing all performance data at once
     default: op
