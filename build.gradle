@@ -10,7 +10,7 @@ java {
 
 group = 'com.seristic'
 version = '0.6-folia'
-archivesBaseName = 'HBZCleaner'
+archivesBaseName = 'LagX'
 
 repositories {
     mavenCentral()

@@ -138,7 +138,7 @@ public class HBZConfig {
          HBZCleaner.instance
             .getLogger()
             .info(
-               "The saved version is not compatible with this version of HBZCleaner and could not be updated by the automatic configuration updater. HBZCleaner will back up the current configuration and generate a new one for you. Please manually copy over any old settings."
+               "The saved version is not compatible with this version of LagX and could not be updated by the automatic configuration updater. LagX will back up the current configuration and generate a new one for you. Please manually copy over any old settings."
             );
 
          try {

@@ -34,15 +34,13 @@ public class Help {
       commandsHelp.add(new Help.HoverCommand("/hbzcleaner world(w) <world>", "Shows detailed statistics for a specific world.", "hbzcleaner.world", true));
       commandsHelp.add(new Help.HoverCommand("/hbzcleaner unload(u) <world>", "Unloads all chunks in the specified world.", "hbzcleaner.unload", true));
       commandsHelp.add(new Help.HoverCommand("/hbzcleaner modules(mo)", "Lists all loaded modules.", "hbzcleaner.modules", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner info(i)", "Shows HBZCleaner version and information.", "hbzcleaner.help", true));
+      // Rebrand info description text
+      commandsHelp.add(new Help.HoverCommand("/hbzcleaner info(i)", "Shows LagX version and information.", "hbzcleaner.help", true));
       commandsHelp.add(new Help.HoverCommand("/hbzcleaner ping(p) <player:none>", "Displays player connection latency.", "hbzcleaner.ping", true));
       commandsHelp.add(new Help.HoverCommand("/hbzcleaner preset [basic|advanced|custom]", "Switch entity limiter presets.", "hbzcleaner.entities", true));
       commandsHelp.add(new Help.HoverCommand("/hbzcleaner entities [status|reload|stats]", "Manage entity limiting system.", "hbzcleaner.entities", true));
       commandsHelp.add(
          new Help.HoverCommand("/hbzcleaner villagers [status|reload|optimize|stats]", "Optimize villager AI performance.", "hbzcleaner.villagers", true)
-      );
-      commandsHelp.add(
-         new Help.HoverCommand("/hbzcleaner towny(town)", "Check Towny protection info (only junk items cleared in towns).", "hbzcleaner.towny", true)
       );
       commandsHelp.add(
          new Help.HoverCommand(
@@ -59,8 +57,9 @@ public class Help {
       if (pageNum > maxPages) {
          sendMsg(p, "§cHelp page #" + pageNum + " does not exist.", true);
       } else {
+         // Rebrand header to LagX
          Component header = ((TextComponent)((TextComponent)((TextComponent)((TextComponent)((TextComponent)((TextComponent)Component.text(
-                                 "✦ HBZCleaner Help ", NamedTextColor.GOLD
+                                 "✦ LagX Help ", NamedTextColor.GOLD
                               )
                               .decoration(TextDecoration.BOLD, true))
                            .append(Component.text("(Page ", NamedTextColor.GRAY)))
@@ -72,7 +71,7 @@ public class Help {
          if (p != null) {
             p.sendMessage(header);
          } else {
-            sendMsg(p, "§6§l✦ HBZCleaner Help §7(Page §b" + pageNum + "§7/§b" + maxPages + "§7) §6§l✦", false);
+            sendMsg(p, "§6§l✦ LagX Help §7(Page §b" + pageNum + "§7/§b" + maxPages + "§7) §6§l✦", false);
          }
 
          for (Help.HoverCommand cmd : pages.get(pageNum - 1)) {
@@ -171,7 +170,7 @@ public class Help {
       List<Help.HoverCommand> c = new ArrayList<>();
 
       for (Help.HoverCommand s : commandsHelp) {
-         if (c.size() == 8) {
+         if (c.size() == COMMANDS_PER_PAGE) {
             h.add(c);
             c = new ArrayList<>();
          }

@@ -65,7 +65,8 @@ public class HBZCleaner extends JavaPlugin implements Listener {
    public static final String CONFIG_VERSION = "0.1.7";
    public static final long MEMORY_MBYTE_SIZE = 1024L;
    public static HBZCleaner instance;
-   public static String prefix = "§6§lHBZCleaner §7§l>>§r ";
+   // Update default chat prefix branding to LagX
+   public static String prefix = "§6§lLagX §7§l>>§r ";
    public static File modDir;
    private static HashMap<Module, String[]> loaded;
    private long startTime;
@@ -167,7 +168,8 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                loaded.put(module, new String[]{name, version, author});
                module.onEnable();
             } catch (InvalidConfigurationException | ReflectiveOperationException | IOException var18) {
-               this.getLogger().info("HBZCleaner located an invalid module named \"" + f.getName() + "\"");
+               // Rebrand invalid module message
+               this.getLogger().info("LagX located an invalid module named \"" + f.getName() + "\"");
             }
          }
       }
@@ -200,7 +202,8 @@ public class HBZCleaner extends JavaPlugin implements Listener {
       Objects.requireNonNull(this.getCommand("hbzperf")).setExecutor(this.performanceCommand);
       Objects.requireNonNull(this.getCommand("hbzperf")).setTabCompleter(this.performanceCommand);
       this.getLogger().info("Performance command registered and ready to use");
-      this.getLogger().info("§6HBZCleaner has been enabled!");
+      // Rebrand enable log
+      this.getLogger().info("§6LagX has been enabled!");
    }
 
    public void onDisable() {
@@ -237,7 +240,8 @@ public class HBZCleaner extends JavaPlugin implements Listener {
 
       townyIntegration = null;
       instance = null;
-      this.getLogger().info("HBZCleaner has been disabled!");
+      // Rebrand disable log
+      this.getLogger().info("LagX has been disabled!");
    }
 
    public static String[] getModulesList() {
@@ -652,11 +656,12 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                              } else if (hasPermission(player, "hbzcleaner.reload")) {
                                                 try {
                                                    HBZConfig.reload();
-                                                   Help.sendMsg(player, "§7[§6HBZCleaner§7] §a✓ Configuration reloaded successfully!", true);
+                                                   // Rebrand reload success/failure messages
+                                                   Help.sendMsg(player, "§7[§6LagX§7] §a✓ Configuration reloaded successfully!", true);
                                                    return true;
                                                 } catch (Exception var33) {
-                                                   Help.sendMsg(player, "§7[§6HBZCleaner§7] §c✗ Failed to reload configuration!", true);
-                                                   Help.sendMsg(player, "§7[§6HBZCleaner§7] §c" + var33.getMessage(), false);
+                                                   Help.sendMsg(player, "§7[§6LagX§7] §c✗ Failed to reload configuration!", true);
+                                                   Help.sendMsg(player, "§7[§6LagX§7] §c" + var33.getMessage(), false);
                                                    this.getLogger().warning(() -> "Config reload failed: " + var33.getMessage());
                                                    return true;
                                                 }
@@ -744,7 +749,6 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                                             villagerCount++;
                                                             totalVillagers++;
                                                             Chunk chunk = entity.getLocation().getChunk();
-                                                            String chunkKey = chunk.getX() + ":" + chunk.getZ();
                                                             villagersPerChunk.put(chunk, villagersPerChunk.getOrDefault(chunk, 0) + 1);
                                                          }
                                                       }
@@ -1189,8 +1193,8 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                }
             } else {
                if (hasPermission(player, "hbzcleaner.help")) {
-                  String ver = this.getServer().getPluginManager().getPlugin("HBZCleaner").getDescription().getVersion();
-                  Help.sendMsg(player, "§eHBZCleaner §7version §b" + ver, true);
+                  String ver = this.getPluginMeta().getVersion();
+                  Help.sendMsg(player, "§eLagX §7version §b" + ver, true);
                   Help.sendMsg(player, "§eModules Loaded: §b" + loaded.size(), false);
                   Help.sendMsg(
                      player,

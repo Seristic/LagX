@@ -1,4 +1,4 @@
-name: HBZCleaner
+name: LagX
 version: "${version}"
 main: com.seristic.hbzcleaner.main.HBZCleaner
 api-version: 1.21
@@ -9,17 +9,17 @@ softdepend: [Towny]
 
 commands:
   hbzcleaner:
-    description: HBZCleaner command with entity limiting and villager optimization.
+    description: LagX command with entity limiting and villager optimization.
     usage: /<command> [help|tps|ram|gc|info|status|master|entities|villagers|warnings]
-    aliases: [hbz, hcleaner]
+    aliases: [hbz, hcleaner, lagx]
   hbzperf:
     description: Comprehensive performance analysis command for detailed server metrics.
     usage: /<command> [regions|memory|threads|world|history|full|help]
-    aliases: [hbzperformance, hbztps]
+    aliases: [hbzperformance, hbztps, lagxperf]
 
 permissions:
   hbzcleaner.*:
-    description: Grants all HBZCleaner permissions
+    description: Grants all LagX permissions
     default: op
     children:
       hbzcleaner.help: true
@@ -70,10 +70,10 @@ permissions:
     description: Allows players to unload all chunks in a world.
     default: op
   hbzcleaner.gc:
-    description: Allows players to run HBZCleaner's garbage collector to free RAM.
+    description: Allows players to run LagX's garbage collector to free RAM.
     default: op
   hbzcleaner.update:
-    description: Allows HBZCleaner to notify a player when an update is downloaded.
+    description: Allows LagX to notify a player when an update is downloaded.
     default: op
   hbzcleaner.nochatdelay:
     description: Makes a player immune to the chat delay.
@@ -118,10 +118,10 @@ permissions:
     description: Allows toggling protocol warnings on/off
     default: op
   hbzcleaner.admin:
-    description: Designates a user as an admin for HBZCleaner
+    description: Designates a user as an admin for LagX
     default: op
 
-  # HBZCleaner Enhanced Features
+  # LagX Enhanced Features
   hbz.status:
     description: Allows access to HBZ status command
     default: op
