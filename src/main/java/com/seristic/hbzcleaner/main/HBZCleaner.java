@@ -123,7 +123,15 @@ public class HBZCleaner extends JavaPlugin implements Listener {
       Protocol.init();
       HBZConfig.init();
       loaded = new HashMap<>();
-      prefix = Objects.requireNonNull(this.getConfig().getString("prefix")).replaceAll("&", "§");
+         String cfgPrefix = Objects.requireNonNull(this.getConfig().getString("prefix"));
+         if (cfgPrefix.contains("HBZCleaner")) {
+            String migrated = cfgPrefix.replace("HBZCleaner", "LagX");
+            this.getConfig().set("prefix", migrated);
+            this.saveConfig();
+            this.getLogger().info("Migrated legacy prefix to LagX in config.yml");
+            cfgPrefix = migrated;
+         }
+         prefix = cfgPrefix.replaceAll("&", "§");
       if (HBZConfig.autoChunk) {
          Bukkit.getAsyncScheduler().runAtFixedRate(this, task -> {
             for (World world : this.getServer().getWorlds()) {
@@ -345,7 +353,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                  Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                                  return true;
                               } else if (args.length < 2) {
-                                 Help.sendMsg(player, "§cUsage: /hbzcleaner " + (isCount ? "count" : "clear") + " <items|entities|area|type> [...]", true);
+                                 Help.sendMsg(player, "§cUsage: /lagx " + (isCount ? "count" : "clear") + " <items|entities|area|type> [...]", true);
                                  return true;
                               } else {
                                  String mode = args[1].toLowerCase();
@@ -388,7 +396,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                           if (args.length < 3) {
                                              Help.sendMsg(
                                                 player,
-                                                "§cUsage: /hbzcleaner " + (isCount ? "count" : "clear") + " entities <hostile|peaceful|all> [world]",
+                                                "§cUsage: /lagx " + (isCount ? "count" : "clear") + " entities <hostile|peaceful|all> [world]",
                                                 true
                                              );
                                              return true;
@@ -452,7 +460,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                        case "t":
                                           if (args.length < 3) {
                                              Help.sendMsg(
-                                                player, "§cUsage: /hbzcleaner " + (isCount ? "count" : "clear") + " type <ENTITY_TYPE,...> [world]", true
+                                                player, "§cUsage: /lagx " + (isCount ? "count" : "clear") + " type <ENTITY_TYPE,...> [world]", true
                                              );
                                              return true;
                                           } else {
@@ -523,7 +531,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                           } else if (args.length < 3) {
                                              Help.sendMsg(
                                                 player,
-                                                "§cUsage: /hbzcleaner "
+                                                "§cUsage: /lagx "
                                                    + (isCount ? "count" : "clear")
                                                    + " area <b:radiusBlocks|c:radiusChunks> [hostile|peaceful|all|items]",
                                                 true
@@ -618,7 +626,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                                       }
                                                    }
 
-                                                   Help.sendMsg(player, "§cCommand not found! Use /hbzcleaner help for a list of commands.", true);
+                                                   Help.sendMsg(player, "§cCommand not found! Use /lagx help for a list of commands.", true);
                                                    return true;
                                                 } else {
                                                    boolean allowed = player == null
@@ -644,7 +652,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                                             Help.sendMsg(player, "§eProtocol warnings toggled to §6" + (now ? "ENABLED" : "DISABLED"), true);
                                                             return true;
                                                          default:
-                                                            Help.sendMsg(player, "§cUsage: /hbzcleaner warnings [status|on|off|toggle]", true);
+                                                            Help.sendMsg(player, "§cUsage: /lagx warnings [status|on|off|toggle]", true);
                                                             return true;
                                                       }
                                                    } else {
@@ -676,7 +684,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                              Help.sendMsg(player, "§cVillager Optimizer is not enabled on this server.", true);
                                              return true;
                                           } else if (args.length < 2) {
-                                             Help.sendMsg(player, "§cUsage: /hbzcleaner villagers [status|reload|enable|disable|optimize|stats]", true);
+                                             Help.sendMsg(player, "§cUsage: /lagx villagers [status|reload|enable|disable|optimize|stats]", true);
                                              return true;
                                           } else {
                                              String subCommand = args[1].toLowerCase();
@@ -793,7 +801,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                           Help.sendMsg(player, "§cEntity Limiter is not enabled on this server.", true);
                                           return true;
                                        } else if (args.length < 2) {
-                                          Help.sendMsg(player, "§cUsage: /hbzcleaner preset [info|set]", true);
+                                          Help.sendMsg(player, "§cUsage: /lagx preset [info|set]", true);
                                           return true;
                                        } else {
                                           String subCommand = args[1].toLowerCase();
@@ -806,7 +814,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                              case "set":
                                              case "s":
                                                 if (args.length < 3) {
-                                                   Help.sendMsg(player, "§cUsage: /hbzcleaner preset set <basic|advanced|custom>", true);
+                                                   Help.sendMsg(player, "§cUsage: /lagx preset set <basic|advanced|custom>", true);
                                                    return true;
                                                 } else {
                                                    String presetType = args[2].toLowerCase();
@@ -841,7 +849,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                        }
 
                                        if (args.length < 2) {
-                                          Help.sendMsg(player, "§cUsage: /hbzcleaner limiter [status|info|reload|enable|disable]", true);
+                                          Help.sendMsg(player, "§cUsage: /lagx limiter [status|info|reload|enable|disable]", true);
                                           return true;
                                        }
 
@@ -886,7 +894,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                           Help.sendMsg(player, "§cTowny integration is not enabled on this server.", true);
                                           return true;
                                        } else if (args.length < 2) {
-                                          Help.sendMsg(player, "§cUsage: /hbzcleaner towny [status|info]", true);
+                                          Help.sendMsg(player, "§cUsage: /lagx towny [status|info]", true);
                                           return true;
                                        } else {
                                           String subCommand = args[1].toLowerCase();
@@ -924,7 +932,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                     Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                                     return true;
                                  } else if (args.length < 2) {
-                                    Help.sendMsg(player, "§cUsage: /hbzcleaner entities [info|count|stats]", true);
+                                    Help.sendMsg(player, "§cUsage: /lagx entities [info|count|stats]", true);
                                     return true;
                                  } else {
                                     String subCommand = args[1].toLowerCase();
@@ -1001,7 +1009,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                  Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                                  return true;
                               } else if (args.length < 2) {
-                                 Help.sendMsg(player, "§cUsage: /hbzcleaner stacker [info|debug|reload|stack]", true);
+                                 Help.sendMsg(player, "§cUsage: /lagx stacker [info|debug|reload|stack]", true);
                                  return true;
                               } else {
                                  String subCommand = args[1].toLowerCase();
@@ -1089,10 +1097,10 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                            Help.sendMsg(player, "§eProtocols: §b" + list, true);
                            return true;
                         } else if (!args[1].equalsIgnoreCase("run") && !args[1].equalsIgnoreCase("r")) {
-                           Help.sendMsg(player, "§cUsage: /hbzcleaner protocol [list|run]", true);
+                           Help.sendMsg(player, "§cUsage: /lagx protocol [list|run]", true);
                            return true;
                         } else if (args.length < 3) {
-                           Help.sendMsg(player, "§cUsage: /hbzcleaner protocol run <id> [count:true|false]", true);
+                           Help.sendMsg(player, "§cUsage: /lagx protocol run <id> [count:true|false]", true);
                            return true;
                         } else {
                            LRProtocol proto = Protocol.getProtocol(args[2]);
@@ -1131,7 +1139,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                         }
 
                         if (worldxxx == null) {
-                           Help.sendMsg(player, "§cWorld not found. Usage: /hbzcleaner unload <world>", true);
+                           Help.sendMsg(player, "§cWorld not found. Usage: /lagx unload <world>", true);
                            return true;
                         } else {
                            World targetx = worldxxx;
@@ -1159,7 +1167,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                      }
 
                      if (worldxxxx == null) {
-                        Help.sendMsg(player, "§cWorld not found. Usage: /hbzcleaner world <world>", true);
+                        Help.sendMsg(player, "§cWorld not found. Usage: /lagx world <world>", true);
                         return true;
                      } else {
                         int chunkCount = worldxxxx.getLoadedChunks().length;

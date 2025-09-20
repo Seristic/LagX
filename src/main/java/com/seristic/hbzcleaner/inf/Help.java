@@ -19,36 +19,36 @@ public class Help {
 
    public static void init() {
       commandsHelp.clear();
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner help(h) <num>", "Lists all available commands.", "hbzcleaner.help", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner status(st)", "Quick server health overview with key metrics.", "hbzcleaner.status", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner master(m)", "Displays comprehensive server performance overview.", "hbzcleaner.master", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner tps", "Shows current server TPS with health status.", "hbzcleaner.tps", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner gc", "Runs garbage collection and shows memory improvement.", "hbzcleaner.gc", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner ram", "Displays detailed memory usage statistics.", "hbzcleaner.ram", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner protocol(pr) <options>", "Advanced protocol management and execution.", "hbzcleaner.protocol", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner clear(c)", "Removes various entities/items from worlds.", "hbzcleaner.clear", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner count(ct)", "Counts various entities/items in worlds.", "hbzcleaner.clear", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx help(h) <num>", "Lists all available commands.", "hbzcleaner.help", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx status(st)", "Quick server health overview with key metrics.", "hbzcleaner.status", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx master(m)", "Displays comprehensive server performance overview.", "hbzcleaner.master", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx tps", "Shows current server TPS with health status.", "hbzcleaner.tps", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx gc", "Runs garbage collection and shows memory improvement.", "hbzcleaner.gc", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx ram", "Displays detailed memory usage statistics.", "hbzcleaner.ram", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx protocol(pr) <options>", "Advanced protocol management and execution.", "hbzcleaner.protocol", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx clear(c)", "Removes various entities/items from worlds.", "hbzcleaner.clear", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx count(ct)", "Counts various entities/items in worlds.", "hbzcleaner.clear", true));
       commandsHelp.add(
-         new Help.HoverCommand("/hbzcleaner clear area <c:chunks|b:blocks> [type]", "Clear entities in area around you.", "hbzcleaner.clear", true)
+         new Help.HoverCommand("/lagx clear area <c:chunks|b:blocks> [type]", "Clear entities in area around you.", "hbzcleaner.clear", true)
       );
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner world(w) <world>", "Shows detailed statistics for a specific world.", "hbzcleaner.world", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner unload(u) <world>", "Unloads all chunks in the specified world.", "hbzcleaner.unload", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner modules(mo)", "Lists all loaded modules.", "hbzcleaner.modules", true));
-      // Rebrand info description text
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner info(i)", "Shows LagX version and information.", "hbzcleaner.help", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner ping(p) <player:none>", "Displays player connection latency.", "hbzcleaner.ping", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner preset [basic|advanced|custom]", "Switch entity limiter presets.", "hbzcleaner.entities", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner entities [status|reload|stats]", "Manage entity limiting system.", "hbzcleaner.entities", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx world(w) <world>", "Shows detailed statistics for a specific world.", "hbzcleaner.world", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx unload(u) <world>", "Unloads all chunks in the specified world.", "hbzcleaner.unload", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx modules(mo)", "Lists all loaded modules.", "hbzcleaner.modules", true));
+   // Rebrand info description text
+   commandsHelp.add(new Help.HoverCommand("/lagx info(i)", "Shows LagX version and information.", "hbzcleaner.help", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx ping(p) <player:none>", "Displays player connection latency.", "hbzcleaner.ping", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx preset [basic|advanced|custom]", "Switch entity limiter presets.", "hbzcleaner.entities", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx entities [status|reload|stats]", "Manage entity limiting system.", "hbzcleaner.entities", true));
       commandsHelp.add(
-         new Help.HoverCommand("/hbzcleaner villagers [status|reload|optimize|stats]", "Optimize villager AI performance.", "hbzcleaner.villagers", true)
+         new Help.HoverCommand("/lagx villagers [status|reload|optimize|stats]", "Optimize villager AI performance.", "hbzcleaner.villagers", true)
       );
       commandsHelp.add(
          new Help.HoverCommand(
-            "/hbzcleaner stacker(stack) [info|reload|stack <radius>]", "Manage entity stacking system to reduce entity count.", "hbzcleaner.stacker", true
+            "/lagx stacker(stack) [info|reload|stack <radius>]", "Manage entity stacking system to reduce entity count.", "hbzcleaner.stacker", true
          )
       );
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner reload(rl)", "Reload plugin configuration without restarting the server.", "hbzcleaner.reload", true));
-      commandsHelp.add(new Help.HoverCommand("/hbzcleaner warnings(warn) [status|on|off|toggle]", "Toggle or view protocol warnings.", "hbzcleaner.warn", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx reload(rl)", "Reload plugin configuration without restarting the server.", "hbzcleaner.reload", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx warnings(warn) [status|on|off|toggle]", "Toggle or view protocol warnings.", "hbzcleaner.warn", true));
    }
 
    public static void send(Player p, int pageNum) {
@@ -93,7 +93,7 @@ public class Help {
       if (currentPage > 1) {
          Component prevButton = ((TextComponent)Component.text("« Previous", NamedTextColor.GREEN)
                .hoverEvent(HoverEvent.showText(Component.text("Go to page " + (currentPage - 1), NamedTextColor.GRAY))))
-            .clickEvent(ClickEvent.runCommand("/hbzcleaner help " + (currentPage - 1)));
+            .clickEvent(ClickEvent.runCommand("/lagx help " + (currentPage - 1)));
          pagination = pagination.append(prevButton);
       } else {
          pagination = pagination.append(Component.text("« Previous", NamedTextColor.DARK_GRAY));
@@ -103,7 +103,7 @@ public class Help {
       if (currentPage < maxPages) {
          Component nextButton = ((TextComponent)Component.text("Next »", NamedTextColor.GREEN)
                .hoverEvent(HoverEvent.showText(Component.text("Go to page " + (currentPage + 1), NamedTextColor.GRAY))))
-            .clickEvent(ClickEvent.runCommand("/hbzcleaner help " + (currentPage + 1)));
+            .clickEvent(ClickEvent.runCommand("/lagx help " + (currentPage + 1)));
          pagination = pagination.append(nextButton);
       } else {
          pagination = pagination.append(Component.text("Next »", NamedTextColor.DARK_GRAY));
@@ -111,11 +111,11 @@ public class Help {
 
       p.sendMessage(pagination);
       if (maxPages > 2) {
-         Component footer = ((TextComponent)Component.text("§7Tip: Use ", NamedTextColor.GRAY)
-               .append(
-                  Component.text("/hbzcleaner help <page>", NamedTextColor.YELLOW)
-                     .hoverEvent(HoverEvent.showText(Component.text("Jump to specific page", NamedTextColor.GRAY)))
-               ))
+      Component footer = ((TextComponent)Component.text("§7Tip: Use ", NamedTextColor.GRAY)
+         .append(
+         Component.text("/lagx help <page>", NamedTextColor.YELLOW)
+            .hoverEvent(HoverEvent.showText(Component.text("Jump to specific page", NamedTextColor.GRAY)))
+         ))
             .append(Component.text(" to jump to any page", NamedTextColor.GRAY));
          p.sendMessage(footer);
       }

@@ -7,10 +7,10 @@ version: 0.2.0
 # PLUGIN PREFIX AND GENERAL SETTINGS
 # ======================================
 
-# Change this to modify the HBZCleaner prefix. NOTE: The showing of the prefix shows professionalism for the technology being used by your server, if you modify it from its default value, it does not.
-prefix: "&6&lHBZCleaner &7&l>>&r "
+# Change this to modify the LagX prefix. NOTE: The showing of the prefix shows professionalism for the technology being used by your server, if you modify it from its default value, it does not.
+prefix: "&6&lLagX &7&l>>&r "
 
-# Enables/Disables the "HBZCleaner" splash screen when the plugin starts
+# Enables/Disables the "LagX" splash screen when the plugin starts
 splashScreen: true
 
 # This is whether you would like this plugin to automatically check and install new updates. This is highly recommended.
@@ -170,7 +170,7 @@ nosaveworlds:
 # LAG DETECTION AND PREVENTION
 # ======================================
 
-# HBZCleaner AI Configuration
+# LagX AI Configuration
 ai:
   # Enable the advanced AI prediction system
   enabled: true
@@ -197,7 +197,7 @@ ai:
 # This determines if the Smart Lag Detection AI is working to keep your server lag free. (10)
 smartlagai: true
 
-# This prevents the HBZCleaner AI from repeatedly attempting to reduce lag if the server grows beyond repair. This
+# This prevents the LagX AI from repeatedly attempting to reduce lag if the server grows beyond repair. This
 # should rarely happen, but if it does, this will prevent HBZCleaner from adding to the problem. Time in minutes.
 smartaicooldown: 3
 
@@ -318,7 +318,7 @@ villager_optimization:
 # PLAYER-TRIGGERED LAG MANAGEMENT
 # ======================================
 
-# Allows the HBZCleaner AI (Artificial Intelligence) to perform action to lower the amount of packets being sent to just the player that typed lag. (10)
+# Allows the LagX AI (Artificial Intelligence) to perform action to lower the amount of packets being sent to just the player that typed lag. (10)
 doRelativeAction: true
 
 # When enabled, only allows the removal of items for relative lag removal for players.
@@ -327,14 +327,14 @@ doOnlyItemsForRelative: false
 # This prevents non-hostile mobs from being removed by the relative lag removal system. THIS HAS TO BE DISABLED TO USE doOnlyItemsForRelative
 dontDoFriendlyMobsForRelative: true
 
-# When the HBZCleaner AI detects a player is lagging. It will attempt to remove lag relative to player before looking at the whole server.
-# This defines the max radius in blocks the HBZCleaner AI can remove entities specified above. Radius in blocks.
+# When the LagX AI detects a player is lagging. It will attempt to remove lag relative to player before looking at the whole server.
+# This defines the max radius in blocks the LagX AI can remove entities specified above. Radius in blocks.
 localLagRadius: 10
 
 # Defines what percent of the entities in the "localLagRadius" are removed.
 localThinPercent: 80
 
-# How often the HBZCleaner AI can remove lag for a person (in seconds). This is to prevent players from tricking the AI into repeatedly clearing mobs or purging memory.
+# How often the LagX AI can remove lag for a person (in seconds). This is to prevent players from tricking the AI into repeatedly clearing mobs or purging memory.
 localLagRemovalCooldown: 60
 
 # Makes local lag removal only be triggered if the amount of entities in the 'localLagRadius' is greater than this
