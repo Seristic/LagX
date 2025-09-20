@@ -1,6 +1,6 @@
-package com.seristic.hbzcleaner.util;
+package com.seristic.lagx.util;
 
-import com.seristic.hbzcleaner.main.HBZCleaner;
+import com.seristic.lagx.main.HBZCleaner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

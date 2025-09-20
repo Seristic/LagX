@@ -1,4 +1,4 @@
-package com.seristic.hbzcleaner.util;
+package com.seristic.lagx.util;
 
 @Deprecated
 class LRTabCompleter {

@@ -1,4 +1,4 @@
-package com.seristic.hbzcleaner.util;
+package com.seristic.lagx.util;
 
 import java.nio.charset.StandardCharsets;
 

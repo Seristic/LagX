@@ -1,13 +1,13 @@
-package com.seristic.hbzcleaner.main;
+package com.seristic.lagx.main;
 
-import com.seristic.hbzcleaner.api.proto.DelayedLRProtocolResult;
-import com.seristic.hbzcleaner.api.proto.LRProtocol;
-import com.seristic.hbzcleaner.api.proto.LRProtocolResult;
-import com.seristic.hbzcleaner.api.proto.Protocol;
-import com.seristic.hbzcleaner.inf.Help;
-import com.seristic.hbzcleaner.proto.bin.CCEntities;
-import com.seristic.hbzcleaner.util.DoubleVar;
-import com.seristic.hbzcleaner.util.HBZConfig;
+import com.seristic.lagx.api.proto.DelayedLRProtocolResult;
+import com.seristic.lagx.api.proto.LRProtocol;
+import com.seristic.lagx.api.proto.LRProtocolResult;
+import com.seristic.lagx.api.proto.Protocol;
+import com.seristic.lagx.inf.Help;
+import com.seristic.lagx.proto.bin.CCEntities;
+import com.seristic.lagx.util.DoubleVar;
+import com.seristic.lagx.util.HBZConfig;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -43,7 +43,7 @@ public class Events implements Listener {
    public void onChat(AsyncPlayerChatEvent e) {
       Player p = e.getPlayer();
       UUID uuid = p.getUniqueId();
-      if (!HBZCleaner.hasPermission(p, "hbzcleaner.nochatdelay") && HBZConfig.chatDelay > 0) {
+      if (!HBZCleaner.hasPermission(p, "lagx.nochatdelay") && HBZConfig.chatDelay > 0) {
          if (chatDelay.contains(uuid)) {
             e.setCancelled(true);
             Help.sendMsg(p, "§cPlease slow down your chat.", true);

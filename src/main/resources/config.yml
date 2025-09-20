@@ -8,7 +8,10 @@ version: 0.2.0
 # ======================================
 
 # Change this to modify the LagX prefix. NOTE: The showing of the prefix shows professionalism for the technology being used by your server, if you modify it from its default value, it does not.
+# Change this to modify the LagX prefix. NOTE: The showing of the prefix shows professionalism for the technology being used by your server, if you modify it from its default value, it does not.
 prefix: "&6&lLagX &7&l>>&r "
+
+# Enables/Disables the "LagX" splash screen when the plugin starts
 
 # Enables/Disables the "LagX" splash screen when the plugin starts
 splashScreen: true
@@ -198,7 +201,7 @@ ai:
 smartlagai: true
 
 # This prevents the LagX AI from repeatedly attempting to reduce lag if the server grows beyond repair. This
-# should rarely happen, but if it does, this will prevent HBZCleaner from adding to the problem. Time in minutes.
+# should rarely happen, but if it does, this will prevent LagX from adding to the problem. Time in minutes.
 smartaicooldown: 3
 
 # Smart lag detection. If a player types "lag" or "lagg" in the chat and your server TPS is less than this number, the servers lag removal AI will become active. (10)
@@ -340,5 +343,5 @@ localLagRemovalCooldown: 60
 # Makes local lag removal only be triggered if the amount of entities in the 'localLagRadius' is greater than this
 localLagTriggered: 100
 
-# Time between messages a player can type in chat. If a player spams chat this can create lag. (in ticks 20 ticks = 1 second) If a player has the permission hbzcleaner.nochatdelay, they will not have their chat limited.
+# Time between messages a player can type in chat. If a player spams chat this can create lag. (in ticks 20 ticks = 1 second) If a player has the permission lagx.nochatdelay, they will not have their chat limited.
 chatDelay: 0

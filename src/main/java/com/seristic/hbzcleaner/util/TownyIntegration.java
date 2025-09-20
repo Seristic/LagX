@@ -1,6 +1,6 @@
-package com.seristic.hbzcleaner.util;
+package com.seristic.lagx.util;
 
-import com.seristic.hbzcleaner.main.HBZCleaner;
+import com.seristic.lagx.main.HBZCleaner;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -187,7 +187,7 @@ public class TownyIntegration {
          try {
             if (this.isWilderness(location)) {
                return true;
-            } else if (HBZCleaner.hasPermission(player, "hbzcleaner.towny.bypass")) {
+            } else if (HBZCleaner.hasPermission(player, "lagx.towny.bypass")) {
                return true;
             } else {
                Object town = this.getTownMethod.invoke(this.townyAPIInstance, location);

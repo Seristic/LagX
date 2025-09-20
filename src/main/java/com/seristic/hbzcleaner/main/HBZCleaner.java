@@ -1,22 +1,22 @@
-package com.seristic.hbzcleaner.main;
+package com.seristic.lagx.main;
 
-import com.seristic.hbzcleaner.api.Module;
-import com.seristic.hbzcleaner.api.proto.DelayedLRProtocolResult;
-import com.seristic.hbzcleaner.api.proto.LRProtocol;
-import com.seristic.hbzcleaner.api.proto.LRProtocolResult;
-import com.seristic.hbzcleaner.api.proto.Protocol;
-import com.seristic.hbzcleaner.commands.PerformanceCommand;
-import com.seristic.hbzcleaner.inf.Help;
-import com.seristic.hbzcleaner.proto.bin.CCEntities;
-import com.seristic.hbzcleaner.util.DoubleVar;
-import com.seristic.hbzcleaner.util.EntityLimiter;
-import com.seristic.hbzcleaner.util.EntityStacker;
-import com.seristic.hbzcleaner.util.HBZConfig;
-import com.seristic.hbzcleaner.util.HBZTabCompleter;
-import com.seristic.hbzcleaner.util.ItemFrameOptimizer;
-import com.seristic.hbzcleaner.util.PlayerDeathTracker;
-import com.seristic.hbzcleaner.util.TownyIntegration;
-import com.seristic.hbzcleaner.util.VillagerOptimizer;
+import com.seristic.lagx.api.Module;
+import com.seristic.lagx.api.proto.DelayedLRProtocolResult;
+import com.seristic.lagx.api.proto.LRProtocol;
+import com.seristic.lagx.api.proto.LRProtocolResult;
+import com.seristic.lagx.api.proto.Protocol;
+import com.seristic.lagx.commands.PerformanceCommand;
+import com.seristic.lagx.inf.Help;
+import com.seristic.lagx.proto.bin.CCEntities;
+import com.seristic.lagx.util.DoubleVar;
+import com.seristic.lagx.util.EntityLimiter;
+import com.seristic.lagx.util.EntityStacker;
+import com.seristic.lagx.util.HBZConfig;
+import com.seristic.lagx.util.HBZTabCompleter;
+import com.seristic.lagx.util.ItemFrameOptimizer;
+import com.seristic.lagx.util.PlayerDeathTracker;
+import com.seristic.lagx.util.TownyIntegration;
+import com.seristic.lagx.util.VillagerOptimizer;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -205,10 +205,10 @@ public class HBZCleaner extends JavaPlugin implements Listener {
       this.getLogger().info("Item Frame Optimizer " + (this.itemFrameOptimizer.isEnabled() ? "enabled" : "disabled"));
       this.playerDeathTracker = new PlayerDeathTracker(this);
       this.getLogger().info("Player Death Tracker " + (this.playerDeathTracker.isEnabled() ? "enabled" : "disabled"));
-      Objects.requireNonNull(this.getCommand("hbzcleaner")).setTabCompleter(new HBZTabCompleter());
+      Objects.requireNonNull(this.getCommand("lagx")).setTabCompleter(new HBZTabCompleter());
       this.performanceCommand = new PerformanceCommand(this);
-      Objects.requireNonNull(this.getCommand("hbzperf")).setExecutor(this.performanceCommand);
-      Objects.requireNonNull(this.getCommand("hbzperf")).setTabCompleter(this.performanceCommand);
+      Objects.requireNonNull(this.getCommand("lagxperf")).setExecutor(this.performanceCommand);
+      Objects.requireNonNull(this.getCommand("lagxperf")).setTabCompleter(this.performanceCommand);
       this.getLogger().info("Performance command registered and ready to use");
       // Rebrand enable log
       this.getLogger().info("§6LagX has been enabled!");
@@ -295,9 +295,9 @@ public class HBZCleaner extends JavaPlugin implements Listener {
 
    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String label, String[] args) {
       Player player = sender instanceof Player ? (Player)sender : null;
-      if (cmd.getName().equalsIgnoreCase("hbzcleaner")) {
+      if (cmd.getName().equalsIgnoreCase("lagx")) {
          if (args.length == 0) {
-            if (hasPermission(player, "hbzcleaner.help")) {
+            if (hasPermission(player, "lagx.help")) {
                Help.send(player, 1);
                return true;
             } else {
@@ -306,7 +306,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
             }
          } else if (!args[0].equalsIgnoreCase("help") && !args[0].equalsIgnoreCase("h")) {
             if (args[0].equalsIgnoreCase("tps")) {
-               if (hasPermission(player, "hbzcleaner.tps")) {
+               if (hasPermission(player, "lagx.tps")) {
                   Help.sendMsg(player, "§eTPS: " + TickPerSecond.format(), true);
                } else {
                   Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
@@ -314,7 +314,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
 
                return true;
             } else if (args[0].equalsIgnoreCase("ram")) {
-               if (hasPermission(player, "hbzcleaner.ram")) {
+               if (hasPermission(player, "lagx.ram")) {
                   Runtime rt = Runtime.getRuntime();
                   long max = rt.maxMemory() / 1048576L;
                   long total = rt.totalMemory() / 1048576L;
@@ -327,7 +327,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
 
                return true;
             } else if (args[0].equalsIgnoreCase("gc")) {
-               if (hasPermission(player, "hbzcleaner.gc")) {
+               if (hasPermission(player, "lagx.gc")) {
                   Runtime rt = Runtime.getRuntime();
                   long before = rt.totalMemory() - rt.freeMemory();
                   System.gc();
@@ -349,7 +349,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                               || args[0].equalsIgnoreCase("count")
                               || args[0].equalsIgnoreCase("ct")) {
                               boolean isCount = args[0].equalsIgnoreCase("count") || args[0].equalsIgnoreCase("ct");
-                              if (!hasPermission(player, "hbzcleaner.clear")) {
+                              if (!hasPermission(player, "lagx.clear")) {
                                  Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                                  return true;
                               } else if (args.length < 2) {
@@ -630,8 +630,8 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                                    return true;
                                                 } else {
                                                    boolean allowed = player == null
-                                                      || hasPermission(player, "hbzcleaner.warn.toggle")
-                                                      || hasPermission(player, "hbzcleaner.admin");
+                                                      || hasPermission(player, "lagx.warn.toggle")
+                                                      || hasPermission(player, "lagx.admin");
                                                    if (!allowed) {
                                                       Help.sendMsg(player, "§cYou don't have permission to modify/view warnings.", true);
                                                       return true;
@@ -661,7 +661,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                                       return true;
                                                    }
                                                 }
-                                             } else if (hasPermission(player, "hbzcleaner.reload")) {
+                                             } else if (hasPermission(player, "lagx.reload")) {
                                                 try {
                                                    HBZConfig.reload();
                                                    // Rebrand reload success/failure messages
@@ -677,7 +677,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                                 Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                                                 return true;
                                              }
-                                          } else if (!hasPermission(player, "hbzcleaner.villagers")) {
+                                          } else if (!hasPermission(player, "lagx.villagers")) {
                                              Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                                              return true;
                                           } else if (this.villagerOptimizer == null) {
@@ -794,7 +794,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                                    return true;
                                              }
                                           }
-                                       } else if (!hasPermission(player, "hbzcleaner.preset")) {
+                                       } else if (!hasPermission(player, "lagx.preset")) {
                                           Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                                           return true;
                                        } else if (this.entityLimiter == null) {
@@ -838,7 +838,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                        }
                                     } else if (args[0].equalsIgnoreCase("limiter")) {
                                        // Manage Entity Limiter directly
-                                       if (!hasPermission(player, "hbzcleaner.entities")) {
+                                       if (!hasPermission(player, "lagx.entities")) {
                                           Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                                           return true;
                                        }
@@ -888,7 +888,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                              Help.sendMsg(player, "§cUnknown subcommand. Available options: status, info, reload, enable, disable", true);
                                              return true;
                                        }
-                                    } else if (hasPermission(player, "hbzcleaner.towny")) {
+                                    } else if (hasPermission(player, "lagx.towny")) {
                                        TownyIntegration towny = getTownyIntegration();
                                        if (towny == null || !towny.isEnabled()) {
                                           Help.sendMsg(player, "§cTowny integration is not enabled on this server.", true);
@@ -928,7 +928,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                        Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                                        return true;
                                     }
-                                 } else if (!hasPermission(player, "hbzcleaner.entities")) {
+                                 } else if (!hasPermission(player, "lagx.entities")) {
                                     Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                                     return true;
                                  } else if (args.length < 2) {
@@ -1005,7 +1005,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                           return true;
                                     }
                                  }
-                              } else if (!hasPermission(player, "hbzcleaner.stacker")) {
+                              } else if (!hasPermission(player, "lagx.stacker")) {
                                  Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                                  return true;
                               } else if (args.length < 2) {
@@ -1065,7 +1065,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                     }
                                  }
                               }
-                           } else if (!hasPermission(player, "hbzcleaner.ping")) {
+                           } else if (!hasPermission(player, "lagx.ping")) {
                               Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                               return true;
                            } else {
@@ -1089,7 +1089,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                                  return true;
                               }
                            }
-                        } else if (!hasPermission(player, "hbzcleaner.protocol")) {
+                        } else if (!hasPermission(player, "lagx.protocol")) {
                            Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                            return true;
                         } else if (args.length == 1 || args[1].equalsIgnoreCase("list") || args[1].equalsIgnoreCase("l")) {
@@ -1127,7 +1127,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                               return true;
                            }
                         }
-                     } else if (!hasPermission(player, "hbzcleaner.unload")) {
+                     } else if (!hasPermission(player, "lagx.unload")) {
                         Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                         return true;
                      } else {
@@ -1155,7 +1155,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                            return true;
                         }
                      }
-                  } else if (!hasPermission(player, "hbzcleaner.world")) {
+                  } else if (!hasPermission(player, "lagx.world")) {
                      Help.sendMsg(player, "§cYou don't have permission to use this command.", true);
                      return true;
                   } else {
@@ -1177,7 +1177,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                      }
                   }
                } else {
-                  if (hasPermission(player, args[0].equalsIgnoreCase("status") ? "hbzcleaner.status" : "hbzcleaner.master")) {
+                  if (hasPermission(player, args[0].equalsIgnoreCase("status") ? "lagx.status" : "lagx.master")) {
                      StringBuilder sb = new StringBuilder();
                      sb.append("§6Server Status:\n");
                      sb.append("§eTPS: §b").append(TickPerSecond.format()).append("\n");
@@ -1200,7 +1200,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
                   return true;
                }
             } else {
-               if (hasPermission(player, "hbzcleaner.help")) {
+               if (hasPermission(player, "lagx.help")) {
                   String ver = this.getPluginMeta().getVersion();
                   Help.sendMsg(player, "§eLagX §7version §b" + ver, true);
                   Help.sendMsg(player, "§eModules Loaded: §b" + loaded.size(), false);
@@ -1224,7 +1224,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
 
                return true;
             }
-         } else if (hasPermission(player, "hbzcleaner.help")) {
+         } else if (hasPermission(player, "lagx.help")) {
             if (args.length == 2) {
                try {
                   int page = Integer.parseInt(args[1]);
@@ -1267,7 +1267,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
 
       if (enabled) {
          for (Player p : Bukkit.getOnlinePlayers()) {
-            if (hasPermission(p, "hbzcleaner.warn")) {
+            if (hasPermission(p, "lagx.warn")) {
                p.sendMessage(msg);
             }
          }
@@ -1422,7 +1422,7 @@ public class HBZCleaner extends JavaPlugin implements Listener {
       } else if (player.hasPermission(permission)) {
          return true;
       } else {
-         return player.hasPermission("hbzcleaner.*") ? true : player.hasPermission("hbzcleaner.admin");
+         return player.hasPermission("lagx.*") ? true : player.hasPermission("lagx.admin");
       }
    }
 }

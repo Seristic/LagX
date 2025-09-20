@@ -1,7 +1,7 @@
-package com.seristic.hbzcleaner.inf;
+package com.seristic.lagx.inf;
 
-import com.seristic.hbzcleaner.api.proto.LRProtocolResult;
-import com.seristic.hbzcleaner.main.HBZCleaner;
+import com.seristic.lagx.api.proto.LRProtocolResult;
+import com.seristic.lagx.main.HBZCleaner;
 import java.util.ArrayList;
 import java.util.List;
 import net.kyori.adventure.text.Component;
@@ -19,36 +19,36 @@ public class Help {
 
    public static void init() {
       commandsHelp.clear();
-   commandsHelp.add(new Help.HoverCommand("/lagx help(h) <num>", "Lists all available commands.", "hbzcleaner.help", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx status(st)", "Quick server health overview with key metrics.", "hbzcleaner.status", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx master(m)", "Displays comprehensive server performance overview.", "hbzcleaner.master", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx tps", "Shows current server TPS with health status.", "hbzcleaner.tps", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx gc", "Runs garbage collection and shows memory improvement.", "hbzcleaner.gc", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx ram", "Displays detailed memory usage statistics.", "hbzcleaner.ram", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx protocol(pr) <options>", "Advanced protocol management and execution.", "hbzcleaner.protocol", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx clear(c)", "Removes various entities/items from worlds.", "hbzcleaner.clear", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx count(ct)", "Counts various entities/items in worlds.", "hbzcleaner.clear", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx help(h) <num>", "Lists all available commands.", "lagx.help", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx status(st)", "Quick server health overview with key metrics.", "lagx.status", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx master(m)", "Displays comprehensive server performance overview.", "lagx.master", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx tps", "Shows current server TPS with health status.", "lagx.tps", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx gc", "Runs garbage collection and shows memory improvement.", "lagx.gc", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx ram", "Displays detailed memory usage statistics.", "lagx.ram", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx protocol(pr) <options>", "Advanced protocol management and execution.", "lagx.protocol", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx clear(c)", "Removes various entities/items from worlds.", "lagx.clear", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx count(ct)", "Counts various entities/items in worlds.", "lagx.clear", true));
       commandsHelp.add(
-         new Help.HoverCommand("/lagx clear area <c:chunks|b:blocks> [type]", "Clear entities in area around you.", "hbzcleaner.clear", true)
+         new Help.HoverCommand("/lagx clear area <c:chunks|b:blocks> [type]", "Clear entities in area around you.", "lagx.clear", true)
       );
-   commandsHelp.add(new Help.HoverCommand("/lagx world(w) <world>", "Shows detailed statistics for a specific world.", "hbzcleaner.world", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx unload(u) <world>", "Unloads all chunks in the specified world.", "hbzcleaner.unload", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx modules(mo)", "Lists all loaded modules.", "hbzcleaner.modules", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx world(w) <world>", "Shows detailed statistics for a specific world.", "lagx.world", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx unload(u) <world>", "Unloads all chunks in the specified world.", "lagx.unload", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx modules(mo)", "Lists all loaded modules.", "lagx.modules", true));
    // Rebrand info description text
-   commandsHelp.add(new Help.HoverCommand("/lagx info(i)", "Shows LagX version and information.", "hbzcleaner.help", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx ping(p) <player:none>", "Displays player connection latency.", "hbzcleaner.ping", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx preset [basic|advanced|custom]", "Switch entity limiter presets.", "hbzcleaner.entities", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx entities [status|reload|stats]", "Manage entity limiting system.", "hbzcleaner.entities", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx info(i)", "Shows LagX version and information.", "lagx.help", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx ping(p) <player:none>", "Displays player connection latency.", "lagx.ping", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx preset [basic|advanced|custom]", "Switch entity limiter presets.", "lagx.entities", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx entities [status|reload|stats]", "Manage entity limiting system.", "lagx.entities", true));
       commandsHelp.add(
-         new Help.HoverCommand("/lagx villagers [status|reload|optimize|stats]", "Optimize villager AI performance.", "hbzcleaner.villagers", true)
+         new Help.HoverCommand("/lagx villagers [status|reload|optimize|stats]", "Optimize villager AI performance.", "lagx.villagers", true)
       );
       commandsHelp.add(
          new Help.HoverCommand(
-            "/lagx stacker(stack) [info|reload|stack <radius>]", "Manage entity stacking system to reduce entity count.", "hbzcleaner.stacker", true
+            "/lagx stacker(stack) [info|reload|stack <radius>]", "Manage entity stacking system to reduce entity count.", "lagx.stacker", true
          )
       );
-   commandsHelp.add(new Help.HoverCommand("/lagx reload(rl)", "Reload plugin configuration without restarting the server.", "hbzcleaner.reload", true));
-   commandsHelp.add(new Help.HoverCommand("/lagx warnings(warn) [status|on|off|toggle]", "Toggle or view protocol warnings.", "hbzcleaner.warn", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx reload(rl)", "Reload plugin configuration without restarting the server.", "lagx.reload", true));
+   commandsHelp.add(new Help.HoverCommand("/lagx warnings(warn) [status|on|off|toggle]", "Toggle or view protocol warnings.", "lagx.warn", true));
    }
 
    public static void send(Player p, int pageNum) {

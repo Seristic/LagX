@@ -1,4 +1,4 @@
-package com.seristic.hbzcleaner.util;
+package com.seristic.lagx.util;
 
 public class DoubleVar<T1, T2> {
    private final T1 t1;

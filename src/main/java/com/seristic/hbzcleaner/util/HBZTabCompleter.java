@@ -1,6 +1,6 @@
-package com.seristic.hbzcleaner.util;
+package com.seristic.lagx.util;
 
-import com.seristic.hbzcleaner.api.proto.Protocol;
+import com.seristic.lagx.api.proto.Protocol;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -85,7 +85,7 @@ public class HBZTabCompleter implements TabCompleter {
                   return this.handleClearCompletion(args);
                case "preset":
                case "presets":
-                  // Expect: /hbzcleaner preset [info|set] and then preset names when set is chosen
+                  // Expect: /lagx preset [info|set] and then preset names when set is chosen
                   if (args.length == 2) {
                      return this.filterCompletions(Arrays.asList("info", "set"), args[1]);
                   }
@@ -169,7 +169,7 @@ public class HBZTabCompleter implements TabCompleter {
    }
 
    private List<String> handleEntitiesCompletion(String[] args) {
-      // Expect: /hbzcleaner entities [info|count|stats]
+      // Expect: /lagx entities [info|count|stats]
       if (args.length == 2) {
          return this.filterCompletions(Arrays.asList("info", "i", "count", "c", "stats", "s"), args[1]);
       }

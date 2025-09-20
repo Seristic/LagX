@@ -1,6 +1,6 @@
-package com.seristic.hbzcleaner.util;
+package com.seristic.lagx.util;
 
-import com.seristic.hbzcleaner.main.TickPerSecond;
+import com.seristic.lagx.main.TickPerSecond;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;

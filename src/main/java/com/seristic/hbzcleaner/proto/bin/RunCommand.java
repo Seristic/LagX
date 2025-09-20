@@ -1,19 +1,19 @@
-package com.seristic.hbzcleaner.proto.bin;
+package com.seristic.lagx.proto.bin;
 
-import com.seristic.hbzcleaner.api.aparser.ProtoParse;
-import com.seristic.hbzcleaner.api.proto.LRProtocol;
-import com.seristic.hbzcleaner.api.proto.LRProtocolResult;
-import com.seristic.hbzcleaner.api.proto.Protocol;
-import com.seristic.hbzcleaner.api.proto.ProtocolCategory;
-import com.seristic.hbzcleaner.api.proto.help.HelpFormatter;
-import com.seristic.hbzcleaner.util.Counter;
+import com.seristic.lagx.api.aparser.ProtoParse;
+import com.seristic.lagx.api.proto.LRProtocol;
+import com.seristic.lagx.api.proto.LRProtocolResult;
+import com.seristic.lagx.api.proto.Protocol;
+import com.seristic.lagx.api.proto.ProtocolCategory;
+import com.seristic.lagx.api.proto.help.HelpFormatter;
+import com.seristic.lagx.util.Counter;
 import java.util.HashMap;
 import org.bukkit.Bukkit;
 
 public class RunCommand implements LRProtocol {
    public static Counter counter;
    private static final String help = new HelpFormatter()
-      .set(HelpFormatter.HelpFormatterType.DESCRIPTION, "§eRuns a server command from HBZCleaner or another plugin.")
+      .set(HelpFormatter.HelpFormatterType.DESCRIPTION, "§eRuns a server command from LagX or another plugin.")
       .set(HelpFormatter.HelpFormatterType.CATEGORIES, "§eUNKNOWN")
       .set(HelpFormatter.HelpFormatterType.ARGUMENTS, HelpFormatter.generateArgs(new RunCommand().getProtocolParser()))
       .set(HelpFormatter.HelpFormatterType.RETURNS, "§e{0: <none>}")

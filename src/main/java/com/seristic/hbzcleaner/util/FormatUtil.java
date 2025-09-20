@@ -1,4 +1,4 @@
-package com.seristic.hbzcleaner.util;
+package com.seristic.lagx.util;
 
 import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;

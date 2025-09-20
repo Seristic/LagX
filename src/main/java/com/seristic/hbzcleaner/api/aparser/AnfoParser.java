@@ -1,7 +1,7 @@
-package com.seristic.hbzcleaner.api.aparser;
+package com.seristic.lagx.api.aparser;
 
-import com.seristic.hbzcleaner.api.proto.LRProtocol;
-import com.seristic.hbzcleaner.util.DoubleVar;
+import com.seristic.lagx.api.proto.LRProtocol;
+import com.seristic.lagx.util.DoubleVar;
 import java.util.Collections;
 import java.util.HashMap;
 import org.json.simple.JSONObject;

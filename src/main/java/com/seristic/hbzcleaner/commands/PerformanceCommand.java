@@ -1,7 +1,7 @@
-package com.seristic.hbzcleaner.commands;
+package com.seristic.lagx.commands;
 
-import com.seristic.hbzcleaner.main.HBZCleaner;
-import com.seristic.hbzcleaner.util.ColorUtil;
+import com.seristic.lagx.main.HBZCleaner;
+import com.seristic.lagx.util.ColorUtil;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
@@ -34,7 +34,7 @@ import org.bukkit.generator.WorldInfo;
 
 public class PerformanceCommand implements CommandExecutor, TabCompleter {
    private final HBZCleaner plugin;
-   private final String header = "§8§m-------------§r §6§lHBZCleaner Performance§r §8§m-------------§r";
+   private final String header = "§8§m-------------§r §6§lLagX Performance§r §8§m-------------§r";
    private final String footer = "§8§m-------------------------------------------------§r";
    private final int MAX_HISTORY = 60;
    private final List<Double> tpsHistory = new ArrayList<>();
@@ -97,7 +97,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
    }
 
    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-      if (!sender.hasPermission("hbzperf.use") && !sender.hasPermission("hbzcleaner.performance")) {
+      if (!sender.hasPermission("lagxperf.use") && !sender.hasPermission("lagx.performance")) {
          sender.sendMessage(ColorUtil.color("&cYou don't have permission to use this command."));
          return true;
       } else if (args.length == 0) {
@@ -107,7 +107,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
          String var5 = args[0].toLowerCase();
          switch (var5) {
             case "regions":
-               if (!sender.hasPermission("hbzperf.regions") && !sender.hasPermission("hbzcleaner.performance")) {
+               if (!sender.hasPermission("lagxperf.regions") && !sender.hasPermission("lagx.performance")) {
                   sender.sendMessage(ColorUtil.color("&cYou don't have permission to view region performance data."));
                   return true;
                }
@@ -115,7 +115,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
                this.showRegionStats(sender);
                break;
             case "memory":
-               if (!sender.hasPermission("hbzperf.memory") && !sender.hasPermission("hbzcleaner.performance")) {
+               if (!sender.hasPermission("lagxperf.memory") && !sender.hasPermission("lagx.performance")) {
                   sender.sendMessage(ColorUtil.color("&cYou don't have permission to view memory statistics."));
                   return true;
                }
@@ -123,7 +123,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
                this.showMemoryStats(sender);
                break;
             case "threads":
-               if (!sender.hasPermission("hbzperf.threads") && !sender.hasPermission("hbzcleaner.performance")) {
+               if (!sender.hasPermission("lagxperf.threads") && !sender.hasPermission("lagx.performance")) {
                   sender.sendMessage(ColorUtil.color("&cYou don't have permission to view thread information."));
                   return true;
                }
@@ -131,7 +131,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
                this.showThreadStats(sender);
                break;
             case "world":
-               if (!sender.hasPermission("hbzperf.world") && !sender.hasPermission("hbzcleaner.performance")) {
+               if (!sender.hasPermission("lagxperf.world") && !sender.hasPermission("lagx.performance")) {
                   sender.sendMessage(ColorUtil.color("&cYou don't have permission to view world statistics."));
                   return true;
                }
@@ -143,7 +143,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
                }
                break;
             case "history":
-               if (!sender.hasPermission("hbzperf.history") && !sender.hasPermission("hbzcleaner.performance")) {
+               if (!sender.hasPermission("lagxperf.history") && !sender.hasPermission("lagx.performance")) {
                   sender.sendMessage(ColorUtil.color("&cYou don't have permission to view TPS history."));
                   return true;
                }
@@ -151,7 +151,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
                this.showTpsHistory(sender);
                break;
             case "full":
-               if (!sender.hasPermission("hbzperf.full") && !sender.hasPermission("hbzcleaner.performance")) {
+               if (!sender.hasPermission("lagxperf.full") && !sender.hasPermission("lagx.performance")) {
                   sender.sendMessage(ColorUtil.color("&cYou don't have permission to view full performance data."));
                   return true;
                }
@@ -168,7 +168,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
    }
 
    private void showSummary(CommandSender sender) {
-      String customHeader = "§8§m-------------§r §6§lHBZCleaner Performance§r §8§m-------------§r";
+      String customHeader = "§8§m-------------§r §6§lLagX Performance§r §8§m-------------§r";
       sender.sendMessage(customHeader);
       sender.sendMessage(ColorUtil.color("&bServer Health Report"));
       int onlinePlayers = Bukkit.getOnlinePlayers().size();
@@ -238,7 +238,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
    }
 
    private void showRegionStats(CommandSender sender) {
-      sender.sendMessage("§8§m-------------§r §6§lHBZCleaner Performance§r §8§m-------------§r");
+      sender.sendMessage("§8§m-------------§r §6§lLagX Performance§r §8§m-------------§r");
       sender.sendMessage(ColorUtil.color("&b&lServer Health Report"));
 
       try {
@@ -312,7 +312,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
    }
 
    private void showMemoryStats(CommandSender sender) {
-      sender.sendMessage("§8§m-------------§r §6§lHBZCleaner Performance§r §8§m-------------§r");
+      sender.sendMessage("§8§m-------------§r §6§lLagX Performance§r §8§m-------------§r");
       sender.sendMessage(ColorUtil.color("&6&lDetailed Memory Statistics"));
       MemoryMXBean memoryBean = ManagementFactory.getMemoryMXBean();
       MemoryUsage heapUsage = memoryBean.getHeapMemoryUsage();
@@ -347,7 +347,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
    }
 
    private void showThreadStats(CommandSender sender) {
-      sender.sendMessage("§8§m-------------§r §6§lHBZCleaner Performance§r §8§m-------------§r");
+      sender.sendMessage("§8§m-------------§r §6§lLagX Performance§r §8§m-------------§r");
       sender.sendMessage(ColorUtil.color("&6&lThread Statistics"));
       ThreadMXBean threadBean = ManagementFactory.getThreadMXBean();
       int threadCount = threadBean.getThreadCount();
@@ -405,7 +405,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
       if (world == null) {
          sender.sendMessage(ColorUtil.color("&cWorld '" + worldName + "' not found"));
       } else {
-         sender.sendMessage("§8§m-------------§r §6§lHBZCleaner Performance§r §8§m-------------§r");
+         sender.sendMessage("§8§m-------------§r §6§lLagX Performance§r §8§m-------------§r");
          sender.sendMessage(ColorUtil.color("&6&lWorld Statistics: &f" + world.getName()));
          sender.sendMessage(ColorUtil.color("&6Environment: &f" + world.getEnvironment().name()));
          sender.sendMessage(ColorUtil.color("&6Loaded Chunks: &f" + world.getLoadedChunks().length));
@@ -435,7 +435,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
    }
 
    private void showTpsHistory(CommandSender sender) {
-      sender.sendMessage("§8§m-------------§r §6§lHBZCleaner Performance§r §8§m-------------§r");
+      sender.sendMessage("§8§m-------------§r §6§lLagX Performance§r §8§m-------------§r");
       sender.sendMessage(ColorUtil.color("&6&lTPS History (Last 60 seconds)"));
       synchronized (this.tpsHistory) {
          if (this.tpsHistory.isEmpty()) {
@@ -492,16 +492,16 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
    }
 
    private void showHelp(CommandSender sender) {
-      sender.sendMessage("§8§m-------------§r §6§lHBZCleaner Performance§r §8§m-------------§r");
-      sender.sendMessage(ColorUtil.color("&6&lHBZCleaner Performance Commands"));
-      sender.sendMessage(ColorUtil.color("&e/hbzperf &7- Shows a summary of server performance"));
-      sender.sendMessage(ColorUtil.color("&e/hbzperf regions &7- Shows detailed region performance"));
-      sender.sendMessage(ColorUtil.color("&e/hbzperf memory &7- Shows detailed memory statistics"));
-      sender.sendMessage(ColorUtil.color("&e/hbzperf threads &7- Shows thread usage information"));
-      sender.sendMessage(ColorUtil.color("&e/hbzperf world <name> &7- Shows stats for a specific world"));
-      sender.sendMessage(ColorUtil.color("&e/hbzperf history &7- Shows TPS history and trends"));
-      sender.sendMessage(ColorUtil.color("&e/hbzperf full &7- Shows all available performance data"));
-      sender.sendMessage(ColorUtil.color("&e/hbzperf help &7- Shows this help message"));
+      sender.sendMessage("§8§m-------------§r §6§lLagX Performance§r §8§m-------------§r");
+      sender.sendMessage(ColorUtil.color("&6&lLagX Performance Commands"));
+      sender.sendMessage(ColorUtil.color("&e/lagxperf &7- Shows a summary of server performance"));
+      sender.sendMessage(ColorUtil.color("&e/lagxperf regions &7- Shows detailed region performance"));
+      sender.sendMessage(ColorUtil.color("&e/lagxperf memory &7- Shows detailed memory statistics"));
+      sender.sendMessage(ColorUtil.color("&e/lagxperf threads &7- Shows thread usage information"));
+      sender.sendMessage(ColorUtil.color("&e/lagxperf world <name> &7- Shows stats for a specific world"));
+      sender.sendMessage(ColorUtil.color("&e/lagxperf history &7- Shows TPS history and trends"));
+      sender.sendMessage(ColorUtil.color("&e/lagxperf full &7- Shows all available performance data"));
+      sender.sendMessage(ColorUtil.color("&e/lagxperf help &7- Shows this help message"));
       sender.sendMessage("§8§m-------------------------------------------------§r");
    }
 
@@ -681,30 +681,30 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
 
    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
       List<String> completions = new ArrayList<>();
-      if (!sender.hasPermission("hbzperf.use") && !sender.hasPermission("hbzcleaner.performance")) {
+      if (!sender.hasPermission("lagxperf.use") && !sender.hasPermission("lagx.performance")) {
          return completions;
       } else if (args.length == 1) {
-         if (sender.hasPermission("hbzperf.regions") || sender.hasPermission("hbzcleaner.performance")) {
+         if (sender.hasPermission("lagxperf.regions") || sender.hasPermission("lagx.performance")) {
             completions.add("regions");
          }
 
-         if (sender.hasPermission("hbzperf.memory") || sender.hasPermission("hbzcleaner.performance")) {
+         if (sender.hasPermission("lagxperf.memory") || sender.hasPermission("lagx.performance")) {
             completions.add("memory");
          }
 
-         if (sender.hasPermission("hbzperf.threads") || sender.hasPermission("hbzcleaner.performance")) {
+         if (sender.hasPermission("lagxperf.threads") || sender.hasPermission("lagx.performance")) {
             completions.add("threads");
          }
 
-         if (sender.hasPermission("hbzperf.world") || sender.hasPermission("hbzcleaner.performance")) {
+         if (sender.hasPermission("lagxperf.world") || sender.hasPermission("lagx.performance")) {
             completions.add("world");
          }
 
-         if (sender.hasPermission("hbzperf.history") || sender.hasPermission("hbzcleaner.performance")) {
+         if (sender.hasPermission("lagxperf.history") || sender.hasPermission("lagx.performance")) {
             completions.add("history");
          }
 
-         if (sender.hasPermission("hbzperf.full") || sender.hasPermission("hbzcleaner.performance")) {
+         if (sender.hasPermission("lagxperf.full") || sender.hasPermission("lagx.performance")) {
             completions.add("full");
          }
 
@@ -713,7 +713,7 @@ public class PerformanceCommand implements CommandExecutor, TabCompleter {
       } else {
          return args.length != 2
                || !args[0].equalsIgnoreCase("world")
-               || !sender.hasPermission("hbzperf.world") && !sender.hasPermission("hbzcleaner.performance")
+               || !sender.hasPermission("lagxperf.world") && !sender.hasPermission("lagx.performance")
             ? completions
             : Bukkit.getWorlds()
                .stream()

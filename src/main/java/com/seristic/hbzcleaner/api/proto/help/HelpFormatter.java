@@ -1,7 +1,7 @@
-package com.seristic.hbzcleaner.api.proto.help;
+package com.seristic.lagx.api.proto.help;
 
-import com.seristic.hbzcleaner.api.aparser.ProtoParse;
-import com.seristic.hbzcleaner.util.DoubleVar;
+import com.seristic.lagx.api.aparser.ProtoParse;
+import com.seristic.lagx.util.DoubleVar;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
