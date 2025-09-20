@@ -1,11 +1,11 @@
-# HBZCleaner
+# HBZCleaner (LagX)
 
 [![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://www.oracle.com/java/)
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.20.6+-green.svg)](https://papermc.io/)
 [![Paper](https://img.shields.io/badge/Paper-Supported-blue.svg)](https://papermc.io/)
 [![Folia](https://img.shields.io/badge/Folia-Compatible-purple.svg)](https://papermc.io/software/folia)
 
-HBZCleaner is a comprehensive server optimization plugin designed for modern Minecraft servers running Paper and Folia. It provides advanced lag prevention, entity management, performance monitoring, and server optimization tools with an intuitive admin interface.
+HBZCleaner (user-facing name: LagX) is a comprehensive server optimization plugin designed for modern Minecraft servers running Paper and Folia. It provides advanced lag prevention, entity management, performance monitoring, and server optimization tools with an intuitive admin interface. Use `/lagx` as the primary command (legacy aliases like `/hbzcleaner` remain available).
 
 ## 🚀 Features
 
@@ -53,45 +53,45 @@ HBZCleaner is a comprehensive server optimization plugin designed for modern Min
 2. Place in your server's `plugins/` directory
 3. Start/restart your server
 4. Configure `plugins/HBZCleaner/config.yml` as needed
-5. Use `/hbzlag reload` to apply configuration changes
+5. Use `/lagx reload` to apply configuration changes
 
 ## 🎮 Commands & Permissions
 
 ### Core Commands
 
-All commands use the `/hbzlag` prefix with the following permissions:
+All commands use the `/lagx` prefix with the following permissions (legacy `/hbzcleaner` also works):
 
-| Command               | Permission      | Description                             |
-| --------------------- | --------------- | --------------------------------------- |
-| `/hbzlag help [page]` | `hbzlag.help`   | Interactive help system with pagination |
-| `/hbzlag status`      | `hbzlag.status` | Quick server health overview            |
-| `/hbzlag tps`         | `hbzlag.tps`    | Current TPS with health indicators      |
-| `/hbzlag ram`         | `hbzlag.ram`    | Detailed memory usage statistics        |
-| `/hbzlag gc`          | `hbzlag.gc`     | Manual garbage collection               |
-| `/hbzlag reload`      | `hbzlag.reload` | Reload plugin configuration             |
+| Command             | Permission          | Description                             |
+| ------------------- | ------------------- | --------------------------------------- |
+| `/lagx help [page]` | `hbzcleaner.help`   | Interactive help system with pagination |
+| `/lagx status`      | `hbzcleaner.status` | Quick server health overview            |
+| `/lagx tps`         | `hbzcleaner.tps`    | Current TPS with health indicators      |
+| `/lagx ram`         | `hbzcleaner.ram`    | Detailed memory usage statistics        |
+| `/lagx gc`          | `hbzcleaner.gc`     | Manual garbage collection               |
+| `/lagx reload`      | `hbzcleaner.reload` | Reload plugin configuration             |
 
 ### Entity Management
 
 | Command                      | Permission         | Description                                |
 | ---------------------------- | ------------------ | ------------------------------------------ |
-| `/hbzlag clear [type]`       | `hbzlag.clear`     | Clear entities/items with Towny protection |
-| `/hbzlag count [type]`       | `hbzlag.count`     | Count entities/items in worlds             |
-| `/hbzlag entities [preset]`  | `hbzlag.entities`  | Entity limiter management                  |
-| `/hbzlag villagers [action]` | `hbzlag.villagers` | Villager optimizer controls                |
+| `/lagx clear [type]`       | `hbzcleaner.clear`     | Clear entities/items with Towny protection |
+| `/lagx count [type]`       | `hbzcleaner.clear`     | Count entities/items in worlds             |
+| `/lagx entities [preset]`  | `hbzcleaner.entities`  | Entity limiter management                  |
+| `/lagx villagers [action]` | `hbzcleaner.villagers` | Villager optimizer controls                |
 
 ### Entity Stacker
 
 | Command                          | Permission       | Description                         |
 | -------------------------------- | ---------------- | ----------------------------------- |
-| `/hbzlag stacker info`           | `hbzlag.stacker` | Stacker statistics and status       |
-| `/hbzlag stacker debug`          | `hbzlag.stacker` | Debug information for current chunk |
-| `/hbzlag stacker reload`         | `hbzlag.stacker` | Reload stacker configuration        |
-| `/hbzlag stacker stack [radius]` | `hbzlag.stacker` | Manual stacking in radius           |
+| `/lagx stacker info`           | `hbzcleaner.stacker` | Stacker statistics and status       |
+| `/lagx stacker debug`          | `hbzcleaner.stacker` | Debug information for current chunk |
+| `/lagx stacker reload`         | `hbzcleaner.stacker` | Reload stacker configuration        |
+| `/lagx stacker stack [radius]` | `hbzcleaner.stacker` | Manual stacking in radius           |
 
 ### Permission Wildcards
 
-- `hbzlag.*` - All permissions
-- `hbzlag.admin` - All admin permissions (legacy)
+- `hbzcleaner.*` - All permissions
+- `hbzcleaner.admin` - All admin permissions (legacy)
 
 ## ⚙️ Configuration
 
@@ -179,35 +179,55 @@ With `max_stack_size.mobs: 8` and `max_stacks_per_chunk: 4`:
 
 ```bash
 # Check stacker status
-/hbzlag stacker info
+/lagx stacker info
 
 # Debug current chunk
-/hbzlag stacker debug
+/lagx stacker debug
 
 # Reload configuration
-/hbzlag stacker reload
+/lagx stacker reload
 
 # Manual stacking
-/hbzlag stacker stack 50
+/lagx stacker stack 50
 ```
 
 ## 🐛 Troubleshooting
 
 ### Entity Stacker Not Working
 
-1. **Check enabled status**: `/hbzlag stacker info`
+1. **Check enabled status**: `/lagx stacker info`
 2. **Verify entity whitelist**: Ensure entity type is in `stackable_entities`
 3. **Check range**: Entities must be within `stacking_range` (default 5 blocks)
 4. **Debug output**: Enable `debug: true` and check console logs
-5. **Test reload**: `/hbzlag stacker reload` after config changes
+5. **Test reload**: `/lagx stacker reload` after config changes
 
 ### Performance Issues
 
-1. **Check TPS**: `/hbzlag tps` for current performance
-2. **Memory usage**: `/hbzlag ram` for memory statistics
-3. **Entity counts**: `/hbzlag count` to identify problem areas
+1. **Check TPS**: `/lagx tps` for current performance
+2. **Memory usage**: `/lagx ram` for memory statistics
+3. **Entity counts**: `/lagx count` to identify problem areas
 4. **Adjust limits**: Lower entity limits if needed
 5. **Enable cleanups**: Ensure auto-lag-removal is enabled
+
+## 📚 Documentation
+
+Comprehensive documentation lives in `docs/wiki/` and mirrors the GitHub Wiki structure:
+
+- `docs/wiki/Home.md` — overview and quick links
+- `docs/wiki/Installation.md` — requirements and setup
+- `docs/wiki/Commands.md` — full command list for `/lagx` and `/lagxperf`
+- `docs/wiki/Permissions.md` — permission nodes (`hbzcleaner.*`, `hbzperf.*`)
+- `docs/wiki/Configuration.md` — all config keys explained
+- `docs/wiki/Protocols.md` — protocol system and built-ins
+- `docs/wiki/Entity Limiter.md` — limiter presets and runtime control
+- `docs/wiki/Entity Stacker.md` — stacking system usage
+- `docs/wiki/Villager Optimization.md` — villager AI tuning
+- `docs/wiki/Towny Integration.md` — Towny-aware cleanup behavior
+- `docs/wiki/Performance Command.md` — performance reports and history
+- `docs/wiki/Modules.md` — extend LagX with drop-in modules
+- `docs/wiki/Troubleshooting.md` and `docs/wiki/FAQ.md`
+
+If you prefer GitHub Wiki, copy these files into the repo's Wiki or set up a sync.
 
 ### Configuration Problems
 
@@ -247,7 +267,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-**Built with ❤️ for the Minecraft server community**
+### Built with ❤️ for the Minecraft server community
 
 - Entity limiting and buffer systems
 - Towny integration and junk material whitelist
