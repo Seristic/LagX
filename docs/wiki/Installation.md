@@ -9,7 +9,7 @@ Requirements:
 Steps:
 
 1. Download the plugin jar (artifact name `LagX-<version>-folia.jar`).
-2. Place it in your server's `plugins/` folder (you can keep the filename `HBZCleaner.jar` if preferred).
+2. Place it in your server's `plugins/` folder (you can keep the filename `lagx.jar` if preferred).
 3. Start the server once to generate `config.yml`.
 4. Edit `config.yml` to your needs. See [[Configuration]].
 5. Reload with `/lagx reload` or restart the server.

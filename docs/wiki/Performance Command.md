@@ -14,4 +14,4 @@ Subcommands:
 
 Permissions:
 
-- See [[Permissions#performance-command]]. Any `hbzperf.*` or `hbzcleaner.performance` grants access.
+- See [[Permissions#performance-command]]. Any `lagxperf.*` or `lagx.performance` grants access.

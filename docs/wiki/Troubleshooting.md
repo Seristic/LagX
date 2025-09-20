@@ -4,13 +4,13 @@ Common issues and fixes.
 
 - Command not found or permission denied
 
-  - Ensure you're using `/lagx` and have the relevant `hbzcleaner.*` permissions.
+  - Ensure you're using `/lagx` and have the relevant `lagx.*` permissions.
   - Check `plugin.yml` loaded aliases: `lagx`, `lagxperf`.
 
 - Protocol warnings not showing
 
   - Ensure `protocol_warnings.enabled: true` in config.
-  - Only players with `hbzcleaner.warn` will see warnings.
+  - Only players with `lagx.warn` will see warnings.
 
 - Entity limiter isn't doing anything
 
@@ -29,7 +29,7 @@ Common issues and fixes.
   - Use `/lagx villagers optimize <world>` to run once.
 
 - Performance command errors
-  - Requires `hbzperf.use` (or `hbzcleaner.performance`). Use `/lagxperf help`.
+  - Requires `lagxperf.use` (or `lagx.performance`). Use `/lagxperf help`.
 
 Logs/Support:
 

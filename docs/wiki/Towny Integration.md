@@ -5,7 +5,7 @@ LagX optionally integrates with Towny to respect protected regions during cleanu
 Notes:
 
 - The plugin has a soft-depend on Towny. If Towny is not present, the integration is disabled automatically.
-- A bypass permission `hbzcleaner.towny.bypass` exists for administrative overrides.
+- A bypass permission `lagx.towny.bypass` exists for administrative overrides.
 
 Commands:
 
@@ -14,5 +14,5 @@ Commands:
 
 Permissions:
 
-- `hbzcleaner.towny`
-- `hbzcleaner.towny.bypass`
+- `lagx.towny`
+- `lagx.towny.bypass`

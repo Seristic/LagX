@@ -33,10 +33,10 @@ Common nodes:
 
 Performance command:
 
-- `hbzperf.use` — Use `/lagxperf`
-- `hbzperf.regions` — Regions report
-- `hbzperf.memory` — Memory report
-- `hbzperf.threads` — Threads report
-- `hbzperf.world` — World report
-- `hbzperf.history` — TPS history
-- `hbzperf.full` — Full report
+- `lagxperf.use` — Use `/lagxperf`
+- `lagxperf.regions` — Regions report
+- `lagxperf.memory` — Memory report
+- `lagxperf.threads` — Threads report
+- `lagxperf.world` — World report
+- `lagxperf.history` — TPS history
+- `lagxperf.full` — Full report

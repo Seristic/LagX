@@ -39,5 +39,5 @@ Commands:
 
 Permissions:
 
-- `hbzcleaner.entities`
-- `hbzcleaner.preset` (for preset switching)
+- `lagx.entities`
+- `lagx.preset` (for preset switching)

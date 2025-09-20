@@ -5,7 +5,7 @@
 [![Paper](https://img.shields.io/badge/Paper-Supported-blue.svg)](https://papermc.io/)
 [![Folia](https://img.shields.io/badge/Folia-Compatible-purple.svg)](https://papermc.io/software/folia)
 
-HBZCleaner (user-facing name: LagX) is a comprehensive server optimization plugin designed for modern Minecraft servers running Paper and Folia. It provides advanced lag prevention, entity management, performance monitoring, and server optimization tools with an intuitive admin interface. Use `/lagx` as the primary command (legacy aliases like `/hbzcleaner` remain available).
+LagX is a comprehensive server optimization plugin designed for modern Minecraft servers running Paper and Folia. It provides advanced lag prevention, entity management, performance monitoring, and server optimization tools with an intuitive admin interface. Use `/lagx` as the primary command (legacy aliases like `/hbzcleaner` remain available).
 
 ## 🚀 Features
 
@@ -216,7 +216,7 @@ Comprehensive documentation lives in `docs/wiki/` and mirrors the GitHub Wiki st
 - `docs/wiki/Home.md` — overview and quick links
 - `docs/wiki/Installation.md` — requirements and setup
 - `docs/wiki/Commands.md` — full command list for `/lagx` and `/lagxperf`
-- `docs/wiki/Permissions.md` — permission nodes (`lagx.*`, `hbzperf.*`)
+- `docs/wiki/Permissions.md` — permission nodes (`lagx.*`, `lagxperf.*`)
 - `docs/wiki/Configuration.md` — all config keys explained
 - `docs/wiki/Protocols.md` — protocol system and built-ins
 - `docs/wiki/Entity Limiter.md` — limiter presets and runtime control
@@ -238,7 +238,7 @@ If you prefer GitHub Wiki, copy these files into the repo's Wiki or set up a syn
 
 ## 📊 Performance Impact
 
-HBZCleaner is designed for minimal performance overhead:
+LagX is designed for minimal performance overhead:
 
 - **Efficient Algorithms** - O(1) entity lookups and smart caching
 - **Async Processing** - Heavy operations run on async threads
@@ -260,8 +260,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🔗 Links
 
-- **Issues**: [GitHub Issues](https://github.com/Seristic/HBZCleaner/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Seristic/HBZCleaner/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Seristic/LagX/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Seristic/LagX/discussions)
 - **Paper**: [PaperMC](https://papermc.io/)
 - **Folia**: [Folia Documentation](https://papermc.io/software/folia)
 
@@ -288,4 +288,4 @@ For support, feature requests, or bug reports, please visit our GitHub repositor
 
 ---
 
-**HBZCleaner** - Professional server optimization for modern Minecraft servers.
+**LagX** - Professional server optimization for modern Minecraft servers.
