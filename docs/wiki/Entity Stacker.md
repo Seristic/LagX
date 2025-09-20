@@ -25,4 +25,4 @@ Commands:
 
 Permissions:
 
-- `hbzcleaner.stacker`
+- `lagx.stacker`

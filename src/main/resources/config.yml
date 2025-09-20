@@ -126,7 +126,7 @@ lag_protocols:
 
   # Protocols to run when server TPS is low
   low_tps:
-    cc_entities: '{"Delay":"true", "Count": "false", "ToClear":"null", "World":"%all%"}'
+    cc_entities: '{"Delay":"true", "Count": "false", "ToClear":null, "World":"%all%"}'
 
   # Protocols to run on a schedule (based on auto-lag-removal settings)
   periodically:
@@ -167,44 +167,14 @@ nosaveworlds:
   - DISABLED
 
 # ======================================
-# LAG DETECTION AND PREVENTION
+# SMART LAG DETECTION
 # ======================================
 
-# LagX AI Configuration
-ai:
-  # Enable the advanced AI prediction system
-  enabled: true
-
-  # How often to collect server metrics (in seconds)
-  collection_interval: 30
-
-  # Maximum number of data points to store in memory
-  max_history_size: 1000
-
-  # TPS thresholds for predictions
-  tps_warning_threshold: 15.0
-  tps_critical_threshold: 10.0
-
-  # Enable automatic actions based on predictions
-  auto_actions: true
-
-  # Confidence threshold for taking automatic actions (0.0-1.0)
-  action_confidence_threshold: 0.7
-
-  # Prediction window in minutes
-  prediction_window: 5
-
-# This determines if the Smart Lag Detection AI is working to keep your server lag free. (10)
-smartlagai: true
-
-# This prevents the LagX AI from repeatedly attempting to reduce lag if the server grows beyond repair. This
-# should rarely happen, but if it does, this will prevent HBZCleaner from adding to the problem. Time in minutes.
-smartaicooldown: 3
-
-# Smart lag detection. If a player types "lag" or "lagg" in the chat and your server TPS is less than this number, the servers lag removal AI will become active. (10)
+# Smart lag detection thresholds for automatic protocol execution
+# If a player types "lag" or "lagg" in chat and server TPS is below this value, lag removal protocols will activate
 TPS: 16.00
 
-# Smart lag detection. If a player types "lag" or "lagg" in the chat and your server has less than this amount of ram left, the servers lag removal AI will become active. UNIT IN MEGABYTES (10)
+# If server available RAM drops below this amount (in MB), RAM-based cleanup protocols will activate
 RAM: 100
 
 # ======================================
@@ -318,7 +288,7 @@ villager_optimization:
 # PLAYER-TRIGGERED LAG MANAGEMENT
 # ======================================
 
-# Allows the LagX AI (Artificial Intelligence) to perform action to lower the amount of packets being sent to just the player that typed lag. (10)
+# Enable player-triggered lag relief system - when a player types "lag" in chat, removes entities around them to improve performance (10)
 doRelativeAction: true
 
 # When enabled, only allows the removal of items for relative lag removal for players.
@@ -327,18 +297,18 @@ doOnlyItemsForRelative: false
 # This prevents non-hostile mobs from being removed by the relative lag removal system. THIS HAS TO BE DISABLED TO USE doOnlyItemsForRelative
 dontDoFriendlyMobsForRelative: true
 
-# When the LagX AI detects a player is lagging. It will attempt to remove lag relative to player before looking at the whole server.
-# This defines the max radius in blocks the LagX AI can remove entities specified above. Radius in blocks.
+# When a player types "lag" in chat, the system will remove entities around them before looking at the whole server.
+# This defines the max radius in blocks where entities can be removed. Radius in blocks.
 localLagRadius: 10
 
 # Defines what percent of the entities in the "localLagRadius" are removed.
 localThinPercent: 80
 
-# How often the LagX AI can remove lag for a person (in seconds). This is to prevent players from tricking the AI into repeatedly clearing mobs or purging memory.
+# How often the lag relief system can activate for a person (in seconds). This prevents players from spamming the system.
 localLagRemovalCooldown: 60
 
 # Makes local lag removal only be triggered if the amount of entities in the 'localLagRadius' is greater than this
 localLagTriggered: 100
 
-# Time between messages a player can type in chat. If a player spams chat this can create lag. (in ticks 20 ticks = 1 second) If a player has the permission hbzcleaner.nochatdelay, they will not have their chat limited.
+# Time between messages a player can type in chat. If a player spams chat this can create lag. (in ticks 20 ticks = 1 second) If a player has the permission lagx.nochatdelay, they will not have their chat limited.
 chatDelay: 0

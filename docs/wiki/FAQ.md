@@ -1,6 +1,6 @@
 # FAQ
 
-- Why is the plugin called LagX but permissions are `hbzcleaner.*`?
+- Why is the plugin called LagX but permissions are `lagx.*`?
 
   - We rebranded user-facing names to LagX while keeping internal package names and permission nodes for compatibility.
 

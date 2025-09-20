@@ -20,5 +20,5 @@ Quick links:
 
 Notes:
 
-- Brand: User-facing name is LagX; package, main class, and permissions stay under `hbzcleaner.*` for compatibility.
+- Brand: User-facing name is LagX; package, main class, and permissions stay under `lagx.*` for compatibility.
 - Commands: Use `/lagx` (alias of main command) and `/lagxperf` (alias of performance command). Legacy aliases like `/hbzcleaner` and `/hbzperf` still work.

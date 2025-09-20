@@ -1,11 +1,11 @@
-# HBZCleaner (LagX)
+# LagX
 
 [![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://www.oracle.com/java/)
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.20.6+-green.svg)](https://papermc.io/)
 [![Paper](https://img.shields.io/badge/Paper-Supported-blue.svg)](https://papermc.io/)
 [![Folia](https://img.shields.io/badge/Folia-Compatible-purple.svg)](https://papermc.io/software/folia)
 
-HBZCleaner (user-facing name: LagX) is a comprehensive server optimization plugin designed for modern Minecraft servers running Paper and Folia. It provides advanced lag prevention, entity management, performance monitoring, and server optimization tools with an intuitive admin interface. Use `/lagx` as the primary command (legacy aliases like `/hbzcleaner` remain available).
+LagX is a comprehensive server optimization plugin designed for modern Minecraft servers running Paper and Folia. It provides advanced lag prevention, entity management, performance monitoring, and server optimization tools with an intuitive admin interface. Use `/lagx` as the primary command.
 
 ## 🚀 Features
 
@@ -49,49 +49,49 @@ HBZCleaner (user-facing name: LagX) is a comprehensive server optimization plugi
 
 ### Setup
 
-1. Download the latest `HBZCleaner-X.X-folia.jar` from releases
+1. Download the latest `LagX-X.X-folia.jar` from releases
 2. Place in your server's `plugins/` directory
 3. Start/restart your server
-4. Configure `plugins/HBZCleaner/config.yml` as needed
+4. Configure `plugins/LagX/config.yml` as needed
 5. Use `/lagx reload` to apply configuration changes
 
 ## 🎮 Commands & Permissions
 
 ### Core Commands
 
-All commands use the `/lagx` prefix with the following permissions (legacy `/hbzcleaner` also works):
+All commands use the `/lagx` prefix with the following permissions:
 
-| Command             | Permission          | Description                             |
-| ------------------- | ------------------- | --------------------------------------- |
-| `/lagx help [page]` | `hbzcleaner.help`   | Interactive help system with pagination |
-| `/lagx status`      | `hbzcleaner.status` | Quick server health overview            |
-| `/lagx tps`         | `hbzcleaner.tps`    | Current TPS with health indicators      |
-| `/lagx ram`         | `hbzcleaner.ram`    | Detailed memory usage statistics        |
-| `/lagx gc`          | `hbzcleaner.gc`     | Manual garbage collection               |
-| `/lagx reload`      | `hbzcleaner.reload` | Reload plugin configuration             |
+| Command             | Permission    | Description                             |
+| ------------------- | ------------- | --------------------------------------- |
+| `/lagx help [page]` | `lagx.help`   | Interactive help system with pagination |
+| `/lagx status`      | `lagx.status` | Quick server health overview            |
+| `/lagx tps`         | `lagx.tps`    | Current TPS with health indicators      |
+| `/lagx ram`         | `lagx.ram`    | Detailed memory usage statistics        |
+| `/lagx gc`          | `lagx.gc`     | Manual garbage collection               |
+| `/lagx reload`      | `lagx.reload` | Reload plugin configuration             |
 
 ### Entity Management
 
-| Command                    | Permission             | Description                                |
-| -------------------------- | ---------------------- | ------------------------------------------ |
-| `/lagx clear [type]`       | `hbzcleaner.clear`     | Clear entities/items with Towny protection |
-| `/lagx count [type]`       | `hbzcleaner.clear`     | Count entities/items in worlds             |
-| `/lagx entities [preset]`  | `hbzcleaner.entities`  | Entity limiter management                  |
-| `/lagx villagers [action]` | `hbzcleaner.villagers` | Villager optimizer controls                |
+| Command                    | Permission       | Description                                |
+| -------------------------- | ---------------- | ------------------------------------------ |
+| `/lagx clear [type]`       | `lagx.clear`     | Clear entities/items with Towny protection |
+| `/lagx count [type]`       | `lagx.clear`     | Count entities/items in worlds             |
+| `/lagx entities [preset]`  | `lagx.entities`  | Entity limiter management                  |
+| `/lagx villagers [action]` | `lagx.villagers` | Villager optimizer controls                |
 
 ### Entity Stacker
 
-| Command                        | Permission           | Description                         |
-| ------------------------------ | -------------------- | ----------------------------------- |
-| `/lagx stacker info`           | `hbzcleaner.stacker` | Stacker statistics and status       |
-| `/lagx stacker debug`          | `hbzcleaner.stacker` | Debug information for current chunk |
-| `/lagx stacker reload`         | `hbzcleaner.stacker` | Reload stacker configuration        |
-| `/lagx stacker stack [radius]` | `hbzcleaner.stacker` | Manual stacking in radius           |
+| Command                        | Permission     | Description                         |
+| ------------------------------ | -------------- | ----------------------------------- |
+| `/lagx stacker info`           | `lagx.stacker` | Stacker statistics and status       |
+| `/lagx stacker debug`          | `lagx.stacker` | Debug information for current chunk |
+| `/lagx stacker reload`         | `lagx.stacker` | Reload stacker configuration        |
+| `/lagx stacker stack [radius]` | `lagx.stacker` | Manual stacking in radius           |
 
 ### Permission Wildcards
 
-- `hbzcleaner.*` - All permissions
-- `hbzcleaner.admin` - All admin permissions (legacy)
+- `lagx.*` - All permissions
+- `lagx.admin` - All admin permissions
 
 ## ⚙️ Configuration
 
@@ -216,7 +216,7 @@ Comprehensive documentation lives in `docs/wiki/` and mirrors the GitHub Wiki st
 - `docs/wiki/Home.md` — overview and quick links
 - `docs/wiki/Installation.md` — requirements and setup
 - `docs/wiki/Commands.md` — full command list for `/lagx` and `/lagxperf`
-- `docs/wiki/Permissions.md` — permission nodes (`hbzcleaner.*`, `hbzperf.*`)
+- `docs/wiki/Permissions.md` — permission nodes (`lagx.*`, `lagxperf.*`)
 - `docs/wiki/Configuration.md` — all config keys explained
 - `docs/wiki/Protocols.md` — protocol system and built-ins
 - `docs/wiki/Entity Limiter.md` — limiter presets and runtime control
@@ -232,13 +232,13 @@ If you prefer GitHub Wiki, copy these files into the repo's Wiki or set up a syn
 ### Configuration Problems
 
 1. **Syntax errors**: Check YAML indentation and formatting
-2. **Reload failed**: Use `/hbzlag reload` and check console for errors
-3. **Permissions**: Ensure `hbzlag.*` or specific permissions are granted
+2. **Reload failed**: Use `/lagx reload` and check console for errors
+3. **Permissions**: Ensure `lagx.*` or specific permissions are granted
 4. **Plugin conflicts**: Check for conflicts with other entity plugins
 
 ## 📊 Performance Impact
 
-HBZCleaner is designed for minimal performance overhead:
+LagX is designed for minimal performance overhead:
 
 - **Efficient Algorithms** - O(1) entity lookups and smart caching
 - **Async Processing** - Heavy operations run on async threads
@@ -260,8 +260,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🔗 Links
 
-- **Issues**: [GitHub Issues](https://github.com/Seristic/HBZCleaner/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Seristic/HBZCleaner/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Seristic/LagX/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Seristic/LagX/discussions)
 - **Paper**: [PaperMC](https://papermc.io/)
 - **Folia**: [Folia Documentation](https://papermc.io/software/folia)
 
@@ -288,4 +288,4 @@ For support, feature requests, or bug reports, please visit our GitHub repositor
 
 ---
 
-**HBZCleaner** - Professional server optimization for modern Minecraft servers.
+**LagX** - Professional server optimization for modern Minecraft servers.

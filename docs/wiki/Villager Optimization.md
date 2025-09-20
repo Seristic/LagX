@@ -23,4 +23,4 @@ Commands:
 
 Permissions:
 
-- `hbzcleaner.villagers`
+- `lagx.villagers`
