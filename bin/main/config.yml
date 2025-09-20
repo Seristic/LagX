@@ -167,32 +167,8 @@ nosaveworlds:
   - DISABLED
 
 # ======================================
-# LAG DETECTION AND PREVENTION
+# SMART LAG DETECTION
 # ======================================
-
-# LagX AI Configuration
-ai:
-  # Enable the advanced AI prediction system
-  enabled: true
-
-  # How often to collect server metrics (in seconds)
-  collection_interval: 30
-
-  # Maximum number of data points to store in memory
-  max_history_size: 1000
-
-  # TPS thresholds for predictions
-  tps_warning_threshold: 15.0
-  tps_critical_threshold: 10.0
-
-  # Enable automatic actions based on predictions
-  auto_actions: true
-
-  # Confidence threshold for taking automatic actions (0.0-1.0)
-  action_confidence_threshold: 0.7
-
-  # Prediction window in minutes
-  prediction_window: 5
 
 # This determines if the Smart Lag Detection AI is working to keep your server lag free. (10)
 smartlagai: true
