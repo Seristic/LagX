@@ -50,7 +50,7 @@ LagX began as a community-driven evolution of the excellent LaggRemover plugin. 
 
 **Special thanks to the original LaggRemover authors** for creating such a solid foundation for server optimization!
 
-> *If you're interested in the original project, check out [LaggRemover](https://dev.bukkit.org/projects/lagg-remover) and its [community fork](https://github.com/RIvance/LaggRemoverRemastered).*
+> _If you're interested in the original project, check out [LaggRemover](https://dev.bukkit.org/projects/lagg-remover) and its [community fork](https://github.com/RIvance/LaggRemoverRemastered)._
 
 ## �📦 Installation
 
