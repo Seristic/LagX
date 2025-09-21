@@ -110,22 +110,24 @@ public class LagX extends JavaPlugin implements Listener {
         this.startTime = System.currentTimeMillis();
         instance = this;
         Bukkit.getServer().getPluginManager().registerEvents(new Events(), this);
-        Logger serverLogger = this.getServer().getLogger();
-        serverLogger.setFilter(new Filter() {
-            @Override
-            public boolean isLoggable(LogRecord record) {
-                String message = record.getMessage();
-                return !message.contains("[x") && message.contains("died");
-            }
-        });
+        // Removed a risky global server logger filter that suppressed most logs and could throw
+        // exceptions on null messages. If we need log filtering in the future, scope it to our
+        // plugin logger only and ensure it's null-safe.
         Bukkit.getAsyncScheduler().runAtFixedRate(this, task -> new TickPerSecond().run(), 5L, 50L,
                 TimeUnit.MILLISECONDS);
         Help.init();
         Protocol.init();
         HBZConfig.init();
         loaded = new HashMap<>();
-        String cfgPrefix = Objects.requireNonNull(this.getConfig().getString("prefix"));
-        if (cfgPrefix.contains("lagx")) {
+        String cfgPrefix = this.getConfig().getString("prefix");
+        if (cfgPrefix == null || cfgPrefix.isBlank()) {
+            cfgPrefix = "&6&lLagX &7&l>>&r ";
+            this.getConfig().set("prefix", cfgPrefix);
+            this.saveConfig();
+            this.getLogger().warning("Missing 'prefix' in config.yml, using default.");
+        }
+        // Migrate any accidental lowercase branding to proper casing
+        if (cfgPrefix.toLowerCase().contains("lagx") && !cfgPrefix.contains("LagX")) {
             String migrated = cfgPrefix.replace("lagx", "LagX");
             this.getConfig().set("prefix", migrated);
             this.saveConfig();
@@ -163,7 +165,8 @@ public class LagX extends JavaPlugin implements Listener {
             modDir.mkdirs();
         }
 
-        for (File f : Objects.requireNonNull(modDir.listFiles())) {
+        File[] moduleFiles = modDir.listFiles();
+        if (moduleFiles != null) for (File f : moduleFiles) {
             if (!f.isDirectory() && f.getName().endsWith(".jar")) {
                 try (ZipFile zipFile = new ZipFile(f)) {
                     URL[] classes = new URL[] { f.toURI().toURL() };
@@ -209,11 +212,23 @@ public class LagX extends JavaPlugin implements Listener {
         this.getLogger().info("Item Frame Optimizer " + (this.itemFrameOptimizer.isEnabled() ? "enabled" : "disabled"));
         this.playerDeathTracker = new PlayerDeathTracker(this);
         this.getLogger().info("Player Death Tracker " + (this.playerDeathTracker.isEnabled() ? "enabled" : "disabled"));
-        Objects.requireNonNull(this.getCommand("lagx")).setExecutor(this);
-        Objects.requireNonNull(this.getCommand("lagx")).setTabCompleter(new HBZTabCompleter());
+        // Register commands with null-safety in case plugin.yml didn't load as expected
         this.performanceCommand = new PerformanceCommand(this);
-        Objects.requireNonNull(this.getCommand("lagxperf")).setExecutor(this.performanceCommand);
-        Objects.requireNonNull(this.getCommand("lagxperf")).setTabCompleter(this.performanceCommand);
+        org.bukkit.command.PluginCommand lagxCmd = this.getCommand("lagx");
+        if (lagxCmd != null) {
+            lagxCmd.setExecutor(this);
+            lagxCmd.setTabCompleter(new HBZTabCompleter());
+        } else {
+            this.getLogger().severe("Command 'lagx' not found in plugin.yml; executor not registered.");
+        }
+
+        org.bukkit.command.PluginCommand perfCmd = this.getCommand("lagxperf");
+        if (perfCmd != null) {
+            perfCmd.setExecutor(this.performanceCommand);
+            perfCmd.setTabCompleter(this.performanceCommand);
+        } else {
+            this.getLogger().severe("Command 'lagxperf' not found in plugin.yml; executor not registered.");
+        }
         this.getLogger().info("Performance command registered and ready to use");
         // Rebrand enable log
         this.getLogger().info("§6LagX has been enabled!");
