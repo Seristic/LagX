@@ -1,6 +1,9 @@
-package com.seristic.lagx.util;
+
 
 import org.junit.jupiter.api.Test;
+
+import com.seristic.lagx.util.ColorUtil;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ColorUtilTest {

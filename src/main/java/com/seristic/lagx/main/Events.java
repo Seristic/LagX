@@ -55,51 +55,70 @@ public class Events implements Listener {
             this.smartLagDetection();
          }
 
-         List<Entity> nearbyEntities = p.getNearbyEntities((double) HBZConfig.localLagRadius,
-               (double) HBZConfig.localLagRadius, (double) HBZConfig.localLagRadius);
-         if (nearbyEntities.size() < HBZConfig.localLagTriggered) {
-            return;
-         }
+         // Schedule the entity detection and removal to run on the main thread
+         // since getNearbyEntities() cannot be called from async chat thread
+         p.getScheduler().run(LagX.getInstance(), task -> {
+            List<Entity> nearbyEntities = p.getNearbyEntities((double) HBZConfig.localLagRadius,
+                  (double) HBZConfig.localLagRadius, (double) HBZConfig.localLagRadius);
+            if (nearbyEntities.size() < HBZConfig.localLagTriggered) {
+               return;
+            }
 
-         this.cooldown(uuid);
-         int entsLeng = (int) ((float) nearbyEntities.size() * HBZConfig.localThinPercent);
-         int toRemove = nearbyEntities.size() - entsLeng;
+            this.cooldown(uuid);
+            int entsLeng = (int) ((float) nearbyEntities.size() * HBZConfig.localThinPercent);
+            int toRemove = nearbyEntities.size() - entsLeng;
 
-         for (int i = 0; i < toRemove && !nearbyEntities.isEmpty(); i++) {
-            nearbyEntities.remove(0);
-         }
+            for (int i = 0; i < toRemove && !nearbyEntities.isEmpty(); i++) {
+               nearbyEntities.remove(0);
+            }
 
-         p.sendMessage("§eEntities around you are being removed because we detected you were lagging.");
-         if (HBZConfig.doOnlyItemsForRelative) {
-            Bukkit.getAsyncScheduler().runDelayed(LagX.getInstance(), task -> {
-               for (Entity entity : nearbyEntities) {
-                  if (entity instanceof Item) {
-                     entity.remove();
+            p.sendMessage("§eEntities around you are being removed because we detected you were lagging.");
+            if (HBZConfig.doOnlyItemsForRelative) {
+               // Schedule item removal on main thread for Folia compatibility
+               Bukkit.getAsyncScheduler().runDelayed(LagX.getInstance(), removeTask -> {
+                  for (Entity entity : nearbyEntities) {
+                     if (entity instanceof Item) {
+                        // Schedule each entity removal on its owning region
+                        Bukkit.getRegionScheduler().run(LagX.getInstance(), entity.getLocation(), regionTask -> {
+                           if (entity.isValid()) {
+                              entity.remove();
+                           }
+                        });
+                     }
                   }
-               }
-            }, 50L, TimeUnit.MILLISECONDS);
-         } else if (HBZConfig.dontDoFriendlyMobsForRelative) {
-            Bukkit.getAsyncScheduler().runDelayed(LagX.getInstance(), task -> {
-               CCEntities.clearEntities(nearbyEntities, false, CCEntities.hostile);
-
-               for (Entity entity : nearbyEntities) {
-                  if (entity instanceof Item) {
-                     entity.remove();
+               }, 50L, TimeUnit.MILLISECONDS);
+            } else if (HBZConfig.dontDoFriendlyMobsForRelative) {
+               // Schedule entity removal on main thread for Folia compatibility
+               Bukkit.getAsyncScheduler().runDelayed(LagX.getInstance(), removeTask -> {
+                  for (Entity entity : nearbyEntities) {
+                     if (entity instanceof Item || java.util.Arrays.asList(CCEntities.hostile).contains(entity.getType())) {
+                        // Schedule each entity removal on its owning region
+                        Bukkit.getRegionScheduler().run(LagX.getInstance(), entity.getLocation(), regionTask -> {
+                           if (entity.isValid()) {
+                              entity.remove();
+                           }
+                        });
+                     }
                   }
-               }
-            }, 50L, TimeUnit.MILLISECONDS);
-         } else {
-            Bukkit.getAsyncScheduler().runDelayed(LagX.getInstance(), task -> {
-               CCEntities.clearEntities(nearbyEntities, false, CCEntities.hostile);
-               CCEntities.clearEntities(nearbyEntities, false, CCEntities.peaceful);
-
-               for (Entity entity : nearbyEntities) {
-                  if (entity instanceof Item) {
-                     entity.remove();
+               }, 50L, TimeUnit.MILLISECONDS);
+            } else {
+               // Schedule all entity removal on main thread for Folia compatibility
+               Bukkit.getAsyncScheduler().runDelayed(LagX.getInstance(), removeTask -> {
+                  for (Entity entity : nearbyEntities) {
+                     if (entity instanceof Item || 
+                         java.util.Arrays.asList(CCEntities.hostile).contains(entity.getType()) ||
+                         java.util.Arrays.asList(CCEntities.peaceful).contains(entity.getType())) {
+                        // Schedule each entity removal on its owning region
+                        Bukkit.getRegionScheduler().run(LagX.getInstance(), entity.getLocation(), regionTask -> {
+                           if (entity.isValid()) {
+                              entity.remove();
+                           }
+                        });
+                     }
                   }
-               }
-            }, 50L, TimeUnit.MILLISECONDS);
-         }
+               }, 50L, TimeUnit.MILLISECONDS);
+            }
+         }, null);
       }
    }
 

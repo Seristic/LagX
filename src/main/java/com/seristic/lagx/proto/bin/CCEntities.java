@@ -116,7 +116,12 @@ public class CCEntities implements LRProtocol {
       for (Entity e : ents) {
          if (!e.getType().equals(EntityType.PLAYER) && orAll(e.getType(), include)) {
             if (!count) {
-               e.remove();
+               // Use region scheduler for Folia compatibility
+               Bukkit.getRegionScheduler().run(com.seristic.lagx.main.LagX.getInstance(), e.getLocation(), task -> {
+                  if (e.isValid()) {
+                     e.remove();
+                  }
+               });
             }
 
             i++;
