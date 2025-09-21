@@ -91,7 +91,8 @@ public class Events implements Listener {
                // Schedule entity removal on main thread for Folia compatibility
                Bukkit.getAsyncScheduler().runDelayed(LagX.getInstance(), removeTask -> {
                   for (Entity entity : nearbyEntities) {
-                     if (entity instanceof Item || java.util.Arrays.asList(CCEntities.hostile).contains(entity.getType())) {
+                     if (entity instanceof Item
+                           || java.util.Arrays.asList(CCEntities.hostile).contains(entity.getType())) {
                         // Schedule each entity removal on its owning region
                         Bukkit.getRegionScheduler().run(LagX.getInstance(), entity.getLocation(), regionTask -> {
                            if (entity.isValid()) {
@@ -105,9 +106,9 @@ public class Events implements Listener {
                // Schedule all entity removal on main thread for Folia compatibility
                Bukkit.getAsyncScheduler().runDelayed(LagX.getInstance(), removeTask -> {
                   for (Entity entity : nearbyEntities) {
-                     if (entity instanceof Item || 
-                         java.util.Arrays.asList(CCEntities.hostile).contains(entity.getType()) ||
-                         java.util.Arrays.asList(CCEntities.peaceful).contains(entity.getType())) {
+                     if (entity instanceof Item ||
+                           java.util.Arrays.asList(CCEntities.hostile).contains(entity.getType()) ||
+                           java.util.Arrays.asList(CCEntities.peaceful).contains(entity.getType())) {
                         // Schedule each entity removal on its owning region
                         Bukkit.getRegionScheduler().run(LagX.getInstance(), entity.getLocation(), regionTask -> {
                            if (entity.isValid()) {

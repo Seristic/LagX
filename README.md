@@ -39,7 +39,20 @@ LagX is a comprehensive server optimization plugin designed for modern Minecraft
 - **Adventure API** - Modern text components with hover tooltips and click events
 - **Permission System** - Comprehensive wildcard support with centralized checks
 
-## 📦 Installation
+## � Project History
+
+LagX began as a community-driven evolution of the excellent LaggRemover plugin. While it shares the same core optimization philosophy, LagX has been completely rewritten with:
+
+- Modern Folia-native architecture
+- Enhanced performance algorithms
+- New features like villager optimization and entity stacking
+- Comprehensive testing and CI/CD pipeline
+
+**Special thanks to the original LaggRemover authors** for creating such a solid foundation for server optimization!
+
+> *If you're interested in the original project, check out [LaggRemover](https://dev.bukkit.org/projects/lagg-remover) and its [community fork](https://github.com/RIvance/LaggRemoverRemastered).*
+
+## �📦 Installation
 
 ### Requirements
 
