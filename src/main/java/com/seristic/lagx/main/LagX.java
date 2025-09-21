@@ -209,6 +209,7 @@ public class LagX extends JavaPlugin implements Listener {
         this.getLogger().info("Item Frame Optimizer " + (this.itemFrameOptimizer.isEnabled() ? "enabled" : "disabled"));
         this.playerDeathTracker = new PlayerDeathTracker(this);
         this.getLogger().info("Player Death Tracker " + (this.playerDeathTracker.isEnabled() ? "enabled" : "disabled"));
+        Objects.requireNonNull(this.getCommand("lagx")).setExecutor(this);
         Objects.requireNonNull(this.getCommand("lagx")).setTabCompleter(new HBZTabCompleter());
         this.performanceCommand = new PerformanceCommand(this);
         Objects.requireNonNull(this.getCommand("lagxperf")).setExecutor(this.performanceCommand);
