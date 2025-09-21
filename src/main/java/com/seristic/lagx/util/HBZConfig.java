@@ -123,7 +123,12 @@ public class HBZConfig {
 
    private static DoubleVar<Object[], Boolean> loadP(LRProtocol p, String lpk, FileConfiguration f) {
       try {
-         return AnfoParser.parse(p, f.getString(lpk));
+         String configValue = f.getString(lpk);
+         if (configValue == null) {
+            LagX.getInstance().getLogger().warning("Protocol config '" + lpk + "' is null, skipping.");
+            return null;
+         }
+         return AnfoParser.parse(p, configValue);
       } catch (ParseException | AnfoParser.AnfoParseException var4) {
          LagX.getInstance().getLogger().info("Error parsing protocol info for \"" + lpk + "\": " + var4.toString());
          return null;

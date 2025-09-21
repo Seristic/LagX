@@ -110,8 +110,10 @@ public class LagX extends JavaPlugin implements Listener {
         this.startTime = System.currentTimeMillis();
         instance = this;
         Bukkit.getServer().getPluginManager().registerEvents(new Events(), this);
-        // Removed a risky global server logger filter that suppressed most logs and could throw
-        // exceptions on null messages. If we need log filtering in the future, scope it to our
+        // Removed a risky global server logger filter that suppressed most logs and
+        // could throw
+        // exceptions on null messages. If we need log filtering in the future, scope it
+        // to our
         // plugin logger only and ensure it's null-safe.
         Bukkit.getAsyncScheduler().runAtFixedRate(this, task -> new TickPerSecond().run(), 5L, 50L,
                 TimeUnit.MILLISECONDS);
@@ -166,28 +168,30 @@ public class LagX extends JavaPlugin implements Listener {
         }
 
         File[] moduleFiles = modDir.listFiles();
-        if (moduleFiles != null) for (File f : moduleFiles) {
-            if (!f.isDirectory() && f.getName().endsWith(".jar")) {
-                try (ZipFile zipFile = new ZipFile(f)) {
-                    URL[] classes = new URL[] { f.toURI().toURL() };
-                    URLClassLoader loader = new URLClassLoader(classes, LagX.class.getClassLoader());
-                    YamlConfiguration c = new YamlConfiguration();
-                    c.load(new InputStreamReader(zipFile.getInputStream(zipFile.getEntry("module.yml"))));
-                    String name = c.getString("name");
-                    String version = c.getString("version");
-                    String author = c.getString("author");
-                    this.getLogger()
-                            .info("Loading module \"" + name + "-" + version + "\" created by \"" + author + "\"...");
-                    Class<?> plugin = Class.forName(c.getString("main"), true, loader);
-                    Module module = (Module) plugin.getDeclaredConstructor().newInstance();
-                    loaded.put(module, new String[] { name, version, author });
-                    module.onEnable();
-                } catch (InvalidConfigurationException | ReflectiveOperationException | IOException var18) {
-                    // Rebrand invalid module message
-                    this.getLogger().info("LagX located an invalid module named \"" + f.getName() + "\"");
+        if (moduleFiles != null)
+            for (File f : moduleFiles) {
+                if (!f.isDirectory() && f.getName().endsWith(".jar")) {
+                    try (ZipFile zipFile = new ZipFile(f)) {
+                        URL[] classes = new URL[] { f.toURI().toURL() };
+                        URLClassLoader loader = new URLClassLoader(classes, LagX.class.getClassLoader());
+                        YamlConfiguration c = new YamlConfiguration();
+                        c.load(new InputStreamReader(zipFile.getInputStream(zipFile.getEntry("module.yml"))));
+                        String name = c.getString("name");
+                        String version = c.getString("version");
+                        String author = c.getString("author");
+                        this.getLogger()
+                                .info("Loading module \"" + name + "-" + version + "\" created by \"" + author
+                                        + "\"...");
+                        Class<?> plugin = Class.forName(c.getString("main"), true, loader);
+                        Module module = (Module) plugin.getDeclaredConstructor().newInstance();
+                        loaded.put(module, new String[] { name, version, author });
+                        module.onEnable();
+                    } catch (InvalidConfigurationException | ReflectiveOperationException | IOException var18) {
+                        // Rebrand invalid module message
+                        this.getLogger().info("LagX located an invalid module named \"" + f.getName() + "\"");
+                    }
                 }
             }
-        }
 
         this.getLogger().info("Loaded " + loaded.size() + " module(s)");
         this.entityLimiter = new EntityLimiter(this);
@@ -238,8 +242,10 @@ public class LagX extends JavaPlugin implements Listener {
         Bukkit.getAsyncScheduler().cancelTasks(this);
         Bukkit.getGlobalRegionScheduler().cancelTasks(this);
 
-        for (Module module : loaded.keySet()) {
-            module.onDisable();
+        if (loaded != null) {
+            for (Module module : loaded.keySet()) {
+                module.onDisable();
+            }
         }
 
         if (this.entityLimiter != null) {

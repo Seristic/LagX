@@ -28,8 +28,12 @@ public class AnfoParser {
 
             ProtoParse.ProtoParseData protoParseData = k.get(key);
             String dataIn = (String) jsonData.get(key);
-            objMap.put(protoParseData.getIndex(),
-                  dataIn.equalsIgnoreCase("null") ? null : protoParseData.getClazz().getParser().parse(dataIn));
+            if (dataIn == null) {
+               objMap.put(protoParseData.getIndex(), null);
+            } else {
+               objMap.put(protoParseData.getIndex(),
+                     dataIn.equalsIgnoreCase("null") ? null : protoParseData.getClazz().getParser().parse(dataIn));
+            }
          }
       }
 
