@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to HBZCleaner will be documented in this file.
+All notable changes to LagX will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -70,25 +70,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Previous Versions]
 
-### Legacy LaggRemover Features (Maintained)
+### Legacy LaggRemover Features (Enhanced & Modernized)
 
-- Core lag removal protocols
-- TPS monitoring and reporting
-- Memory management and garbage collection
-- Automatic cleanup scheduling
-- World and chunk management
-- Entity and item clearing with warnings
-- Module system for extensibility
+LagX preserves the core optimization philosophy of the original LaggRemover while delivering a completely **rearchitected experience** for modern servers. **All features have been thoughtfully rewritten** to ensure:
+
+- **Full Folia compatibility** with proper region scheduler integration
+- **Enhanced performance** through optimized, thread-safe implementations
+- **Modern coding standards** that improve maintainability and extensibility
+
+_Note: The module system and garbage collection functionality remain largely unchanged, as they were already well-implemented for our needs._
 
 ---
 
+#### **Enhanced Features:**
+
+- **Core Lag Removal Protocols**  
+  Rewritten with Folia-safe threading and improved entity targeting algorithms
+- **TPS Monitoring & Reporting**  
+  Updated with more accurate tick tracking and real-time performance analytics
+- **Memory Management**  
+  Enhanced with better memory profiling and automatic cleanup triggers
+- **Automatic Cleanup Scheduling**  
+  Modernized with configurable schedules and intelligent lag detection
+- **World & Chunk Management**  
+  Rebuilt with improved chunk unloading and world-specific optimization
+- **Entity & Item Clearing**  
+  Enhanced with selective clearing, area-based operations, and detailed reporting
+- **Module System**  
+  _Preserved as-is_ - The original module architecture continues to work seamlessly
+
 ## Migration Guide
 
-### From LaggRemover to HBZCleaner
+### From LaggRemover to LagX
 
 1. **Backup your configuration** - Save existing `config.yml`
-2. **Install HBZCleaner** - Replace the old JAR file
-3. **Update permissions** - Change from `laggremover.*` to `hbzlag.*`
+2. **Install LagX** - Replace the old JAR file
+3. **Update permissions** - Change from `laggremover.*` to `lagx.*`
 4. **Review new features** - Configure Entity Stacker and Entity Limiter
 5. **Test functionality** - Verify all features work as expected
 
@@ -101,7 +118,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Command Changes
 
-- All commands now use `/hbzlag` prefix
+- All commands now use `/lagx` prefix
 - New stacker management commands available
 - Enhanced help system with pagination
 - Improved status and diagnostic commands

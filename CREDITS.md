@@ -1,0 +1,42 @@
+# LagX Credits
+
+## Original Foundation
+
+LagX builds upon the optimization concepts from the original **LaggRemover** plugin by the original authors.
+
+## Development Team
+
+- **Seristic** - Lead Developer, Architecture, Folia Integration
+- **Community Contributors** - Bug reports, testing, and feature suggestions
+
+## Special Thanks
+
+- The LaggRemover community for the inspiration
+- The PaperMC/Folia teams for modern server APIs
+- All plugin users who provide feedback and testing
+
+## Technical Acknowledgments
+
+- **Paper/Folia Development Team** - For providing excellent server software and APIs
+- **Towny Plugin Team** - For the integration-friendly architecture
+- **Minecraft Community** - For continuous feedback and improvement suggestions
+
+## Open Source Libraries
+
+- **Adventure API** - For modern text components and messaging
+- **JSON Simple** - For configuration parsing
+- **JUnit 5** - For automated testing framework
+- **Mockito** - For unit testing support
+
+## Community Recognition
+
+Special recognition goes to server administrators and developers who have contributed through:
+
+- Bug reports and detailed issue descriptions
+- Feature requests and enhancement suggestions
+- Testing on various server configurations
+- Documentation improvements and wiki contributions
+
+---
+
+_LagX continues the spirit of community-driven server optimization that began with LaggRemover, now enhanced for modern Minecraft versions and server software._
