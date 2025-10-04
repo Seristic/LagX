@@ -399,6 +399,70 @@ public class EntityLimiter implements Listener {
       return this.enabled;
    }
 
+   public void enable() {
+      this.enabled = true;
+   }
+
+   public void disable() {
+      this.enabled = false;
+   }
+
+   public int getGlobalLimit() {
+      return this.defaultWorldLimit;
+   }
+
+   public boolean hasPerWorldLimits() {
+      return !this.worldLimits.isEmpty();
+   }
+
+   public boolean isAutoCleanupEnabled() {
+      return this.enabled && this.checkInterval > 0;
+   }
+
+   public void reloadConfig() {
+      this.loadConfig();
+   }
+
+   public int performCleanup() {
+      if (!this.enabled) {
+         return 0;
+      }
+
+      int totalEntitiesBeforeCleanup = 0;
+      int totalEntitiesAfterCleanup = 0;
+
+      // Count entities before cleanup
+      for (World world : Bukkit.getWorlds()) {
+         for (Chunk chunk : world.getLoadedChunks()) {
+            for (Entity entity : chunk.getEntities()) {
+               if (entity != null && !(entity instanceof Player) && !(entity instanceof ItemFrame)) {
+                  totalEntitiesBeforeCleanup++;
+               }
+            }
+         }
+      }
+
+      // Perform cleanup
+      for (World world : Bukkit.getWorlds()) {
+         for (Chunk chunk : world.getLoadedChunks()) {
+            enforceChunkLimits(chunk);
+         }
+      }
+
+      // Count entities after cleanup
+      for (World world : Bukkit.getWorlds()) {
+         for (Chunk chunk : world.getLoadedChunks()) {
+            for (Entity entity : chunk.getEntities()) {
+               if (entity != null && !(entity instanceof Player) && !(entity instanceof ItemFrame)) {
+                  totalEntitiesAfterCleanup++;
+               }
+            }
+         }
+      }
+
+      return totalEntitiesBeforeCleanup - totalEntitiesAfterCleanup;
+   }
+
    public String getStatus() {
       if (!this.enabled) {
          return "§cDisabled";

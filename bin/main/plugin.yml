@@ -3,7 +3,7 @@
 name: LagX
 version: "${version}"
 main: com.seristic.lagx.main.LagX
-api-version: 1.21
+api-version: 1.20
 folia-supported: true
 author: Seristic
 description: An enhanced lag prevention and cleanup plugin optimized for Folia servers
