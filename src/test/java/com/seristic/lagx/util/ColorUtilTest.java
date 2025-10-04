@@ -1,4 +1,4 @@
-
+package com.seristic.lagx.util;
 
 import org.junit.jupiter.api.Test;
 

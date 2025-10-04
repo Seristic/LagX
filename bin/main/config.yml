@@ -45,6 +45,11 @@ stacker:
   # Stacking range - how close entities need to be to stack (in blocks)
   stacking_range: 5.0
 
+  # Prevent upward stacking - when true, entities below will NOT stack with entities above them
+  # This prevents mobs in kill zones (like blazes that fell down) from teleporting back up to the stack above
+  # Recommended: true for spawner farms where entities drop down to be killed
+  prevent_upward_stacking: true
+
   # Stack display format (use %amount% for the number of stacked entities)
   display_format: "&f[x%amount%] &r"
 

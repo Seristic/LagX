@@ -288,4 +288,107 @@ public class TownyIntegration {
          }
       }
    }
+
+   // Methods for TownyCommand integration
+   public boolean isEntityProtectionEnabled() {
+      return this.townyEnabled && this.plugin.getConfig().getBoolean("towny.entity-protection", true);
+   }
+
+   public boolean isChunkProtectionEnabled() {
+      return this.townyEnabled && this.plugin.getConfig().getBoolean("towny.chunk-protection", true);
+   }
+
+   public void enable() {
+      // Re-initialize Towny integration if it was disabled
+      if (!this.townyEnabled) {
+         try {
+            this.initTownyReflection();
+            this.plugin.getLogger().info("Towny integration enabled");
+         } catch (Exception e) {
+            this.plugin.getLogger().warning("Failed to enable Towny integration: " + e.getMessage());
+         }
+      }
+   }
+
+   public void disable() {
+      this.townyEnabled = false;
+      this.plugin.getLogger().info("Towny integration disabled");
+   }
+
+   public String getTownyVersion() {
+      return getVersion(); // Use existing getVersion method
+   }
+
+   public int getTownCount() {
+      if (!this.townyEnabled) {
+         return 0;
+      }
+      try {
+         // Use reflection to get town count from TownyUniverse
+         Class<?> townyUniverseClass = Class.forName("com.palmergames.bukkit.towny.TownyUniverse");
+         Method getInstanceMethod = townyUniverseClass.getMethod("getInstance");
+         Object townyUniverse = getInstanceMethod.invoke(null);
+         Method getTownsMethod = townyUniverseClass.getMethod("getTowns");
+         Object towns = getTownsMethod.invoke(townyUniverse);
+         if (towns instanceof java.util.Collection) {
+            return ((java.util.Collection<?>) towns).size();
+         }
+      } catch (Exception e) {
+         this.plugin.getLogger().warning("Failed to get town count: " + e.getMessage());
+      }
+      return 0;
+   }
+
+   public int getNationCount() {
+      if (!this.townyEnabled) {
+         return 0;
+      }
+      try {
+         // Use reflection to get nation count from TownyUniverse
+         Class<?> townyUniverseClass = Class.forName("com.palmergames.bukkit.towny.TownyUniverse");
+         Method getInstanceMethod = townyUniverseClass.getMethod("getInstance");
+         Object townyUniverse = getInstanceMethod.invoke(null);
+         Method getNationsMethod = townyUniverseClass.getMethod("getNations");
+         Object nations = getNationsMethod.invoke(townyUniverse);
+         if (nations instanceof java.util.Collection) {
+            return ((java.util.Collection<?>) nations).size();
+         }
+      } catch (Exception e) {
+         this.plugin.getLogger().warning("Failed to get nation count: " + e.getMessage());
+      }
+      return 0;
+   }
+
+   public int getProtectedChunkCount() {
+      if (!this.townyEnabled) {
+         return 0;
+      }
+      try {
+         // Use reflection to get protected chunk count
+         Class<?> townyUniverseClass = Class.forName("com.palmergames.bukkit.towny.TownyUniverse");
+         Method getInstanceMethod = townyUniverseClass.getMethod("getInstance");
+         Object townyUniverse = getInstanceMethod.invoke(null);
+         Method getTownsMethod = townyUniverseClass.getMethod("getTowns");
+         Object towns = getTownsMethod.invoke(townyUniverse);
+
+         int totalChunks = 0;
+         if (towns instanceof java.util.Collection) {
+            for (Object town : (java.util.Collection<?>) towns) {
+               try {
+                  Method getTownBlocksMethod = town.getClass().getMethod("getTownBlocks");
+                  Object townBlocks = getTownBlocksMethod.invoke(town);
+                  if (townBlocks instanceof java.util.Collection) {
+                     totalChunks += ((java.util.Collection<?>) townBlocks).size();
+                  }
+               } catch (Exception ex) {
+                  // Skip this town if we can't get its blocks
+               }
+            }
+         }
+         return totalChunks;
+      } catch (Exception e) {
+         this.plugin.getLogger().warning("Failed to get protected chunk count: " + e.getMessage());
+      }
+      return 0;
+   }
 }

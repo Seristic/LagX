@@ -182,7 +182,7 @@ public class Help {
       commandsHelp.add(cmd);
    }
 
-   private static List<List<Help.HoverCommand>> getPages() {
+   public static List<List<Help.HoverCommand>> getPages() {
       List<List<Help.HoverCommand>> h = new ArrayList<>();
       List<Help.HoverCommand> c = new ArrayList<>();
 

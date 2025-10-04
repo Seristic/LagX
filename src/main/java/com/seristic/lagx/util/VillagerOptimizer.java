@@ -215,6 +215,30 @@ public class VillagerOptimizer implements Listener {
       this.tickCounter = 0;
    }
 
+   public void reloadConfig() {
+      this.reload();
+   }
+
+   public void optimizeAllWorlds() {
+      if (!this.enabled) {
+         return;
+      }
+
+      for (World world : Bukkit.getWorlds()) {
+         optimizeWorld(world);
+      }
+   }
+
+   public void optimizeWorld(World world) {
+      if (!this.enabled || world == null) {
+         return;
+      }
+
+      for (Chunk chunk : world.getLoadedChunks()) {
+         optimizeChunkVillagers(chunk);
+      }
+   }
+
    public boolean isEnabled() {
       return this.enabled;
    }

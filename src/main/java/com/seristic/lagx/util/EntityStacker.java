@@ -48,6 +48,7 @@ public class EntityStacker implements Listener {
    private int maxStacksPerChunk;
    private String displayFormat;
    private boolean singleKill;
+   private boolean preventUpwardStacking;
    private final Map<UUID, Long> recentDeaths = new ConcurrentHashMap<>();
    private final Set<EntityType> stackableEntities = new HashSet<>();
    private final Set<Material> stackableItems = new HashSet<>();
@@ -140,6 +141,7 @@ public class EntityStacker implements Listener {
          this.maxSpawnerStackSize = config.getInt("max_stack_size.spawners", 5);
          this.maxStacksPerChunk = config.getInt("max_stacks_per_chunk", 4);
          this.displayFormat = config.getString("display_format", "<white>[x%amount%] <reset>");
+         this.preventUpwardStacking = config.getBoolean("prevent_upward_stacking", true);
          ConfigurationSection killConfig = config.getConfigurationSection("kill_behavior");
          if (killConfig != null) {
             this.singleKill = killConfig.getBoolean("single_kill", true);
@@ -251,6 +253,23 @@ public class EntityStacker implements Listener {
                }
 
                this.setStackMaster(master);
+            }
+
+            // DIRECTIONAL STACKING CHECK: Only allow stacking downward or horizontally
+            // Prevents entities in kill zones from teleporting back up to spawners
+            if (this.preventUpwardStacking) {
+               double masterY = master.getLocation().getY();
+               double slaveY = slave.getLocation().getY();
+
+               // If slave is below master, don't allow stacking (prevents upward
+               // teleportation)
+               if (slaveY < masterY - 0.5) {
+                  if (this.debugMode) {
+                     this.plugin.getLogger().info("Blocked upward stacking: " + slave.getType() +
+                           " at Y=" + slaveY + " would teleport up to Y=" + masterY);
+                  }
+                  return false;
+               }
             }
 
             int masterStackSize = this.getStackSize(master);
@@ -784,29 +803,39 @@ public class EntityStacker implements Listener {
 
             if (stackSize > 1) {
                if (this.singleKill) {
+                  // Single kill mode: reduce stack by 1, keep the entity alive
                   int newStackSize = stackSize - 1;
-                  Location loc = entity.getLocation();
-                  World world = entity.getWorld();
-                  EntityType type = entity.getType();
-                  Bukkit.getRegionScheduler().runDelayed(this.plugin, world, loc.getBlockX() >> 4, loc.getBlockZ() >> 4,
-                        task -> {
-                           if (this.plugin.isEnabled()) {
-                              Entity replacement = world.spawnEntity(loc, type);
-                              if (replacement instanceof LivingEntity living) {
-                                 this.setStackSize(replacement, newStackSize);
-                                 this.setStackMaster(replacement);
-                                 living.setNoDamageTicks(10);
-                                 living.setFireTicks(0);
-                              } else {
-                                 replacement.remove();
-                              }
 
-                              if (this.debugMode) {
-                                 this.plugin.getLogger().info(() -> "EntityStacker: Single kill - respawned " + type
-                                       + " with new stack size " + newStackSize);
-                              }
-                           }
-                        }, 1L);
+                  // Cancel the death event to prevent the entity from dying
+                  event.setCancelled(true);
+
+                  // Update the stack size immediately
+                  this.setStackSize(entity, newStackSize);
+                  this.updateDisplayName(entity, newStackSize);
+
+                  // Reset entity health to full
+                  entity.setHealth(entity.getMaxHealth());
+                  entity.setNoDamageTicks(10);
+                  entity.setFireTicks(0);
+
+                  // Drop items as if one entity died
+                  List<ItemStack> drops = event.getDrops();
+                  for (ItemStack drop : drops) {
+                     entity.getWorld().dropItemNaturally(entity.getLocation(), drop.clone());
+                  }
+
+                  // Grant XP as if one entity died
+                  int xpToDrop = event.getDroppedExp();
+                  if (xpToDrop > 0 && entity.getKiller() != null) {
+                     entity.getWorld().spawn(entity.getLocation(), org.bukkit.entity.ExperienceOrb.class, orb -> {
+                        orb.setExperience(xpToDrop);
+                     });
+                  }
+
+                  if (this.debugMode) {
+                     this.plugin.getLogger().info(() -> "EntityStacker: Single kill - reduced " + entity.getType()
+                           + " stack from " + stackSize + " to " + newStackSize);
+                  }
                   return;
                }
 
@@ -994,5 +1023,143 @@ public class EntityStacker implements Listener {
             item.remove();
          }
       }
+   }
+
+   public void enable() {
+      this.enabled = true;
+   }
+
+   public void disable() {
+      this.enabled = false;
+   }
+
+   public double getStackRadius() {
+      return this.stackingRange;
+   }
+
+   public int getMaxStackSize() {
+      return Math.max(this.maxItemStackSize, this.maxMobStackSize);
+   }
+
+   public boolean isAutoStackEnabled() {
+      return this.enabled;
+   }
+
+   public int stackEntitiesInWorld(World world) {
+      if (!this.enabled || world == null) {
+         return 0;
+      }
+
+      int totalStacked = 0;
+      for (Chunk chunk : world.getLoadedChunks()) {
+         totalStacked += stackEntitiesInChunk(chunk);
+      }
+      return totalStacked;
+   }
+
+   public int unstackEntitiesInWorld(World world) {
+      if (!this.enabled || world == null) {
+         return 0;
+      }
+
+      int totalUnstacked = 0;
+      for (Chunk chunk : world.getLoadedChunks()) {
+         for (Entity entity : chunk.getEntities()) {
+            if (isStackable(entity) && getStackSize(entity) > 1) {
+               int stackSize = getStackSize(entity);
+               unstackEntity(entity);
+               totalUnstacked += stackSize;
+            }
+         }
+      }
+      return totalUnstacked;
+   }
+
+   public int getTotalStacks() {
+      int totalStacks = 0;
+      for (World world : Bukkit.getWorlds()) {
+         for (Chunk chunk : world.getLoadedChunks()) {
+            for (Entity entity : chunk.getEntities()) {
+               if (isStackable(entity) && getStackSize(entity) > 1) {
+                  totalStacks++;
+               }
+            }
+         }
+      }
+      return totalStacks;
+   }
+
+   private int stackEntitiesInChunk(Chunk chunk) {
+      int stacked = 0;
+      for (Entity entity : chunk.getEntities()) {
+         if (isStackable(entity)) {
+            stacked += tryStackEntity(entity);
+         }
+      }
+      return stacked;
+   }
+
+   private int tryStackEntity(Entity entity) {
+      if (!isStackable(entity)) {
+         return 0;
+      }
+
+      Collection<Entity> nearby = entity.getLocation().getWorld()
+            .getNearbyEntities(entity.getLocation(), stackingRange, stackingRange, stackingRange);
+
+      for (Entity nearbyEntity : nearby) {
+         if (nearbyEntity != entity && canStackTogether(entity, nearbyEntity)) {
+            int entityStack = getStackSize(entity);
+            int nearbyStack = getStackSize(nearbyEntity);
+            int maxStack = entity instanceof Item ? maxItemStackSize : maxMobStackSize;
+
+            if (entityStack + nearbyStack <= maxStack) {
+               setStackSize(entity, entityStack + nearbyStack);
+               nearbyEntity.remove();
+               return nearbyStack;
+            }
+         }
+      }
+      return 0;
+   }
+
+   private void unstackEntity(Entity entity) {
+      if (!isStackable(entity)) {
+         return;
+      }
+
+      int stackSize = getStackSize(entity);
+      if (stackSize <= 1) {
+         return;
+      }
+
+      // Create individual entities for each stacked entity
+      Location loc = entity.getLocation();
+      for (int i = 1; i < stackSize; i++) {
+         Entity newEntity = loc.getWorld().spawnEntity(loc, entity.getType());
+         setStackSize(newEntity, 1);
+      }
+
+      setStackSize(entity, 1);
+   }
+
+   private boolean canStackTogether(Entity entity1, Entity entity2) {
+      if (!isStackable(entity1) || !isStackable(entity2)) {
+         return false;
+      }
+
+      if (entity1.getType() != entity2.getType()) {
+         return false;
+      }
+
+      // For items, check if they are similar
+      if (entity1 instanceof Item && entity2 instanceof Item) {
+         Item item1 = (Item) entity1;
+         Item item2 = (Item) entity2;
+         return item1.getItemStack().isSimilar(item2.getItemStack());
+      }
+
+      // For living entities, they must be the same type
+      return entity1 instanceof LivingEntity && entity2 instanceof LivingEntity;
    }
 }

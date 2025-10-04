@@ -128,7 +128,6 @@ _Note: The module system and garbage collection functionality remain largely unc
 ## Support
 
 - **Documentation**: See README.md for comprehensive setup guide
-- **Quick Setup**: See STACKER_SETUP.md for entity stacker configuration
 - **Issues**: Report bugs on GitHub Issues
 - **Community**: Join discussions on GitHub Discussions
 
