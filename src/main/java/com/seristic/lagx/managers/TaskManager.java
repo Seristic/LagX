@@ -1,6 +1,8 @@
 package com.seristic.lagx.managers;
 
 import com.seristic.lagx.main.LagX;
+import com.seristic.lagx.util.PlayerDeathTracker;
+import com.seristic.lagx.util.TownyIntegration;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import org.bukkit.Bukkit;
 
@@ -162,31 +164,61 @@ public class TaskManager {
     /**
      * Schedule lag removal across all worlds using region scheduler
      * This is Folia-compatible as it schedules tasks on entity regions
+     * Clears ALL items except those protected by death tracker or Towny
      */
     private void schedulePerWorldLagRemoval() {
+        PlayerDeathTracker deathTracker = null;
+        try {
+            deathTracker = plugin.getPlayerDeathTracker();
+        } catch (Exception e) {
+            // Death tracker not available
+        }
+        
+        TownyIntegration towny = LagX.getTownyIntegration();
+        
         for (org.bukkit.World world : Bukkit.getWorlds()) {
-            // Execute on each entity's owning region
-            Bukkit.getRegionScheduler().execute(plugin, world, 0, 0, () -> {
-                try {
-                    int removed = 0;
-                    for (org.bukkit.entity.Entity entity : world.getEntities()) {
-                        if (entity instanceof org.bukkit.entity.Item) {
-                            org.bukkit.entity.Item item = (org.bukkit.entity.Item) entity;
-                            // Check if item is old enough to remove (5 minutes = 6000 ticks)
-                            if (item.getTicksLived() > 6000) {
-                                item.remove();
-                                removed++;
+            // Process each chunk in the world
+            for (org.bukkit.Chunk chunk : world.getLoadedChunks()) {
+                PlayerDeathTracker finalDeathTracker = deathTracker;
+                
+                // Execute on the chunk's owning region thread
+                Bukkit.getRegionScheduler().execute(plugin, world, chunk.getX(), chunk.getZ(), () -> {
+                    try {
+                        int removed = 0;
+                        int protectedCount = 0; // Renamed from 'protected' which is a keyword
+                        
+                        for (org.bukkit.entity.Entity entity : chunk.getEntities()) {
+                            if (entity instanceof org.bukkit.entity.Item) {
+                                org.bukkit.entity.Item item = (org.bukkit.entity.Item) entity;
+                                
+                                // Check death protection
+                                boolean isProtected = finalDeathTracker != null && finalDeathTracker.isItemProtected(item);
+                                
+                                // Check Towny protection (if enabled)
+                                if (!isProtected && towny != null && towny.isTownyEnabled()) {
+                                    isProtected = towny.isEntityProtected(item);
+                                }
+                                
+                                if (!isProtected) {
+                                    item.remove();
+                                    removed++;
+                                } else {
+                                    protectedCount++;
+                                }
                             }
                         }
+                        
+                        if (removed > 0 || protectedCount > 0) {
+                            plugin.getLogger().fine("Cleared " + removed + " items (protected " + protectedCount + ") in chunk " 
+                                + chunk.getX() + "," + chunk.getZ() + " in " + world.getName());
+                        }
+                    } catch (Exception e) {
+                        plugin.getLogger()
+                                .warning("Error during lag removal in chunk " + chunk.getX() + "," + chunk.getZ() 
+                                    + " in " + world.getName() + ": " + e.getMessage());
                     }
-                    if (removed > 0) {
-                        plugin.getLogger().info("Removed " + removed + " old items in " + world.getName());
-                    }
-                } catch (Exception e) {
-                    plugin.getLogger()
-                            .warning("Error during lag removal in " + world.getName() + ": " + e.getMessage());
-                }
-            });
+                });
+            }
         }
     }
 
@@ -241,7 +273,7 @@ public class TaskManager {
 
         tasks.clear();
     }
-    
+
     public void reload() {
         plugin.getLogger().info("Reloading scheduled tasks...");
         shutdown();

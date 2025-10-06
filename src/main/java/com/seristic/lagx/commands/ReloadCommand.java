@@ -28,13 +28,13 @@ public class ReloadCommand extends LagXCommand {
             // Reload configuration
             plugin.reloadConfig();
             FileConfiguration config = plugin.getConfig();
-            
+
             // Reload ConfigurationManager to pick up new config values
             if (plugin.getPluginManager() != null && plugin.getPluginManager().getConfigManager() != null) {
                 plugin.getPluginManager().getConfigManager().initialize();
                 Help.sendMsg(sender, "§7- Configuration manager reloaded", true);
             }
-            
+
             // Reload TaskManager to restart scheduled tasks with new intervals
             if (plugin.getPluginManager() != null && plugin.getPluginManager().getTaskManager() != null) {
                 plugin.getPluginManager().getTaskManager().reload();
