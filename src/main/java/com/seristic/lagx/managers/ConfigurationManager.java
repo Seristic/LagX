@@ -135,18 +135,18 @@ public class ConfigurationManager {
         return config.getBoolean("integrations." + integrationName + ".enabled", false);
     }
 
-    // Map protection specific settings
-    public boolean isMapProtectionAutoScanEnabled() {
-        return config.getBoolean("map-protection.auto-scan.enabled", true);
-    }
+    // DISABLED - Map protection feature not ready, causes invisible maps
+    // public boolean isMapProtectionAutoScanEnabled() {
+    //     return config.getBoolean("map-protection.auto-scan.enabled", true);
+    // }
 
-    public int getMapProtectionScanInterval() {
-        return config.getInt("map-protection.auto-scan.interval", 5);
-    }
+    // public int getMapProtectionScanInterval() {
+    //     return config.getInt("map-protection.auto-scan.interval", 5);
+    // }
 
-    public boolean requiresMapProtectionPermission() {
-        return config.getBoolean("map-protection.require-permission", true);
-    }
+    // public boolean requiresMapProtectionPermission() {
+    //     return config.getBoolean("map-protection.require-permission", true);
+    // }
 
     // Copyright plugin integration
     public boolean isCopyrightPluginOverrideEnabled() {

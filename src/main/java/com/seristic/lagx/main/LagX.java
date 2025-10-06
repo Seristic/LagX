@@ -3,7 +3,7 @@ package com.seristic.lagx.main;
 import com.seristic.lagx.commands.CommandManager;
 import com.seristic.lagx.commands.PerformanceCommand;
 import com.seristic.lagx.inf.Help;
-import com.seristic.lagx.listeners.MapProtectionListener;
+// import com.seristic.lagx.listeners.MapProtectionListener; // DISABLED - Feature not ready, causes invisible maps
 import com.seristic.lagx.managers.LagXPluginManager;
 import com.seristic.lagx.util.EntityLimiter;
 import com.seristic.lagx.util.EntityStacker;
@@ -13,7 +13,7 @@ import com.seristic.lagx.util.LagXUtils;
 import com.seristic.lagx.util.PlayerDeathTracker;
 import com.seristic.lagx.util.TownyIntegration;
 import com.seristic.lagx.util.VillagerOptimizer;
-import com.seristic.lagx.utils.MapArtManager;
+// import com.seristic.lagx.utils.MapArtManager; // DISABLED - Feature not ready, causes invisible maps
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -100,8 +100,8 @@ public class LagX extends JavaPlugin implements Listener {
             // (This will eventually be moved to EventManager)
             Bukkit.getServer().getPluginManager().registerEvents(this, this);
 
-            // Register map protection listener
-            Bukkit.getServer().getPluginManager().registerEvents(new MapProtectionListener(this), this);
+            // DISABLED - Map protection listener causes invisible maps and is not ready
+            // Bukkit.getServer().getPluginManager().registerEvents(new MapProtectionListener(this), this);
 
             getLogger().info("§6LagX has been enabled!");
 
@@ -282,11 +282,12 @@ public class LagX extends JavaPlugin implements Listener {
                 : null;
     }
 
-    public MapArtManager getMapArtManager() {
-        return pluginManager != null && pluginManager.getFeatureManager() != null
-                ? pluginManager.getFeatureManager().getMapArtManager()
-                : null;
-    }
+    // DISABLED - Map protection feature not ready, causes invisible maps
+    // public MapArtManager getMapArtManager() {
+    //     return pluginManager != null && pluginManager.getFeatureManager() != null
+    //             ? pluginManager.getFeatureManager().getMapArtManager()
+    //             : null;
+    // }
 
     // ===========================================
     // STATIC UTILITY METHODS (Delegated)

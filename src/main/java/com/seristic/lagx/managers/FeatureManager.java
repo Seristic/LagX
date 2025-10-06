@@ -2,7 +2,7 @@ package com.seristic.lagx.managers;
 
 import com.seristic.lagx.main.LagX;
 import com.seristic.lagx.util.*;
-import com.seristic.lagx.utils.MapArtManager;
+// import com.seristic.lagx.utils.MapArtManager; // DISABLED - Feature not ready, causes invisible maps
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class FeatureManager {
     private EntityStacker entityStacker;
     private ItemFrameOptimizer itemFrameOptimizer;
     private PlayerDeathTracker playerDeathTracker;
-    private MapArtManager mapArtManager;
+    // private MapArtManager mapArtManager; // DISABLED - Feature not ready, causes invisible maps
     
     // Feature registry for dynamic management
     private final Map<String, Object> features = new HashMap<>();
@@ -48,7 +48,7 @@ public class FeatureManager {
             initializeEntityStacker();
             initializeItemFrameOptimizer();
             initializePlayerDeathTracker();
-            initializeMapArtManager();
+            // initializeMapArtManager(); // DISABLED - Feature not ready, causes invisible maps
             
             initialized = true;
             plugin.getLogger().info("Initialized " + features.size() + " performance features");
@@ -119,17 +119,18 @@ public class FeatureManager {
         }
     }
     
-    private void initializeMapArtManager() {
-        if (configManager.isFeatureEnabled("map-protection")) {
-            try {
-                mapArtManager = new MapArtManager(plugin);
-                features.put("map-protection", mapArtManager);
-                plugin.getLogger().info("Map Art Protection enabled");
-            } catch (Exception e) {
-                plugin.getLogger().warning("Failed to initialize MapArtManager: " + e.getMessage());
-            }
-        }
-    }
+    // DISABLED - Map protection feature not ready, causes invisible maps
+    // private void initializeMapArtManager() {
+    //     if (configManager.isFeatureEnabled("map-protection")) {
+    //         try {
+    //             mapArtManager = new MapArtManager(plugin);
+    //             features.put("map-protection", mapArtManager);
+    //             plugin.getLogger().info("Map Art Protection enabled");
+    //         } catch (Exception e) {
+    //             plugin.getLogger().warning("Failed to initialize MapArtManager: " + e.getMessage());
+    //         }
+    //     }
+    // }
     
     public void shutdown() {
         if (!initialized) {
@@ -138,10 +139,10 @@ public class FeatureManager {
         
         plugin.getLogger().info("Shutting down performance features...");
         
-        // Shutdown map art manager first (has scheduled tasks)
-        if (mapArtManager != null) {
-            mapArtManager.shutdown();
-        }
+        // DISABLED - Map art manager shutdown (feature not ready)
+        // if (mapArtManager != null) {
+        //     mapArtManager.shutdown();
+        // }
         
         // Clean up other features
         entityLimiter = null;
@@ -149,7 +150,7 @@ public class FeatureManager {
         entityStacker = null;
         itemFrameOptimizer = null;
         playerDeathTracker = null;
-        mapArtManager = null;
+        // mapArtManager = null; // DISABLED - Feature not ready
         
         features.clear();
         initialized = false;
@@ -166,7 +167,7 @@ public class FeatureManager {
     public EntityStacker getEntityStacker() { return entityStacker; }
     public ItemFrameOptimizer getItemFrameOptimizer() { return itemFrameOptimizer; }
     public PlayerDeathTracker getPlayerDeathTracker() { return playerDeathTracker; }
-    public MapArtManager getMapArtManager() { return mapArtManager; }
+    // public MapArtManager getMapArtManager() { return mapArtManager; } // DISABLED - Feature not ready
     
     // Feature registry access
     @SuppressWarnings("unchecked")

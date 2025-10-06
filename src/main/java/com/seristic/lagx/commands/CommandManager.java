@@ -57,8 +57,8 @@ public class CommandManager implements TabCompleter {
         registerCommand(new ReloadCommand(plugin), "reload", "rl");
         registerCommand(new WarningsCommand(plugin), "warnings", "warn");
 
-        // Map art protection commands
-        registerCommand(new MapArtCommand(plugin), "mapart", "map");
+        // DISABLED - Map art protection commands (feature not ready, causes invisible maps)
+        // registerCommand(new MapArtCommand(plugin), "mapart", "map");
     }
 
     /**

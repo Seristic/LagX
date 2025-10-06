@@ -1,7 +1,7 @@
 package com.seristic.lagx.managers;
 
 import com.seristic.lagx.main.LagX;
-import com.seristic.lagx.listeners.MapProtectionListener;
+// import com.seristic.lagx.listeners.MapProtectionListener; // DISABLED - Feature not ready, causes invisible maps
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
@@ -27,8 +27,8 @@ public class EventManager {
         // Register main plugin as listener (for entity spawn events)
         registerListener(plugin);
 
-        // Register map protection listener
-        registerListener(new MapProtectionListener(plugin));
+        // DISABLED - Map protection listener (feature not ready, causes invisible maps)
+        // registerListener(new MapProtectionListener(plugin));
 
         plugin.getLogger().info("Registered " + registeredListeners.size() + " event listeners");
     }

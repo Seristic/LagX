@@ -34,11 +34,11 @@ public class HBZTabCompleter implements TabCompleter {
                "entities", "ent",
                "limiter", "lim",
                "towny", "town",
-               "preset",
+               "preset", "presets",
                "villagers", "optimize",
                "reload", "rl",
-               "warnings", "warn",
-               "mapart", "map");
+               "warnings", "warn");
+               // "mapart", "map"); // DISABLED - Feature not ready, causes invisible maps
          return this.filterCompletions(commands, args[0]);
       } else {
          if (args.length >= 2) {
