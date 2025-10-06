@@ -320,19 +320,20 @@ localLagTriggered: 100
 chatDelay: 0
 
 # ======================================
-# MAP PROTECTION
+# MAP PROTECTION (ANTI-CORRUPTION)
 # ======================================
 
-# Map protection prevents players from placing maps in item frames without permission
-# This feature is useful for preventing unwanted maps on your server
+# Map protection automatically backs up and restores map art data to prevent Minecraft's map corruption bug
+# When enabled, this scans and saves map data so corrupted/blank maps can be restored to their original artwork
+# FEATURE STATUS: Coming soon - not yet implemented
 map-protection:
-  # Automatically scan and protect maps at regular intervals
-  # OPTIONAL: This feature is disabled by default to avoid unwanted interference
+  # Automatically scan and backup map data at regular intervals
+  # When a map becomes corrupted or blank, it will be automatically restored from backup
   auto-scan:
     enabled: false
-    # How often to scan for maps (in minutes)
+    # How often to scan and backup map data (in minutes)
     interval: 5
   
-  # Require permission (lagx.map.place) to place maps in item frames
+  # Require permission (lagx.map.backup) to have maps automatically backed up
+  # Set to false to backup all maps regardless of owner
   require-permission: false
-
