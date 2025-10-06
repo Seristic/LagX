@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Manages all scheduled tasks for LagX
@@ -58,8 +57,9 @@ public class TaskManager {
         int interval = configManager.getTaskInterval("lag-removal");
         long intervalSeconds = interval * 60L;
 
+        // Use global scheduler to trigger per-world region-based cleanup
         ScheduledTask task = Bukkit.getGlobalRegionScheduler().runAtFixedRate(plugin,
-                (scheduledTask) -> performLagRemoval(),
+                (scheduledTask) -> schedulePerWorldLagRemoval(),
                 intervalSeconds * 20L, intervalSeconds * 20L);
 
         tasks.put("lag-removal", task);
@@ -74,8 +74,9 @@ public class TaskManager {
         int interval = configManager.getTaskInterval("entity-cleanup");
         long intervalSeconds = interval * 60L;
 
+        // Use global scheduler to trigger per-world region-based cleanup
         ScheduledTask task = Bukkit.getGlobalRegionScheduler().runAtFixedRate(plugin,
-                (scheduledTask) -> performEntityCleanup(),
+                (scheduledTask) -> schedulePerWorldEntityCleanup(),
                 intervalSeconds * 20L, intervalSeconds * 20L);
 
         tasks.put("entity-cleanup", task);
@@ -105,46 +106,58 @@ public class TaskManager {
         }
     }
 
-    private void performLagRemoval() {
-        try {
-            // Implementation for lag removal (remove lag-causing entities/items)
-            int removed = 0;
-            for (org.bukkit.World world : Bukkit.getWorlds()) {
-                for (org.bukkit.entity.Entity entity : world.getEntities()) {
-                    if (entity instanceof org.bukkit.entity.Item) {
-                        org.bukkit.entity.Item item = (org.bukkit.entity.Item) entity;
-                        if (item.getTicksLived() > 6000) { // 5 minutes
-                            item.remove();
-                            removed++;
+    /**
+     * Schedule lag removal across all worlds using region scheduler
+     * This is Folia-compatible as it schedules tasks on entity regions
+     */
+    private void schedulePerWorldLagRemoval() {
+        for (org.bukkit.World world : Bukkit.getWorlds()) {
+            // Execute on each entity's owning region
+            Bukkit.getRegionScheduler().execute(plugin, world, 0, 0, () -> {
+                try {
+                    int removed = 0;
+                    for (org.bukkit.entity.Entity entity : world.getEntities()) {
+                        if (entity instanceof org.bukkit.entity.Item) {
+                            org.bukkit.entity.Item item = (org.bukkit.entity.Item) entity;
+                            // Check if item is old enough to remove (5 minutes = 6000 ticks)
+                            if (item.getTicksLived() > 6000) {
+                                item.remove();
+                                removed++;
+                            }
                         }
                     }
+                    if (removed > 0) {
+                        plugin.getLogger().info("Removed " + removed + " old items in " + world.getName());
+                    }
+                } catch (Exception e) {
+                    plugin.getLogger().warning("Error during lag removal in " + world.getName() + ": " + e.getMessage());
                 }
-            }
-            if (removed > 0) {
-                plugin.getLogger().info("Removed " + removed + " old items for lag reduction");
-            }
-        } catch (Exception e) {
-            plugin.getLogger().warning("Error during lag removal: " + e.getMessage());
+            });
         }
     }
 
-    private void performEntityCleanup() {
-        try {
-            // Implementation for entity cleanup
-            int cleaned = 0;
-            for (org.bukkit.World world : Bukkit.getWorlds()) {
-                for (org.bukkit.entity.Entity entity : world.getEntities()) {
-                    if (shouldCleanupEntity(entity)) {
-                        entity.remove();
-                        cleaned++;
+    /**
+     * Schedule entity cleanup across all worlds using region scheduler
+     * This is Folia-compatible as it schedules tasks on entity regions
+     */
+    private void schedulePerWorldEntityCleanup() {
+        for (org.bukkit.World world : Bukkit.getWorlds()) {
+            Bukkit.getRegionScheduler().execute(plugin, world, 0, 0, () -> {
+                try {
+                    int cleaned = 0;
+                    for (org.bukkit.entity.Entity entity : world.getEntities()) {
+                        if (shouldCleanupEntity(entity)) {
+                            entity.remove();
+                            cleaned++;
+                        }
                     }
+                    if (cleaned > 0) {
+                        plugin.getLogger().info("Cleaned up " + cleaned + " entities in " + world.getName());
+                    }
+                } catch (Exception e) {
+                    plugin.getLogger().warning("Error during entity cleanup in " + world.getName() + ": " + e.getMessage());
                 }
-            }
-            if (cleaned > 0) {
-                plugin.getLogger().info("Cleaned up " + cleaned + " entities");
-            }
-        } catch (Exception e) {
-            plugin.getLogger().warning("Error during entity cleanup: " + e.getMessage());
+            });
         }
     }
 
