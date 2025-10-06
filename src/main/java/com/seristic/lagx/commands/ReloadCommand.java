@@ -28,22 +28,38 @@ public class ReloadCommand extends LagXCommand {
             // Reload configuration
             plugin.reloadConfig();
             FileConfiguration config = plugin.getConfig();
+            
+            // Reload ConfigurationManager to pick up new config values
+            if (plugin.getPluginManager() != null && plugin.getPluginManager().getConfigManager() != null) {
+                plugin.getPluginManager().getConfigManager().initialize();
+                Help.sendMsg(sender, "§7- Configuration manager reloaded", true);
+            }
+            
+            // Reload TaskManager to restart scheduled tasks with new intervals
+            if (plugin.getPluginManager() != null && plugin.getPluginManager().getTaskManager() != null) {
+                plugin.getPluginManager().getTaskManager().reload();
+                Help.sendMsg(sender, "§7- Task manager reloaded (tasks restarted)", true);
+            }
 
             // Reinitialize features based on new configuration
             if (plugin.getEntityLimiter() != null) {
                 plugin.getEntityLimiter().reloadConfig();
+                Help.sendMsg(sender, "§7- Entity limiter reloaded", true);
             }
 
             if (plugin.getVillagerOptimizer() != null) {
                 plugin.getVillagerOptimizer().reloadConfig();
+                Help.sendMsg(sender, "§7- Villager optimizer reloaded", true);
             }
 
             if (plugin.getEntityStacker() != null) {
                 plugin.getEntityStacker().reloadConfig();
+                Help.sendMsg(sender, "§7- Entity stacker reloaded", true);
             }
 
             if (plugin.getItemFrameOptimizer() != null) {
                 plugin.getItemFrameOptimizer().reloadConfig();
+                Help.sendMsg(sender, "§7- Item frame optimizer reloaded", true);
             }
 
             // DISABLED - Map protection feature not ready

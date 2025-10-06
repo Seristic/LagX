@@ -146,7 +146,7 @@ protocol_warnings:
   # Master toggle controlling whether warning messages are sent to players
   # When disabled, warnings are suppressed globally unless player has permission lagx.warnings.receive
   enabled: true
-  
+
   # Debug mode warning configuration (used when auto-lag-removal.debug is true)
   debug:
     cc_items:
@@ -154,7 +154,7 @@ protocol_warnings:
       stages:
         - "5:%PREFIX%&c&l[DEBUG] &eClearing ground items in &b5 &eseconds"
         - "f:%PREFIX%&c&l[DEBUG] &eAll items on the ground have been cleared."
-  
+
   # Normal mode warning configuration
   cc_items:
     # How many seconds before the cleanup to show warnings

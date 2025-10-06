@@ -56,7 +56,7 @@ public class TaskManager {
 
         int interval = configManager.getTaskInterval("lag-removal");
         long intervalSeconds = interval * 60L;
-        
+
         // Determine warning time based on debug mode
         int warningSeconds = configManager.isDebugMode() ? 5 : 60;
 
@@ -66,7 +66,8 @@ public class TaskManager {
                 intervalSeconds * 20L, intervalSeconds * 20L);
 
         tasks.put("lag-removal", task);
-        plugin.getLogger().info("Lag removal task started (interval: " + interval + " minutes, warnings: " + warningSeconds + "s)");
+        plugin.getLogger().info(
+                "Lag removal task started (interval: " + interval + " minutes, warnings: " + warningSeconds + "s)");
     }
 
     private void startEntityCleanupTask() {
@@ -121,14 +122,15 @@ public class TaskManager {
     private void schedulePerWorldLagRemovalWithWarnings(int warningSeconds) {
         boolean warningsEnabled = configManager.areWarningsEnabled();
         boolean debugMode = configManager.isDebugMode();
-        
+
         // Send warning if enabled
         if (warningsEnabled || debugMode) {
             String prefix = plugin.getConfig().getString("prefix", "§6§lLagX §7§l>>§r ");
             String warningMessage = debugMode
-                ? prefix.replace("%PREFIX%", "") + "§c§l[DEBUG] §eClearing ground items in §b" + warningSeconds + " §eseconds"
-                : prefix.replace("%PREFIX%", "") + "§eClearing ground items in §b" + warningSeconds + " §eseconds";
-            
+                    ? prefix.replace("%PREFIX%", "") + "§c§l[DEBUG] §eClearing ground items in §b" + warningSeconds
+                            + " §eseconds"
+                    : prefix.replace("%PREFIX%", "") + "§eClearing ground items in §b" + warningSeconds + " §eseconds";
+
             // Broadcast to all players or only those with permission
             for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
                 if (warningsEnabled || player.hasPermission("lagx.warnings.receive")) {
@@ -136,18 +138,18 @@ public class TaskManager {
                 }
             }
         }
-        
+
         // Schedule the actual clearing after warning time
         Bukkit.getGlobalRegionScheduler().runDelayed(plugin, (task) -> {
             schedulePerWorldLagRemoval();
-            
+
             // Send completion message
             if (warningsEnabled || debugMode) {
                 String prefix = plugin.getConfig().getString("prefix", "§6§lLagX §7§l>>§r ");
                 String completeMessage = debugMode
-                    ? prefix.replace("%PREFIX%", "") + "§c§l[DEBUG] §eAll items on the ground have been cleared."
-                    : prefix.replace("%PREFIX%", "") + "§eAll items on the ground have been cleared.";
-                
+                        ? prefix.replace("%PREFIX%", "") + "§c§l[DEBUG] §eAll items on the ground have been cleared."
+                        : prefix.replace("%PREFIX%", "") + "§eAll items on the ground have been cleared.";
+
                 for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
                     if (warningsEnabled || player.hasPermission("lagx.warnings.receive")) {
                         player.sendMessage(completeMessage);
@@ -238,6 +240,13 @@ public class TaskManager {
         }
 
         tasks.clear();
+    }
+    
+    public void reload() {
+        plugin.getLogger().info("Reloading scheduled tasks...");
+        shutdown();
+        initialize();
+        plugin.getLogger().info("Scheduled tasks reloaded successfully");
     }
 
     // Task management methods

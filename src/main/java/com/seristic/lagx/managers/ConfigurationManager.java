@@ -133,7 +133,7 @@ public class ConfigurationManager {
         // For other tasks, use the old structure if it exists
         return config.getInt("tasks." + taskName + ".interval", 10);
     }
-    
+
     public boolean isDebugMode() {
         return config.getBoolean("auto-lag-removal.debug", false);
     }

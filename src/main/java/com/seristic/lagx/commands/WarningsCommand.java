@@ -45,7 +45,7 @@ public class WarningsCommand extends LagXCommand {
     private void showWarningStatus(CommandSender sender) {
         boolean enabled = plugin.getPluginManager().getConfigManager().areWarningsEnabled();
         boolean debugMode = plugin.getPluginManager().getConfigManager().isDebugMode();
-        
+
         if (enabled) {
             Help.sendMsg(sender, "§6Ground Item Clearing Warnings: §aEnabled", true);
             Help.sendMsg(sender, "§7All players will receive warnings before items are cleared.", true);
@@ -53,7 +53,7 @@ public class WarningsCommand extends LagXCommand {
             Help.sendMsg(sender, "§6Ground Item Clearing Warnings: §cDisabled", true);
             Help.sendMsg(sender, "§7Only players with §elagx.warnings.receive §7will see warnings.", true);
         }
-        
+
         if (debugMode) {
             Help.sendMsg(sender, "§c§lDEBUG MODE ACTIVE: §eClearing every 1 minute with 5 second warnings", true);
         }
