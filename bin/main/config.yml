@@ -333,7 +333,7 @@ map-protection:
     enabled: false
     # How often to scan and backup map data (in minutes)
     interval: 5
-  
+
   # Require permission (lagx.map.backup) to have maps automatically backed up
   # Set to false to backup all maps regardless of owner
   require-permission: false
