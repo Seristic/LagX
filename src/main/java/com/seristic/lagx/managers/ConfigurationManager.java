@@ -124,10 +124,18 @@ public class ConfigurationManager {
     public int getTaskInterval(String taskName) {
         // Map task names to actual config keys
         if ("lag-removal".equals(taskName)) {
+            // Check if debug mode is enabled
+            if (config.getBoolean("auto-lag-removal.debug", false)) {
+                return 1; // 1 minute for debug mode
+            }
             return config.getInt("auto-lag-removal.every", 10);
         }
         // For other tasks, use the old structure if it exists
         return config.getInt("tasks." + taskName + ".interval", 10);
+    }
+    
+    public boolean isDebugMode() {
+        return config.getBoolean("auto-lag-removal.debug", false);
     }
 
     // Integration settings
@@ -164,11 +172,11 @@ public class ConfigurationManager {
 
     // Warning settings
     public boolean areWarningsEnabled() {
-        return config.getBoolean("warnings.enabled", true);
+        return config.getBoolean("protocol_warnings.enabled", true);
     }
 
     public void setWarningsEnabled(boolean enabled) {
-        config.set("warnings.enabled", enabled);
+        config.set("protocol_warnings.enabled", enabled);
         saveConfig();
     }
 

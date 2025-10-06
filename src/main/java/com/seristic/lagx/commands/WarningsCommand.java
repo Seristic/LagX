@@ -22,10 +22,16 @@ public class WarningsCommand extends LagXCommand {
         String action = args[1].toLowerCase();
         switch (action) {
             case "enable":
-                Help.sendMsg(sender, "§aPerformance warnings enabled!", true);
+            case "on":
+                plugin.getPluginManager().getConfigManager().setWarningsEnabled(true);
+                Help.sendMsg(sender, "§aGround item clearing warnings enabled!", true);
+                Help.sendMsg(sender, "§7Players will now see warnings before items are cleared.", true);
                 break;
             case "disable":
-                Help.sendMsg(sender, "§cPerformance warnings disabled!", true);
+            case "off":
+                plugin.getPluginManager().getConfigManager().setWarningsEnabled(false);
+                Help.sendMsg(sender, "§cGround item clearing warnings disabled!", true);
+                Help.sendMsg(sender, "§7Only players with §elagx.warnings.receive §7will see warnings.", true);
                 break;
             case "status":
                 showWarningStatus(sender);
@@ -37,8 +43,20 @@ public class WarningsCommand extends LagXCommand {
     }
 
     private void showWarningStatus(CommandSender sender) {
-        Help.sendMsg(sender, "§6Performance Warnings: §aEnabled\n§7TPS Warning: §f< 18.0\n§7Memory Warning: §f> 80%",
-                true);
+        boolean enabled = plugin.getPluginManager().getConfigManager().areWarningsEnabled();
+        boolean debugMode = plugin.getPluginManager().getConfigManager().isDebugMode();
+        
+        if (enabled) {
+            Help.sendMsg(sender, "§6Ground Item Clearing Warnings: §aEnabled", true);
+            Help.sendMsg(sender, "§7All players will receive warnings before items are cleared.", true);
+        } else {
+            Help.sendMsg(sender, "§6Ground Item Clearing Warnings: §cDisabled", true);
+            Help.sendMsg(sender, "§7Only players with §elagx.warnings.receive §7will see warnings.", true);
+        }
+        
+        if (debugMode) {
+            Help.sendMsg(sender, "§c§lDEBUG MODE ACTIVE: §eClearing every 1 minute with 5 second warnings", true);
+        }
     }
 
     @Override
@@ -53,13 +71,13 @@ public class WarningsCommand extends LagXCommand {
 
     @Override
     public String getDescription() {
-        return "Manage performance warnings";
+        return "Toggle ground item clearing warnings";
     }
 
     @Override
     public List<String> getTabCompletions(CommandSender sender, String[] args) {
         if (args.length == 2)
-            return Arrays.asList("enable", "disable", "status");
+            return Arrays.asList("enable", "disable", "status", "on", "off");
         return new ArrayList<>();
     }
 }

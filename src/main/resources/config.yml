@@ -122,6 +122,10 @@ auto-lag-removal:
   # How often to run the cleanup tasks (in minutes)
   every: 10
 
+  # DEBUG MODE - When enabled, uses faster intervals for testing
+  # Debug runs every 1 minute with 5 second warnings
+  debug: false
+
 # These are the protocols are run by the automatic cleanup scheduler when enabled above
 # Format: protocol_name: '{"Parameter1":"value1", "Parameter2": "value2"}'
 lag_protocols:
@@ -140,7 +144,18 @@ lag_protocols:
 # The warning messages shown before cleanup tasks run
 protocol_warnings:
   # Master toggle controlling whether warning messages are sent to players
+  # When disabled, warnings are suppressed globally unless player has permission lagx.warnings.receive
   enabled: true
+  
+  # Debug mode warning configuration (used when auto-lag-removal.debug is true)
+  debug:
+    cc_items:
+      time: 5
+      stages:
+        - "5:%PREFIX%&c&l[DEBUG] &eClearing ground items in &b5 &eseconds"
+        - "f:%PREFIX%&c&l[DEBUG] &eAll items on the ground have been cleared."
+  
+  # Normal mode warning configuration
   cc_items:
     # How many seconds before the cleanup to show warnings
     time: 60
