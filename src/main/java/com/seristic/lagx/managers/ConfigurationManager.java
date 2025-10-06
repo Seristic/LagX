@@ -33,9 +33,35 @@ public class ConfigurationManager {
             plugin.getDataFolder().mkdirs();
         }
 
-        // Save default config if it doesn't exist
-        if (!configFile.exists()) {
+        // Check if config exists and if it's outdated
+        boolean configExists = configFile.exists();
+
+        if (configExists) {
+            // Load existing config to check version
+            FileConfiguration existingConfig = YamlConfiguration.loadConfiguration(configFile);
+            String existingVersion = existingConfig.getString("version", "0.0.0");
+            
+            if (!CONFIG_VERSION.equals(existingVersion)) {
+                plugin.getLogger().warning("Config version mismatch! Found: " + existingVersion + ", Expected: " + CONFIG_VERSION);
+                plugin.getLogger().warning("Backing up old config and generating new one...");
+                
+                // Backup old config
+                File backup = new File(plugin.getDataFolder(), "config.yml.backup-" + existingVersion);
+                try {
+                    if (configFile.renameTo(backup)) {
+                        plugin.getLogger().info("Old config backed up to: " + backup.getName());
+                        configExists = false; // Treat as if config doesn't exist
+                    }
+                } catch (Exception e) {
+                    plugin.getLogger().warning("Failed to backup old config: " + e.getMessage());
+                }
+            }
+        }
+
+        // Save default config if it doesn't exist (or was backed up)
+        if (!configExists) {
             plugin.saveDefaultConfig();
+            plugin.getLogger().info("Generated new config file with version " + CONFIG_VERSION);
         }
 
         // Load configuration

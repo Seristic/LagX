@@ -48,7 +48,7 @@ import java.io.File;
 public class LagX extends JavaPlugin implements Listener {
 
     // Constants
-    public static final String CONFIG_VERSION = "0.1.7";
+    public static final String CONFIG_VERSION = "0.2.0";
     public static final long MEMORY_MBYTE_SIZE = 1024L;
 
     // Core managers
