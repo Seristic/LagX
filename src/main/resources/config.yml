@@ -26,7 +26,7 @@ stacker:
   enabled: true
 
   # Enable debug logging for stacker operations
-  debug: true
+  debug: false
 
   # Maximum stack size for different types
   max_stack_size:

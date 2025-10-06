@@ -40,11 +40,12 @@ public class ConfigurationManager {
             // Load existing config to check version
             FileConfiguration existingConfig = YamlConfiguration.loadConfiguration(configFile);
             String existingVersion = existingConfig.getString("version", "0.0.0");
-            
+
             if (!CONFIG_VERSION.equals(existingVersion)) {
-                plugin.getLogger().warning("Config version mismatch! Found: " + existingVersion + ", Expected: " + CONFIG_VERSION);
+                plugin.getLogger().warning(
+                        "Config version mismatch! Found: " + existingVersion + ", Expected: " + CONFIG_VERSION);
                 plugin.getLogger().warning("Backing up old config and generating new one...");
-                
+
                 // Backup old config
                 File backup = new File(plugin.getDataFolder(), "config.yml.backup-" + existingVersion);
                 try {
