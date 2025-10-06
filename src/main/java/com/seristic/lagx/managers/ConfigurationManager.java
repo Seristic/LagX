@@ -75,61 +75,8 @@ public class ConfigurationManager {
     }
 
     private void updateConfigDefaults() {
-        boolean needsSave = false;
-
-        // Check and update config version
-        if (!CONFIG_VERSION.equals(config.getString("config-version"))) {
-            config.set("config-version", CONFIG_VERSION);
-            needsSave = true;
-        }
-
-        // Feature toggles
-        needsSave |= addDefaultIfMissing("features.entity-limiter.enabled", true);
-        needsSave |= addDefaultIfMissing("features.villager-optimizer.enabled", true);
-        needsSave |= addDefaultIfMissing("features.entity-stacker.enabled", true);
-        needsSave |= addDefaultIfMissing("features.itemframe-optimizer.enabled", true);
-        needsSave |= addDefaultIfMissing("features.death-tracker.enabled", true);
-        needsSave |= addDefaultIfMissing("features.map-protection.enabled", true);
-
-        // Task intervals (in minutes)
-        needsSave |= addDefaultIfMissing("tasks.chunk-unload.enabled", true);
-        needsSave |= addDefaultIfMissing("tasks.chunk-unload.interval", 10);
-        needsSave |= addDefaultIfMissing("tasks.lag-removal.enabled", true);
-        needsSave |= addDefaultIfMissing("tasks.lag-removal.interval", 5);
-        needsSave |= addDefaultIfMissing("tasks.entity-cleanup.enabled", true);
-        needsSave |= addDefaultIfMissing("tasks.entity-cleanup.interval", 15);
-
-        // Map protection settings
-        needsSave |= addDefaultIfMissing("map-protection.auto-scan.enabled", true);
-        needsSave |= addDefaultIfMissing("map-protection.auto-scan.interval", 5);
-        needsSave |= addDefaultIfMissing("map-protection.require-permission", true);
-
-        // Integration settings
-        needsSave |= addDefaultIfMissing("integrations.towny.enabled", true);
-        needsSave |= addDefaultIfMissing("integrations.copyright-plugin.enabled", true);
-        needsSave |= addDefaultIfMissing("integrations.copyright-plugin.override-protection", false);
-
-        // Command settings
-        needsSave |= addDefaultIfMissing("commands.require-permission", true);
-        needsSave |= addDefaultIfMissing("commands.tab-completion", true);
-
-        // Warning settings
-        needsSave |= addDefaultIfMissing("warnings.enabled", true);
-        needsSave |= addDefaultIfMissing("warnings.tps-threshold", 18.0);
-        needsSave |= addDefaultIfMissing("warnings.memory-threshold", 80);
-
-        if (needsSave) {
-            saveConfig();
-            plugin.getLogger().info("Configuration updated with new defaults");
-        }
-    }
-
-    private boolean addDefaultIfMissing(String path, Object defaultValue) {
-        if (!config.contains(path)) {
-            config.set(path, defaultValue);
-            return true;
-        }
-        return false;
+        // Don't add any extra keys - just ensure version is set
+        // The config.yml should be the source of truth
     }
 
     public void reload() {
@@ -166,10 +113,20 @@ public class ConfigurationManager {
 
     // Task settings
     public boolean isTaskEnabled(String taskName) {
+        // Map task names to actual config keys
+        if ("lag-removal".equals(taskName)) {
+            return config.getBoolean("auto-lag-removal.run", true);
+        }
+        // For other tasks, use the old structure if it exists
         return config.getBoolean("tasks." + taskName + ".enabled", false);
     }
 
     public int getTaskInterval(String taskName) {
+        // Map task names to actual config keys
+        if ("lag-removal".equals(taskName)) {
+            return config.getInt("auto-lag-removal.every", 10);
+        }
+        // For other tasks, use the old structure if it exists
         return config.getInt("tasks." + taskName + ".interval", 10);
     }
 
