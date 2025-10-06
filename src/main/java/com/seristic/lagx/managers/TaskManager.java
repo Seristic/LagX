@@ -86,23 +86,26 @@ public class TaskManager {
     // Task implementations
     private void performChunkUnload() {
         try {
-            // Implementation for chunk unloading
-            int unloaded = 0;
+            // Implementation for chunk unloading - Folia compatible
             for (org.bukkit.World world : Bukkit.getWorlds()) {
                 org.bukkit.Chunk[] chunks = world.getLoadedChunks();
                 for (org.bukkit.Chunk chunk : chunks) {
                     if (chunk.getPluginChunkTickets().isEmpty() && !chunk.isForceLoaded()) {
-                        if (world.unloadChunk(chunk)) {
-                            unloaded++;
-                        }
+                        // Schedule chunk unload on the correct region thread
+                        Bukkit.getRegionScheduler().execute(plugin, world, chunk.getX(), chunk.getZ(), () -> {
+                            try {
+                                if (world.unloadChunk(chunk)) {
+                                    plugin.getLogger().fine("Unloaded chunk at " + chunk.getX() + "," + chunk.getZ() + " in " + world.getName());
+                                }
+                            } catch (Exception e) {
+                                plugin.getLogger().warning("Error unloading chunk at " + chunk.getX() + "," + chunk.getZ() + " in " + world.getName() + ": " + e.getMessage());
+                            }
+                        });
                     }
                 }
             }
-            if (unloaded > 0) {
-                plugin.getLogger().info("Unloaded " + unloaded + " unused chunks");
-            }
         } catch (Exception e) {
-            plugin.getLogger().warning("Error during chunk unload: " + e.getMessage());
+            plugin.getLogger().warning("Error during chunk unload task: " + e.getMessage());
         }
     }
 
