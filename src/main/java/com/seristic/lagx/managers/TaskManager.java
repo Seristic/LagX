@@ -130,7 +130,8 @@ public class TaskManager {
                         plugin.getLogger().info("Removed " + removed + " old items in " + world.getName());
                     }
                 } catch (Exception e) {
-                    plugin.getLogger().warning("Error during lag removal in " + world.getName() + ": " + e.getMessage());
+                    plugin.getLogger()
+                            .warning("Error during lag removal in " + world.getName() + ": " + e.getMessage());
                 }
             });
         }
@@ -155,7 +156,8 @@ public class TaskManager {
                         plugin.getLogger().info("Cleaned up " + cleaned + " entities in " + world.getName());
                     }
                 } catch (Exception e) {
-                    plugin.getLogger().warning("Error during entity cleanup in " + world.getName() + ": " + e.getMessage());
+                    plugin.getLogger()
+                            .warning("Error during entity cleanup in " + world.getName() + ": " + e.getMessage());
                 }
             });
         }

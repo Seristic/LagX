@@ -1,7 +1,7 @@
 # The number at the end of the of each line is how much enabling this is going to improve server performance compared to other features
 # The numbers are on a scale of 1-10
 # All features are enabled by default
-version: 0.1.7
+version: 0.2.0
 
 # ======================================
 # PLUGIN PREFIX AND GENERAL SETTINGS
@@ -294,7 +294,8 @@ villager_optimization:
 # ======================================
 
 # Enable player-triggered lag relief system - when a player types "lag" in chat, removes entities around them to improve performance (10)
-doRelativeAction: true
+# OPTIONAL: This feature is disabled by default as it can be abused
+doRelativeAction: false
 
 # When enabled, only allows the removal of items for relative lag removal for players.
 doOnlyItemsForRelative: false
@@ -317,3 +318,21 @@ localLagTriggered: 100
 
 # Time between messages a player can type in chat. If a player spams chat this can create lag. (in ticks 20 ticks = 1 second) If a player has the permission lagx.nochatdelay, they will not have their chat limited.
 chatDelay: 0
+
+# ======================================
+# MAP PROTECTION
+# ======================================
+
+# Map protection prevents players from placing maps in item frames without permission
+# This feature is useful for preventing unwanted maps on your server
+map-protection:
+  # Automatically scan and protect maps at regular intervals
+  # OPTIONAL: This feature is disabled by default to avoid unwanted interference
+  auto-scan:
+    enabled: false
+    # How often to scan for maps (in minutes)
+    interval: 5
+  
+  # Require permission (lagx.map.place) to place maps in item frames
+  require-permission: false
+
