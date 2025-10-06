@@ -48,7 +48,7 @@ import java.io.File;
 public class LagX extends JavaPlugin implements Listener {
 
     // Constants
-    public static final String CONFIG_VERSION = "0.2.0";
+    public static final String CONFIG_VERSION = com.seristic.lagx.managers.ConfigurationManager.CONFIG_VERSION;
     public static final long MEMORY_MBYTE_SIZE = 1024L;
 
     // Core managers
@@ -101,7 +101,8 @@ public class LagX extends JavaPlugin implements Listener {
             Bukkit.getServer().getPluginManager().registerEvents(this, this);
 
             // DISABLED - Map protection listener causes invisible maps and is not ready
-            // Bukkit.getServer().getPluginManager().registerEvents(new MapProtectionListener(this), this);
+            // Bukkit.getServer().getPluginManager().registerEvents(new
+            // MapProtectionListener(this), this);
 
             getLogger().info("§6LagX has been enabled!");
 
@@ -284,9 +285,9 @@ public class LagX extends JavaPlugin implements Listener {
 
     // DISABLED - Map protection feature not ready, causes invisible maps
     // public MapArtManager getMapArtManager() {
-    //     return pluginManager != null && pluginManager.getFeatureManager() != null
-    //             ? pluginManager.getFeatureManager().getMapArtManager()
-    //             : null;
+    // return pluginManager != null && pluginManager.getFeatureManager() != null
+    // ? pluginManager.getFeatureManager().getMapArtManager()
+    // : null;
     // }
 
     // ===========================================

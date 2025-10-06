@@ -38,7 +38,7 @@ public class HBZTabCompleter implements TabCompleter {
                "villagers", "optimize",
                "reload", "rl",
                "warnings", "warn");
-               // "mapart", "map"); // DISABLED - Feature not ready, causes invisible maps
+         // "mapart", "map"); // DISABLED - Feature not ready, causes invisible maps
          return this.filterCompletions(commands, args[0]);
       } else {
          if (args.length >= 2) {

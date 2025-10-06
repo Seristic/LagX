@@ -48,7 +48,7 @@ public class ReloadCommand extends LagXCommand {
 
             // DISABLED - Map protection feature not ready
             // if (plugin.getMapArtManager() != null) {
-            //     plugin.getMapArtManager().reloadConfig();
+            // plugin.getMapArtManager().reloadConfig();
             // }
 
             long endTime = System.currentTimeMillis();

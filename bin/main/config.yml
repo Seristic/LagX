@@ -1,7 +1,7 @@
 # The number at the end of the of each line is how much enabling this is going to improve server performance compared to other features
 # The numbers are on a scale of 1-10
 # All features are enabled by default
-version: 0.2.0
+version: ${configVersion}
 
 # ======================================
 # PLUGIN PREFIX AND GENERAL SETTINGS

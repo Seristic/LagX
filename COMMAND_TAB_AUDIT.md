@@ -5,6 +5,7 @@
 Based on `CommandManager.java`:
 
 ### Basic Commands
+
 1. **help** (aliases: h)
 2. **ping** (aliases: p)
 3. **tps**
@@ -15,12 +16,14 @@ Based on `CommandManager.java`:
 8. **protocol** (aliases: pr)
 
 ### Utility Commands
+
 9. **clear** (aliases: c)
 10. **count** (aliases: ct)
 11. **world** (aliases: w)
 12. **unload** (aliases: u)
 
 ### Feature Commands
+
 13. **stacker** (aliases: stack)
 14. **entities** (aliases: ent)
 15. **limiter** (aliases: lim)
@@ -34,6 +37,7 @@ Based on `CommandManager.java`:
 ## Tab Completions in HBZTabCompleter
 
 Currently offers (first argument):
+
 - help, h
 - master, m
 - ram
@@ -62,19 +66,23 @@ Currently offers (first argument):
 ## Issues Found
 
 ### Missing from Tab Completer:
+
 1. **ent** (alias for entities)
 2. **lim** (alias for limiter)
 3. **mapart** / **map** (map art command)
 
 ### Extra in Tab Completer (not in CommandManager):
+
 1. **modules** / **mo** - This command doesn't exist!
 2. **test** - This command doesn't exist!
 3. **presets** (should just be "preset")
 
 ### Inconsistent Aliases:
+
 - Tab completer has both "preset" and "presets", should just be "preset"
 
 ## Next Steps:
+
 1. ✅ Remove: modules, mo, test, presets
 2. ✅ Add: ent, lim, mapart, map
 3. ✅ Verify each command's sub-argument tab completions match their getUsage() and getTabCompletions()
