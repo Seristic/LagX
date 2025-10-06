@@ -12,7 +12,7 @@ softdepend: [Towny]
 commands:
   lagx:
     description: LagX command with entity limiting and villager optimization.
-    usage: /<command> [help|tps|ram|gc|info|status|master|entities|villagers|warnings]
+    usage: /<command> [help|ping|tps|ram|gc|info|status|protocol|clear|count|world|unload|stacker|entities|limiter|towny|preset|villagers|reload|warnings|mapart]
   lagxperf:
     description: Comprehensive performance analysis command for detailed server metrics.
     usage: /<command> [regions|memory|threads|world|history|full|help]
