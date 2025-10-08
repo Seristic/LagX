@@ -140,7 +140,9 @@ public class ConfigurationManager {
 
     // Integration settings
     public boolean isIntegrationEnabled(String integrationName) {
-        return config.getBoolean("integrations." + integrationName + ".enabled", false);
+        // Default to true for towny integration (backward compatibility)
+        boolean defaultValue = "towny".equalsIgnoreCase(integrationName);
+        return config.getBoolean("integrations." + integrationName + ".enabled", defaultValue);
     }
 
     // DISABLED - Map protection feature not ready, causes invisible maps

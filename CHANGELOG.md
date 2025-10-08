@@ -5,6 +5,44 @@ All notable changes to LagX will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.2] - 2025-10-06
+
+### Added
+
+- **Plugin Integrations System** - New configurable integration framework
+  - Towny integration now enabled by default for backward compatibility
+  - Configurable integrations section in config.yml
+  - Future-ready for additional plugin integrations
+
+### Fixed
+
+- **Color Code Translation** - Fixed prefix color codes not displaying in warning messages
+  - Warning messages now properly show colored prefix instead of raw `&` codes
+  - Uses ColorUtil for consistent color code translation
+- **Towny Integration Detection** - Fixed Towny not being detected on servers
+  - Towny integration now defaults to enabled when config section is missing
+  - Works with both standard Towny and custom forks
+  - Backward compatible with existing configs without integration section
+- **Config Version Management** - Improved config version synchronization
+  - Config version 0.2.0 now properly synced between code and config file
+  - Build-time replacement ensures version consistency
+
+### Changed
+
+- **Integration Manager** - Enhanced integration system with better defaults
+  - Towny integration enabled by default for seamless experience
+  - More robust plugin detection and initialization
+
+## [0.7.1] - 2025-10-05
+
+### Fixed
+
+- Multiple Folia threading violations in chunk unloading and entity operations
+- Config version management and auto-migration
+- Command tab completions alignment
+- Reload command now properly restarts scheduled tasks
+- Item clearing now removes ALL items with death and Towny protections
+
 ## [0.3-folia] - 2025-08-10
 
 ### Added

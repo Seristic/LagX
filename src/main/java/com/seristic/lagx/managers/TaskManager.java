@@ -3,6 +3,7 @@ package com.seristic.lagx.managers;
 import com.seristic.lagx.main.LagX;
 import com.seristic.lagx.util.PlayerDeathTracker;
 import com.seristic.lagx.util.TownyIntegration;
+import com.seristic.lagx.util.ColorUtil;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import org.bukkit.Bukkit;
 
@@ -127,7 +128,7 @@ public class TaskManager {
 
         // Send warning if enabled
         if (warningsEnabled || debugMode) {
-            String prefix = plugin.getConfig().getString("prefix", "§6§lLagX §7§l>>§r ");
+            String prefix = ColorUtil.color(plugin.getConfig().getString("prefix", "§6§lLagX §7§l>>§r "));
             String warningMessage = debugMode
                     ? prefix.replace("%PREFIX%", "") + "§c§l[DEBUG] §eClearing ground items in §b" + warningSeconds
                             + " §eseconds"
@@ -147,7 +148,7 @@ public class TaskManager {
 
             // Send completion message
             if (warningsEnabled || debugMode) {
-                String prefix = plugin.getConfig().getString("prefix", "§6§lLagX §7§l>>§r ");
+                String prefix = ColorUtil.color(plugin.getConfig().getString("prefix", "§6§lLagX §7§l>>§r "));
                 String completeMessage = debugMode
                         ? prefix.replace("%PREFIX%", "") + "§c§l[DEBUG] §eAll items on the ground have been cleared."
                         : prefix.replace("%PREFIX%", "") + "§eAll items on the ground have been cleared.";
@@ -173,32 +174,33 @@ public class TaskManager {
         } catch (Exception e) {
             // Death tracker not available
         }
-        
+
         TownyIntegration towny = LagX.getTownyIntegration();
-        
+
         for (org.bukkit.World world : Bukkit.getWorlds()) {
             // Process each chunk in the world
             for (org.bukkit.Chunk chunk : world.getLoadedChunks()) {
                 PlayerDeathTracker finalDeathTracker = deathTracker;
-                
+
                 // Execute on the chunk's owning region thread
                 Bukkit.getRegionScheduler().execute(plugin, world, chunk.getX(), chunk.getZ(), () -> {
                     try {
                         int removed = 0;
                         int protectedCount = 0; // Renamed from 'protected' which is a keyword
-                        
+
                         for (org.bukkit.entity.Entity entity : chunk.getEntities()) {
                             if (entity instanceof org.bukkit.entity.Item) {
                                 org.bukkit.entity.Item item = (org.bukkit.entity.Item) entity;
-                                
+
                                 // Check death protection
-                                boolean isProtected = finalDeathTracker != null && finalDeathTracker.isItemProtected(item);
-                                
+                                boolean isProtected = finalDeathTracker != null
+                                        && finalDeathTracker.isItemProtected(item);
+
                                 // Check Towny protection (if enabled)
                                 if (!isProtected && towny != null && towny.isTownyEnabled()) {
                                     isProtected = towny.isEntityProtected(item);
                                 }
-                                
+
                                 if (!isProtected) {
                                     item.remove();
                                     removed++;
@@ -207,15 +209,16 @@ public class TaskManager {
                                 }
                             }
                         }
-                        
+
                         if (removed > 0 || protectedCount > 0) {
-                            plugin.getLogger().fine("Cleared " + removed + " items (protected " + protectedCount + ") in chunk " 
-                                + chunk.getX() + "," + chunk.getZ() + " in " + world.getName());
+                            plugin.getLogger()
+                                    .fine("Cleared " + removed + " items (protected " + protectedCount + ") in chunk "
+                                            + chunk.getX() + "," + chunk.getZ() + " in " + world.getName());
                         }
                     } catch (Exception e) {
                         plugin.getLogger()
-                                .warning("Error during lag removal in chunk " + chunk.getX() + "," + chunk.getZ() 
-                                    + " in " + world.getName() + ": " + e.getMessage());
+                                .warning("Error during lag removal in chunk " + chunk.getX() + "," + chunk.getZ()
+                                        + " in " + world.getName() + ": " + e.getMessage());
                     }
                 });
             }

@@ -110,6 +110,20 @@ player_death_protection:
   duration_seconds: 120
 
 # ======================================
+# PLUGIN INTEGRATIONS
+# ======================================
+
+# Integration with other plugins for enhanced functionality
+integrations:
+  # Towny integration - protects items in towns
+  towny:
+    enabled: true
+
+  # Copyright/Map protection plugins (future support)
+  copyright-plugin:
+    enabled: false
+
+# ======================================
 # AUTOMATIC CLEANUP SETTINGS
 # ======================================
 
@@ -120,7 +134,7 @@ auto-lag-removal:
   run: true
 
   # How often to run the cleanup tasks (in minutes)
-  every: 10
+  every: 30
 
   # DEBUG MODE - When enabled, uses faster intervals for testing
   # Debug runs every 1 minute with 5 second warnings

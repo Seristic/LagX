@@ -10,7 +10,7 @@ java {
 }
 
 group = 'com.seristic'
-version = '0.7.1'
+version = project.property('version')
 archivesBaseName = 'LagX'
 
 repositories {
