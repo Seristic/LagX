@@ -58,7 +58,7 @@ processResources {
         expand props
     }
     filesMatching('config.yml') {
-        expand props + [configVersion: '0.2.0']
+        expand props + [configVersion: '0.2.1']
     }
 }
 

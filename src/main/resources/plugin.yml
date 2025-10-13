@@ -88,7 +88,7 @@ permissions:
     description: Allows players to view/manipulate protocols.
     default: op
   lagx.ping:
-    description: Allows a player to view the ping of another player (or themself)
+    description: Allows a player to view the ping of another player (or thyself)
     default: op
   lagx.entities:
     description: Allows access to entity limiter commands

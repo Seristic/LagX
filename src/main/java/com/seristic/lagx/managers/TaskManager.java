@@ -187,14 +187,23 @@ public class TaskManager {
                     try {
                         int removed = 0;
                         int protectedCount = 0; // Renamed from 'protected' which is a keyword
+                        int nearDeathCount = 0; // Items protected due to nearby recent deaths
 
                         for (org.bukkit.entity.Entity entity : chunk.getEntities()) {
                             if (entity instanceof org.bukkit.entity.Item) {
                                 org.bukkit.entity.Item item = (org.bukkit.entity.Item) entity;
 
-                                // Check death protection
+                                // Check death protection (chunk-based)
                                 boolean isProtected = finalDeathTracker != null
                                         && finalDeathTracker.isItemProtected(item);
+
+                                // Check if near recent death (for delayed drops like InventoryDropCondenser)
+                                if (!isProtected && finalDeathTracker != null) {
+                                    isProtected = finalDeathTracker.isRecentlyDeadNear(item.getLocation());
+                                    if (isProtected) {
+                                        nearDeathCount++;
+                                    }
+                                }
 
                                 // Check Towny protection (if enabled)
                                 if (!isProtected && towny != null && towny.isTownyEnabled()) {
@@ -211,9 +220,12 @@ public class TaskManager {
                         }
 
                         if (removed > 0 || protectedCount > 0) {
-                            plugin.getLogger()
-                                    .fine("Cleared " + removed + " items (protected " + protectedCount + ") in chunk "
-                                            + chunk.getX() + "," + chunk.getZ() + " in " + world.getName());
+                            String message = "Cleared " + removed + " items (protected " + protectedCount;
+                            if (nearDeathCount > 0) {
+                                message += ", " + nearDeathCount + " near recent deaths";
+                            }
+                            message += ") in chunk " + chunk.getX() + "," + chunk.getZ() + " in " + world.getName();
+                            plugin.getLogger().fine(message);
                         }
                     } catch (Exception e) {
                         plugin.getLogger()

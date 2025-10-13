@@ -98,16 +98,27 @@ item_frame_optimization:
 # PLAYER DEATH PROTECTION
 # ======================================
 
-# Protect player items from auto-clear if they died recently
+# Chunk-based player death item protection system
+# Protects items in chunks where players died to prevent accidental clearing
 player_death_protection:
   # Enable death protection
   enabled: true
 
-  # Radius around death location to protect items (in blocks)
+  # DEPRECATED: Old radius-based protection (no longer used)
+  # Kept for backward compatibility but ignored
   radius: 10
 
   # How long to protect items after death (in seconds)
   duration_seconds: 120
+
+  # NEW: Chunk-based protection settings
+  # How many chunks around the death location to protect
+  # 0 = only the death chunk, 1 = death chunk + 8 surrounding chunks (3x3 area), etc.
+  chunk_radius: 1
+
+  # Protect items that are thrown/dropped into different chunks after death
+  # Recommended: true to prevent items from being cleared if they land elsewhere
+  protect_dropped_items: true
 
 # ======================================
 # PLUGIN INTEGRATIONS
